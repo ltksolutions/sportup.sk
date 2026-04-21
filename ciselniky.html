@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Číselníky — SportUp.sk</title>
+<meta name="description" content="Centrálne číselníky nového IS športu: druhy činnosti, typy organizácií, športoviská, kategórie, kvalifikácie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">SportUp<span class="dot">.</span><span class="tld">sk</span></a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="architektura.html">Architektúra</a></li>
+      <li><a href="domenovy-model.html">Doménový model</a></li>
+      <li><a href="ciselniky.html">Číselníky</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="integracie.html">Integrácie</a></li>
+      <li><a href="technologie.html">Technológie</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Kapitola 04 · Číselníky a katalógy</div>
+    <h1>Centrálne <em>číselníky</em></h1>
+    <p class="lead">Jednotné, verzionované číselníky pre nový IS športu. Pokrývajú všetky druhy športovej činnosti a všetky typy subjektov zapojených do ekosystému — od zväzov cez obce a školy po hotely a cestovný ruch. Osobitnou súčasťou je nový katalóg športovísk, ktorý slúži športu aj rozvoju cestovného ruchu.</p>
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<div class="toc">
+<h4>Obsah kapitoly</h4>
+<ol>
+<li><a href="#principy">Princípy číselníkov</a></li>
+<li><a href="#cinnosti">Druhy športovej činnosti fyzických osôb</a></li>
+<li><a href="#organizacie">Druhy organizácií</a></li>
+<li><a href="#sporty">Športy a odvetvia</a></li>
+<li><a href="#sportoviska">Katalóg športovísk</a></li>
+<li><a href="#kategorie">Vekové a výkonnostné kategórie</a></li>
+<li><a href="#kvalifikacie">Typy kvalifikácií</a></li>
+<li><a href="#pravne-tituly">Právne tituly</a></li>
+<li><a href="#uzemne">Územné číselníky</a></li>
+<li><a href="#governance">Governance číselníkov</a></li>
+</ol>
+</div>
+
+<section id="principy">
+<span class="section-number">01 · Princípy</span>
+<h2>Ako číselníky fungujú</h2>
+<p>Každý číselník má jasného správcu, verzionovanie a životný cyklus. Zmena v číselníku nie je "update v databáze" — je to release novej verzie s prípadnou migračnou stratégiou pre staré záznamy.</p>
+
+<div class="grid cols-2">
+<div class="card"><h4>Nová, ucelená taxonómia</h4><p>Číselníky sú navrhnuté od základu pre širší rozsah ekosystému. Pokrývajú všetky druhy činností, všetky typy subjektov a nový rozmer — infraštruktúru športovísk. Nebudujú sa ako rozšírenie nejakého existujúceho zoznamu, ale ako ucelený systém.</p></div>
+<div class="card"><h4>Hierarchia</h4><p>Kde to má zmysel, sú číselníky hierarchické. Šport → odvetvie → kategória. Druh činnosti → podtyp. Organizácia → typ → právna forma.</p></div>
+<div class="card"><h4>Medzinárodné mapovanie</h4><p>Každá položka má voliteľné pole <code>international_code</code> — IOC, IF kód, FIDE, FIS. To umožňuje interoperabilitu s medzinárodnými systémami.</p></div>
+<div class="card"><h4>Spätná kompatibilita</h4><p>Zrušená položka sa neodstráni. Dostane <code>status = deprecated</code> a <code>valid_to</code> dátum. Historické záznamy sa nerozbijú.</p></div>
+</div>
+</section>
+
+<section id="cinnosti">
+<span class="section-number">02 · Druhy činnosti</span>
+<h2>Druhy športovej činnosti fyzických osôb</h2>
+<p>Katalóg druhov činnosti pokrýva všetky typy osôb, ktoré sa v športovom ekosystéme vyskytujú — od profesionálnych a amatérskych športovcov cez trénerov, rozhodcov, zdravotnícky personál a dobrovoľníkov až po mediálnych zástupcov a prevádzkovateľov športovísk. Celkom <strong>31 druhov</strong>, zoskupených do šiestich kategórií pre prehľadnosť a agregované dotazy.</p>
+
+<h3>Športovci</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Druh činnosti</th><th>Typická pôsobnosť</th></tr></thead>
+<tbody>
+<tr><td><code>amatersky_sportovec</code></td><td>Amatérsky športovec</td><td>Klub, národný zväz</td></tr>
+<tr><td><code>profesionalny_sportovec</code></td><td>Profesionálny športovec</td><td>Klub, zväz, ligové súťaže</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Tréneri a športoví odborníci</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Druh činnosti</th><th>Poznámka</th></tr></thead>
+<tbody>
+<tr><td><code>trener</code></td><td>Tréner</td><td>Všeobecná kategória s podrolami</td></tr>
+<tr><td><code>kondicny_trener</code></td><td>Kondičný tréner</td><td>Špecifická kvalifikácia</td></tr>
+<tr><td><code>brankarsky_trener</code></td><td>Brankársky tréner</td><td>Kolektívne športy</td></tr>
+<tr><td><code>instruktor</code></td><td>Inštruktor</td><td>Klub, vzdelávacie aktivity</td></tr>
+<tr><td><code>analytik</code></td><td>Analytik, skaut, videoanalytik</td><td>Moderné analytické tímy</td></tr>
+<tr><td><code>iny_sportovy_odbornik</code></td><td>Iný športový odborník</td><td>Catch-all pre špecializácie</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Rozhodcovia a funkcionári</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Druh činnosti</th><th>Pôsobnosť</th></tr></thead>
+<tbody>
+<tr><td><code>sportovy_rozhodca</code></td><td>Športový rozhodca</td><td>Národný zväz, medzinárodná federácia</td></tr>
+<tr><td><code>delegat_zvazu</code></td><td>Delegát zväzu</td><td>Národný zväz</td></tr>
+<tr><td><code>kontrolor</code></td><td>Kontrolór</td><td>Zväz, štátna správa</td></tr>
+<tr><td><code>funkcionar</code></td><td>Funkcionár</td><td>Klub, zväz, orgány</td></tr>
+<tr><td><code>dopingovy_komisar</code></td><td>Dopingový komisár</td><td>SADA, medzinárodné organizácie</td></tr>
+<tr><td><code>sportovy_agent</code></td><td>Športový agent</td><td>Profesionálne prestupy</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Zdravotnícky personál</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Druh činnosti</th><th>Poznámka</th></tr></thead>
+<tbody>
+<tr><td><code>sportovy_lekar</code></td><td>Športový lekár</td><td>Čl. 9 GDPR, atestácie, Anti-doping</td></tr>
+<tr><td><code>fyzioterapeut</code></td><td>Fyzioterapeut</td><td>Samostatná kvalifikácia</td></tr>
+<tr><td><code>sportovy_maser</code></td><td>Športový masér</td><td>Klub, reprezentácia</td></tr>
+<tr><td><code>sportovy_psycholog</code></td><td>Športový psychológ, mentálny tréner</td><td>Príprava reprezentantov</td></tr>
+<tr><td><code>vyzivovy_poradca</code></td><td>Výživový poradca</td><td>Príprava športovcov</td></tr>
+<tr><td><code>zachranar</code></td><td>Záchranár na podujatí</td><td>Bezpečnosť podujatí</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Organizácia podujatí a podpora</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Druh činnosti</th><th>Poznámka</th></tr></thead>
+<tbody>
+<tr><td><code>usporiadatel</code></td><td>Usporiadateľ podujatia</td><td>Klub, organizačný výbor</td></tr>
+<tr><td><code>hlavny_usporiadatel</code></td><td>Hlavný usporiadateľ</td><td>Organizačný výbor</td></tr>
+<tr><td><code>bezpecnostny_manazer</code></td><td>Bezpečnostný manažér</td><td>Podujatia, kluby</td></tr>
+<tr><td><code>timovy_manazer</code></td><td>Tímový manažér, vedúci družstva</td><td>Logistika tímu</td></tr>
+<tr><td><code>kustod</code></td><td>Kustód, správca výstroja</td><td>Výkon pre klub</td></tr>
+<tr><td><code>dobrovolnik</code></td><td>Dobrovoľník</td><td>Podujatia, kluby</td></tr>
+<tr><td><code>prevadzkovatel_sportoviska</code></td><td>Prevádzkovateľ športoviska</td><td>Napojenie na katalóg športovísk</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Právne a mediálne zastúpenie</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Druh činnosti</th><th>Poznámka</th></tr></thead>
+<tbody>
+<tr><td><code>zakonny_zastupca</code></td><td>Zákonný zástupca maloletého</td><td>Kritické pre maloletých</td></tr>
+<tr><td><code>medialny_zastupca</code></td><td>Mediálny zástupca, hovorca</td><td>Akreditácie, PR</td></tr>
+<tr><td><code>moderator_komentator</code></td><td>Moderátor, komentátor</td><td>Podujatia, TV/stream</td></tr>
+<tr><td><code>podporovatel</code></td><td>Podporovateľ, registrovaný fanúšik</td><td>Vernostné programy, členské karty</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="organizacie">
+<span class="section-number">03 · Druhy organizácií</span>
+<h2>Druhy organizácií</h2>
+<p>Katalóg pokrýva celý ekosystém subjektov zapojených do športu a cestovného ruchu — od národných zväzov a klubov cez územnú samosprávu, školstvo a štátnu správu až po komerčných poskytovateľov a medzinárodné orgány. Celkom približne <strong>35 typov organizácií</strong>, zoskupených do piatich kategórií.</p>
+
+<h3>Športové organizácie</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Typ</th><th>Príklad</th></tr></thead>
+<tbody>
+<tr><td><code>narodny_zvaz</code></td><td>Národný športový zväz</td><td>SFZ, SZĽH, SZTK</td></tr>
+<tr><td><code>regionalny_zvaz</code></td><td>Regionálny / oblastný zväz</td><td>ObFZ, KrFZ</td></tr>
+<tr><td><code>sportovy_klub</code></td><td>Športový klub</td><td>ŠK, TJ</td></tr>
+<tr><td><code>sportovy_oddiel</code></td><td>Športový oddiel (organizačná jednotka klubu)</td><td>Oddiel hokeja, atletiky...</td></tr>
+<tr><td><code>ina_sportova_organizacia</code></td><td>Iná športová organizácia</td><td>Záujmové združenie, občianske združenie</td></tr>
+<tr><td><code>sportova_unia</code></td><td>Športová únia (zastrešujúca organizácia)</td><td>KŠZ, SOŠV, SPV</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Územná samospráva</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Typ</th><th>Prepojenie na RPO</th></tr></thead>
+<tbody>
+<tr><td><code>obec</code></td><td>Obec</td><td>RPO · právna forma 801</td></tr>
+<tr><td><code>mesto</code></td><td>Mesto</td><td>RPO · právna forma 801</td></tr>
+<tr><td><code>mestska_cast</code></td><td>Mestská časť</td><td>RPO · právna forma 801</td></tr>
+<tr><td><code>vuc</code></td><td>Vyšší územný celok (samosprávny kraj)</td><td>RPO · právna forma 803</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Štátne orgány a vzdelávanie</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Typ</th><th>Príklad</th></tr></thead>
+<tbody>
+<tr><td><code>ministerstvo</code></td><td>Ministerstvo</td><td>Ministerstvo cestovného ruchu a športu SR</td></tr>
+<tr><td><code>statna_organizacia</code></td><td>Príspevková / rozpočtová organizácia</td><td>Príspevkové organizácie v športe</td></tr>
+<tr><td><code>agentura</code></td><td>Štátna agentúra</td><td>SADA — anti-doping</td></tr>
+<tr><td><code>skola_zakladna</code></td><td>Základná škola</td><td>Obecná, štátna, súkromná</td></tr>
+<tr><td><code>skola_stredna</code></td><td>Stredná škola</td><td>Gymnáziá so športovými triedami</td></tr>
+<tr><td><code>vysoka_skola</code></td><td>Vysoká škola / fakulta</td><td>FTVŠ UK, FŠ PU, FPHV UMB</td></tr>
+<tr><td><code>sportove_gymnazium</code></td><td>Športové gymnázium, športová trieda</td><td>—</td></tr>
+<tr><td><code>akademia_mladeze</code></td><td>Športová akadémia mládeže</td><td>Akadémie SZĽH, SFZ</td></tr>
+<tr><td><code>stredisko_vrcholu</code></td><td>Stredisko vrcholového športu</td><td>VŠC Dukla</td></tr>
+<tr><td><code>skolske_stredisko</code></td><td>Školské športové stredisko</td><td>Pri ZŠ / SŠ</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Komerčné subjekty — šport aj cestovný ruch</h3>
+<p>Komerčné subjekty nemajú prístup k osobným údajom nad rámec overovacích volaní a zverejnených katalógov. Sú v systéme preto, aby tvorili poskytovateľskú sieť pre šport <em>aj</em> cestovný ruch — v súlade s pôsobnosťou rezortu.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Typ</th><th>Typická úloha</th></tr></thead>
+<tbody>
+<tr><td><code>prevadzkovatel_sportoviska</code></td><td>Prevádzkovateľ športoviska</td><td>Registrácia a správa športoviska</td></tr>
+<tr><td><code>ubytovanie</code></td><td>Ubytovacie zariadenie</td><td>Hotel, penzión, apartmán</td></tr>
+<tr><td><code>stravovanie</code></td><td>Stravovacie zariadenie</td><td>Reštaurácia, jedáleň</td></tr>
+<tr><td><code>doprava</code></td><td>Prepravca</td><td>Autobusová, vlaková, letecká</td></tr>
+<tr><td><code>pozicovna</code></td><td>Požičovňa športového vybavenia</td><td>Lyže, bicykle, kajaky</td></tr>
+<tr><td><code>predajca</code></td><td>Predajca športových potrieb</td><td>Maloobchod, e-commerce</td></tr>
+<tr><td><code>poistovna</code></td><td>Poisťovňa</td><td>Úrazové, zdravotné, cestovné poistenie</td></tr>
+<tr><td><code>cestovna_kancelaria</code></td><td>Cestovná kancelária / agentúra</td><td>Športové zájazdy, turistika</td></tr>
+<tr><td><code>turisticke_informacne_centrum</code></td><td>Turistické informačné centrum</td><td>Mestské TIC, OOCR</td></tr>
+<tr><td><code>oocr</code></td><td>Oblastná organizácia cestovného ruchu</td><td>OOCR Bratislava, OOCR Vysoké Tatry...</td></tr>
+<tr><td><code>media_subjekt</code></td><td>Mediálny subjekt</td><td>Televízia, rozhlas, portál, podcast</td></tr>
+<tr><td><code>marketing_agency</code></td><td>Marketingová agentúra</td><td>Sponzorské kampane, PR</td></tr>
+<tr><td><code>stavkova_kancelaria</code></td><td>Stávková kancelária</td><td>Regulované, integrita súťaží</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Organizátori a medzinárodné</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Typ</th></tr></thead>
+<tbody>
+<tr><td><code>organizator_podujatia</code></td><td>Organizačný výbor podujatia (ad-hoc)</td></tr>
+<tr><td><code>medzinarodna_federacia</code></td><td>Medzinárodná federácia (FIFA, FIS, IFAB...)</td></tr>
+<tr><td><code>medzinarodna_konfederacia</code></td><td>Medzinárodná konfederácia (UEFA, EHF)</td></tr>
+<tr><td><code>mov_mpv</code></td><td>MOV, MPV, SOŠV, SPV</td></tr>
+<tr><td><code>integritna_organizacia</code></td><td>WADA, ITA, CAS a podobné integritné orgány</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="sporty">
+<span class="section-number">04 · Športy</span>
+<h2>Športy a odvetvia</h2>
+<p>Slovensko má cez deväťdesiat štátom uznaných športov. Kompletný zoznam udržiava rezortné ministerstvo v zmysle zákona o športe. SportUp preberá tento zoznam ako autoritatívny a udržiava s ním synchronizáciu.</p>
+
+<p>Každý šport má v SportUp kód podľa konvencie <code>SK-XXX</code> a môže obsahovať viacero odvetví. Napríklad šport <strong>Futbal</strong> má tri odvetvia — Futbal, Futsal a Plážový futbal.</p>
+
+<h3>Štruktúra záznamu</h3>
+<div class="code-header">Sport · schéma</div>
+<pre><code>{
+  <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-FTB"</span>,
+  <span class="code-key">"label_sk"</span>: <span class="code-string">"Futbal"</span>,
+  <span class="code-key">"label_en"</span>: <span class="code-string">"Football"</span>,
+  <span class="code-key">"category"</span>: <span class="code-string">"team_ball"</span>,
+  <span class="code-key">"is_recognized"</span>: <span class="code-bool">true</span>,
+  <span class="code-key">"recognition_date"</span>: <span class="code-string">"2008-06-30"</span>,
+  <span class="code-key">"national_federation_id"</span>: <span class="code-string">"org-sfz-..."</span>,
+  <span class="code-key">"is_olympic"</span>: <span class="code-bool">true</span>,
+  <span class="code-key">"is_paralympic"</span>: <span class="code-bool">false</span>,
+  <span class="code-key">"disciplines"</span>: [
+    { <span class="code-key">"code"</span>: <span class="code-string">"SK-FTB-MEN"</span>, <span class="code-key">"label_sk"</span>: <span class="code-string">"Futbal"</span> },
+    { <span class="code-key">"code"</span>: <span class="code-string">"SK-FTB-FUTSAL"</span>, <span class="code-key">"label_sk"</span>: <span class="code-string">"Futsal"</span> },
+    { <span class="code-key">"code"</span>: <span class="code-string">"SK-FTB-BEACH"</span>, <span class="code-key">"label_sk"</span>: <span class="code-string">"Plážový futbal"</span> }
+  ],
+  <span class="code-key">"status"</span>: <span class="code-string">"active"</span>,
+  <span class="code-key">"version"</span>: <span class="code-string">"1.0"</span>
+}</code></pre>
+
+<h3>Kategorizácia pre policy a štatistiku</h3>
+<p>Každý šport je klasifikovaný do nadkategórie, aby sa dali aplikovať kategóriové účely spracovania a agregovať štatistiky:</p>
+
+<div class="grid cols-3">
+<div class="card"><h4>team_ball</h4><p>Kolektívne loptové — futbal, hokej, basketbal, volejbal, hádzaná, florbal, vodné pólo</p></div>
+<div class="card"><h4>endurance</h4><p>Vytrvalostné — atletika, plávanie, cyklistika, triatlon, veslovanie</p></div>
+<div class="card"><h4>combat</h4><p>Úpolové — judo, zápasenie, box, karate, taekwondo, šerm</p></div>
+<div class="card"><h4>precision</h4><p>Mierené a precízne — streľba, lukostreľba, biliard, bowling</p></div>
+<div class="card"><h4>winter</h4><p>Zimné — lyžovanie, krasokorčuľovanie, biatlon, sánkovanie, curling</p></div>
+<div class="card"><h4>motor</h4><p>Motoristické — auto, motocykel, rally, okruhy, motokros</p></div>
+<div class="card"><h4>gymnastics</h4><p>Gymnastické — športová, moderná, akrobatická, trampolíny</p></div>
+<div class="card"><h4>mind</h4><p>Mysľové — šach, dáma, bridž, eSport</p></div>
+<div class="card"><h4>adaptive</h4><p>Šport zdravotne znevýhodnených (paralympijské a iné)</p></div>
+</div>
+</section>
+
+<section id="sportoviska">
+<span class="section-number">05 · Športoviská</span>
+<h2>Nový katalóg športovísk</h2>
+<p>Centrálny register športovísk je jedna z najhodnotnejších nových funkcií SportUp. Slúži ako <strong>otvorená infraštruktúra pre šport aj cestovný ruch súčasne</strong>.</p>
+
+<div class="callout green">
+<h4>Most medzi športom a cestovným ruchom</h4>
+<p>Kataológ športovísk je publikovaný ako otvorené dáta. Obce, VÚC, turistické platformy, komerční partneri, rezervačné systémy a výskumné pracoviská ich môžu voľne konzumovať. Samotná prítomnosť športoviska v katalógu vytvára hodnotu pre región — turistická viditeľnosť, podklady pre plánovanie infraštruktúry, analýza dostupnosti športu pre obyvateľov.</p>
+</div>
+
+<h3>Schéma záznamu</h3>
+<div class="code-header">Facility · schéma</div>
+<pre><code>{
+  <span class="code-key">"facility_id"</span>: <span class="code-string">"facility-7a3f..."</span>,
+  <span class="code-key">"name_sk"</span>: <span class="code-string">"Národný tenisový areál Sibamac Aréna"</span>,
+  <span class="code-key">"facility_type"</span>: <span class="code-string">"tenis_areal"</span>,
+  <span class="code-key">"supported_sports"</span>: [<span class="code-string">"SK-TNS"</span>],
+  <span class="code-key">"supported_disciplines"</span>: [<span class="code-string">"SK-TNS-HRD"</span>, <span class="code-string">"SK-TNS-ANT"</span>],
+  <span class="code-key">"owner_organization_id"</span>: <span class="code-string">"org-..."</span>,
+  <span class="code-key">"operator_organization_id"</span>: <span class="code-string">"org-..."</span>,
+  <span class="code-key">"address"</span>: {
+    <span class="code-key">"street"</span>: <span class="code-string">"Príkopova 6"</span>,
+    <span class="code-key">"municipality_code"</span>: <span class="code-string">"SK-BA1"</span>,
+    <span class="code-key">"region_code"</span>: <span class="code-string">"SK-BA"</span>,
+    <span class="code-key">"postal_code"</span>: <span class="code-string">"83103"</span>,
+    <span class="code-key">"gps"</span>: { <span class="code-key">"lat"</span>: <span class="code-number">48.1645</span>, <span class="code-key">"lng"</span>: <span class="code-number">17.1470</span> }
+  },
+  <span class="code-key">"capacity_spectators"</span>: <span class="code-number">4200</span>,
+  <span class="code-key">"surfaces"</span>: [
+    { <span class="code-key">"type"</span>: <span class="code-string">"hard"</span>, <span class="code-key">"indoor"</span>: <span class="code-bool">true</span>, <span class="code-key">"courts"</span>: <span class="code-number">4</span> },
+    { <span class="code-key">"type"</span>: <span class="code-string">"clay"</span>, <span class="code-key">"indoor"</span>: <span class="code-bool">false</span>, <span class="code-key">"courts"</span>: <span class="code-number">6</span> }
+  ],
+  <span class="code-key">"accessibility"</span>: {
+    <span class="code-key">"wheelchair"</span>: <span class="code-bool">true</span>,
+    <span class="code-key">"hearing_loop"</span>: <span class="code-bool">false</span>,
+    <span class="code-key">"parking_disabled"</span>: <span class="code-bool">true</span>
+  },
+  <span class="code-key">"public_access"</span>: <span class="code-string">"reservation"</span>,
+  <span class="code-key">"opening_hours"</span>: { <span class="code-key">"mon_fri"</span>: <span class="code-string">"07:00-22:00"</span>, <span class="code-key">"sat_sun"</span>: <span class="code-string">"08:00-20:00"</span> },
+  <span class="code-key">"certifications"</span>: [<span class="code-string">"STN-EN-14904"</span>, <span class="code-string">"ITF-approved"</span>],
+  <span class="code-key">"amenities"</span>: [<span class="code-string">"parking"</span>, <span class="code-string">"changing_rooms"</span>, <span class="code-string">"showers"</span>, <span class="code-string">"cafeteria"</span>, <span class="code-string">"shop"</span>, <span class="code-string">"medical"</span>],
+  <span class="code-key">"tourism"</span>: {
+    <span class="code-key">"nearby_accommodation"</span>: <span class="code-bool">true</span>,
+    <span class="code-key">"public_transport_stop_m"</span>: <span class="code-number">300</span>,
+    <span class="code-key">"parking_spaces"</span>: <span class="code-number">180</span>,
+    <span class="code-key">"ev_charging"</span>: <span class="code-bool">true</span>
+  },
+  <span class="code-key">"status"</span>: <span class="code-string">"operational"</span>,
+  <span class="code-key">"valid_from"</span>: <span class="code-string">"2011-07-01"</span>
+}</code></pre>
+
+<h3>Typy športovísk</h3>
+<p>Katalóg typov je otvorený — pridávanie nových typov prechádza governance procesom. Aktuálne rozlišujeme približne tieto kategórie:</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Skupina</th><th>Typy</th></tr></thead>
+<tbody>
+<tr><td><strong>Loptové</strong></td><td><code>futbalovy_stadion</code>, <code>futbalove_ihrisko</code>, <code>multifunkcne_ihrisko</code>, <code>basketbalovy_areal</code>, <code>volejbalovy_areal</code>, <code>plazovy_areal</code></td></tr>
+<tr><td><strong>Halové</strong></td><td><code>sportova_hala</code>, <code>telocvicna</code>, <code>halo_na_hadzanu</code>, <code>halo_na_florbal</code>, <code>ruznopouzitelna_hala</code></td></tr>
+<tr><td><strong>Zimné</strong></td><td><code>zimny_stadion</code>, <code>lyziarske_stredisko</code>, <code>lyziarsky_vlek</code>, <code>bezkarske_trate</code>, <code>biatlonova_strelnica</code>, <code>sankarska_draha</code></td></tr>
+<tr><td><strong>Vodné</strong></td><td><code>plavecky_bazen_50m</code>, <code>plavecky_bazen_25m</code>, <code>aquapark</code>, <code>veslarsky_kanal</code>, <code>kanoisticka_draha</code>, <code>plazove_kupalisko</code></td></tr>
+<tr><td><strong>Atletické</strong></td><td><code>atletic_stadion</code>, <code>atleticky_tunel</code>, <code>behecke_trate</code></td></tr>
+<tr><td><strong>Úpolové a fitness</strong></td><td><code>tatami_hala</code>, <code>box_gym</code>, <code>fitnes_centrum</code>, <code>posilnovna</code>, <code>crossfit_box</code></td></tr>
+<tr><td><strong>Tenisové</strong></td><td><code>tenis_areal</code>, <code>krytý_tenis</code>, <code>raquet_hala</code></td></tr>
+<tr><td><strong>Precízne</strong></td><td><code>strelnica_kryta</code>, <code>strelnica_otvorena</code>, <code>lukostrelec_areal</code>, <code>golfove_ihrisko</code>, <code>driving_range</code></td></tr>
+<tr><td><strong>Cyklistické</strong></td><td><code>velodrom</code>, <code>bike_park</code>, <code>pump_track</code>, <code>bmx_draha</code>, <code>cyklocestny_okruh</code></td></tr>
+<tr><td><strong>Motoristické</strong></td><td><code>motorovy_okruh</code>, <code>motokros_areal</code>, <code>kartingova_draha</code>, <code>drag_strip</code></td></tr>
+<tr><td><strong>Gymnastické</strong></td><td><code>gymnasticke_centrum</code>, <code>trampolinova_hala</code>, <code>akrobaticka_hala</code></td></tr>
+<tr><td><strong>Outdoor</strong></td><td><code>lezecka_stena</code>, <code>skate_park</code>, <code>parkour_park</code>, <code>fitness_park</code>, <code>turisticke_trasy</code>, <code>via_ferrata</code></td></tr>
+<tr><td><strong>Jazdecké</strong></td><td><code>jazdecky_areal</code>, <code>parkurovisko</code>, <code>dostihova_draha</code></td></tr>
+<tr><td><strong>Vodácke outdoor</strong></td><td><code>vodna_pristavba</code>, <code>divoky_kanal</code>, <code>raftingovy_areal</code></td></tr>
+<tr><td><strong>Univerzálne</strong></td><td><code>multifunkcny_areal</code>, <code>skolska_telocvicna</code>, <code>obecné_ihrisko</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Ako slúži cestovnému ruchu</h3>
+<div class="grid cols-2">
+<div class="card"><h4>Turista plánuje lyžovačku</h4><p>Platforma cestovného ruchu si cez API vytiahne všetky lyžiarske strediská v Nízkych Tatrách s aktuálnym stavom prevádzky, údajmi o vlekoch, parkoviskách, EV nabíjaní a doprave.</p></div>
+<div class="card"><h4>Obec plánuje investíciu</h4><p>Starosta vidí, že v okruhu 20 km je 5 bazénov, ale žiadny 50-metrový. Rozhodnutie o výstavbe dostáva oporu v dátach.</p></div>
+<div class="card"><h4>Klub hľadá halu pre súťaž</h4><p>Regionálny zväz vyhľadá dostupné haly vo vybraný víkend podľa kapacity, certifikácie a dostupnosti ubytovania v okolí.</p></div>
+<div class="card"><h4>Výskumník mapuje dostupnosť</h4><p>Analýza prístupu k športovej infraštruktúre pre deti v jednotlivých krajoch ako podklad pre dotačnú politiku.</p></div>
+</div>
+</section>
+
+<section id="kategorie">
+<span class="section-number">06 · Kategórie</span>
+<h2>Vekové a výkonnostné kategórie</h2>
+<p>Kategórie sú špecifické pre každý šport — každý národný zväz si definuje vlastnú vekovú a výkonnostnú štruktúru. SportUp ich neuniformuje, ale vyžaduje zápis do centrálneho číselníka pre interoperabilitu.</p>
+
+<div class="grid cols-2">
+<div class="card"><h4>Vekové</h4><p class="text-muted">U8, U10, U12, U14, U15, U17, U19, U21, Seniori, Veteráni. Presné pásma a označenia sú v kompetencii zväzu.</p></div>
+<div class="card"><h4>Výkonnostné</h4><p class="text-muted">Extraliga, 1. liga, 2. liga, regionálna liga. Pre individuálne športy výkonnostné triedy (ŠT I, II, III).</p></div>
+<div class="card"><h4>Hmotnostné</h4><p class="text-muted">Pre úpolové športy (judo, box, zápasenie, taekwondo). Kategórie podľa medzinárodných pravidiel.</p></div>
+<div class="card"><h4>Paralympijské / handicap</h4><p class="text-muted">Klasifikácie pre zdravotné postihnutia podľa IPC (napr. T11-T13 pre zrakové postihnutie v atletike).</p></div>
+</div>
+</section>
+
+<section id="kvalifikacie">
+<span class="section-number">07 · Kvalifikácie</span>
+<h2>Typy kvalifikácií a licencií</h2>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kategória</th><th>Kód</th><th>Popis</th></tr></thead>
+<tbody>
+<tr><td rowspan="4"><strong>Trénerské</strong></td><td><code>coach_uefa_pro</code></td><td>UEFA Pro licencia</td></tr>
+<tr><td><code>coach_uefa_a</code></td><td>UEFA A licencia</td></tr>
+<tr><td><code>coach_uefa_b</code></td><td>UEFA B licencia</td></tr>
+<tr><td><code>coach_national_X</code></td><td>Národná trénerská licencia stupňa X (nefutbalové)</td></tr>
+<tr><td rowspan="3"><strong>Rozhodcovské</strong></td><td><code>referee_national</code></td><td>Národný rozhodca</td></tr>
+<tr><td><code>referee_international</code></td><td>Medzinárodný rozhodca</td></tr>
+<tr><td><code>referee_assistant</code></td><td>Asistent rozhodcu</td></tr>
+<tr><td rowspan="3"><strong>Zdravotnícke</strong></td><td><code>sports_doctor</code></td><td>Atestácia telovýchovného lekárstva</td></tr>
+<tr><td><code>physiotherapist</code></td><td>Atestovaný fyzioterapeut</td></tr>
+<tr><td><code>first_aid</code></td><td>Kurz prvej pomoci</td></tr>
+<tr><td rowspan="3"><strong>Organizačné</strong></td><td><code>safety_officer</code></td><td>Bezpečnostný funkcionár podujatia</td></tr>
+<tr><td><code>event_organizer_cert</code></td><td>Certifikácia organizátora podujatia</td></tr>
+<tr><td><code>anti_doping_officer</code></td><td>Dopingový komisár</td></tr>
+<tr><td rowspan="2"><strong>Vzdelávanie</strong></td><td><code>cpd_hours</code></td><td>Absolvované hodiny kontinuálneho vzdelávania</td></tr>
+<tr><td><code>safeguarding</code></td><td>Certifikát ochrany detí v športe</td></tr>
+<tr><td rowspan="2"><strong>Šport-špecifické</strong></td><td><code>weapon_license</code></td><td>Zbrojný preukaz (streľba)</td></tr>
+<tr><td><code>racing_license</code></td><td>Pretekárska licencia (motorizmus, cyklistika)</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="pravne-tituly">
+<span class="section-number">08 · Právne tituly</span>
+<h2>Právne tituly</h2>
+<p>SportUp preberá oficiálne číselníky právnych titulov bez zmeny — sú definované zákonom o športe.</p>
+
+<h3>Právne tituly fyzických osôb</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Právny titul</th></tr></thead>
+<tbody>
+<tr><td><code>zmluva_amater</code></td><td>Zmluva o amatérskom vykonávaní športu</td></tr>
+<tr><td><code>zmluva_profi</code></td><td>Zmluva o profesionálnom vykonávaní športu</td></tr>
+<tr><td><code>pracovnopravny</code></td><td>Pracovnoprávny alebo obdobný vzťah</td></tr>
+<tr><td><code>dobrovolnik</code></td><td>Dobrovoľník</td></tr>
+<tr><td><code>szco</code></td><td>Samostatne zárobkovo činná osoba</td></tr>
+<tr><td><code>zmluva_sportovy_odbornik</code></td><td>Zmluva o výkone činnosti športového odborníka</td></tr>
+<tr><td><code>zmluva_talent</code></td><td>Zmluva o príprave talentovaného športovca</td></tr>
+<tr><td><code>dohoda</code></td><td>Dohoda o práci vykonávanej mimo pracovného pomeru</td></tr>
+<tr><td><code>podnikanie</code></td><td>Podnikanie</td></tr>
+<tr><td><code>bez_zmluvy</code></td><td>Bez zmluvy / registrácia / člen</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Právne tituly právnických osôb</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Právny titul</th></tr></thead>
+<tbody>
+<tr><td><code>bez_zmluvy</code></td><td>Bez zmluvy / registrácia / člen</td></tr>
+<tr><td><code>zmluva</code></td><td>Zmluva</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="uzemne">
+<span class="section-number">09 · Územné</span>
+<h2>Územné číselníky</h2>
+<p>Územné členenie SR preberáme z autoritatívnych štátnych zdrojov — ÚPVS a Štatistický úrad SR. V systéme sa nikdy nezapisujú ako voľný text.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Číselník</th><th>Zdroj</th><th>Aktualizácia</th></tr></thead>
+<tbody>
+<tr><td>Kraje (NUTS 3)</td><td>ŠÚ SR</td><td>Ročne, stabilný</td></tr>
+<tr><td>Okresy (LAU 1)</td><td>ŠÚ SR</td><td>Ročne</td></tr>
+<tr><td>Obce (LAU 2)</td><td>ŠÚ SR</td><td>Ad-hoc (vznik, zánik, zlúčenie obcí)</td></tr>
+<tr><td>Mestské časti</td><td>ŠÚ SR</td><td>Ad-hoc</td></tr>
+<tr><td>Krajiny</td><td>ISO 3166-1</td><td>Podľa aktualizácií ISO</td></tr>
+<tr><td>Jazyky</td><td>ISO 639</td><td>Podľa aktualizácií ISO</td></tr>
+<tr><td>Meny</td><td>ISO 4217</td><td>Podľa aktualizácií ISO</td></tr>
+<tr><td>Právne formy PO</td><td>ŠÚ SR (3-miestny kód)</td><td>Podľa zmien legislatívy</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="governance">
+<span class="section-number">10 · Governance</span>
+<h2>Kto spravuje ktorý číselník</h2>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Číselník</th><th>Správca</th><th>Schvaľovanie zmien</th></tr></thead>
+<tbody>
+<tr><td>Športy (uznané)</td><td>Ministerstvo cestovného ruchu a športu SR</td><td>Minister (zákon o športe)</td></tr>
+<tr><td>Odvetvia (disciplíny)</td><td>Národný zväz pre daný šport</td><td>Prevádzkovateľ SportUp (validácia)</td></tr>
+<tr><td>Druhy športovej činnosti</td><td>Prevádzkovateľ SportUp</td><td>Konzultácia s národnými zväzmi a ÚOOÚ</td></tr>
+<tr><td>Druhy organizácií</td><td>Prevádzkovateľ SportUp</td><td>Konzultácia s ŠÚ SR a MV SR</td></tr>
+<tr><td>Kategórie (veková, výkonnostná)</td><td>Národný zväz</td><td>Prevádzkovateľ (konzistencia)</td></tr>
+<tr><td>Kvalifikácie a licencie</td><td>Národný zväz / prevádzkovateľ</td><td>Vzájomná validácia</td></tr>
+<tr><td>Katalóg športovísk</td><td>Prevádzkovateľ SportUp</td><td>Prevádzkovateľ športoviska vstupne, validácia obce</td></tr>
+<tr><td>Typy športovísk</td><td>Prevádzkovateľ SportUp</td><td>Konzultácia so zväzmi a odbornými komunitami</td></tr>
+<tr><td>Územné číselníky</td><td>Štatistický úrad SR / ÚPVS</td><td>Preberané referenčne</td></tr>
+<tr><td>Právne tituly</td><td>Zákon o športe</td><td>Legislatívne zmeny</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout blue">
+<h4>Otvorené dáta</h4>
+<p>Všetky číselníky sú verejné a publikujú sa ako open data vo formátoch JSON, CSV a RDF, s licenciou CC-BY alebo CC0. Každý subjekt ich môže voľne konzumovať bez certifikácie. Toto je najmä dôležité pre katalóg športovísk — otvorené dáta sú priamym vstupom do ekosystému cestovného ruchu.</p>
+</div>
+</section>
+
+<div class="divider-ornament">§</div>
+
+<section>
+<p class="text-muted">Nasledujúca kapitola — <a href="ucely.html">Účely spracovania</a> — popisuje Purpose Catalogue pre GDPR-compliant prácu s osobnými údajmi.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand">SportUp.sk</div>
+<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="priklady.html">Príklady</a></div>
+<div>Návrh · nezáväzný · pre diskusiu</div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

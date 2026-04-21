@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Príklady — SportUp.sk</title>
+<meta name="description" content="Konkrétne príklady dát a scenárov: registrácia, prestup, multi-role zapojenie, komerčné overenie, športoviská.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">SportUp<span class="dot">.</span><span class="tld">sk</span></a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="architektura.html">Architektúra</a></li>
+      <li><a href="domenovy-model.html">Doménový model</a></li>
+      <li><a href="ciselniky.html">Číselníky</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="integracie.html">Integrácie</a></li>
+      <li><a href="technologie.html">Technológie</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Kapitola 06 · Príklady dát</div>
+    <h1>Ako to <em>reálne vyzerá</em></h1>
+    <p class="lead">Šesť konkrétnych scenárov s reálnymi dátovými príkladmi. Registrácia nového športovca, prestup medzi klubmi, osoba vo viacerých rolách súčasne, overenie pre hotel, úmrtie a registrácia športoviska. Názvy osôb a klubov sú fiktívne; štruktúra dát zodpovedá produkčnému modelu.</p>
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<div class="toc">
+<h4>Obsah kapitoly</h4>
+<ol>
+<li><a href="#scenar-1">Registrácia mládežníckeho športovca</a></li>
+<li><a href="#scenar-2">Prestup hráča medzi klubmi (saga)</a></li>
+<li><a href="#scenar-3">Multi-role — jedna osoba, štyri role</a></li>
+<li><a href="#scenar-4">Komerčné overenie pre hotel</a></li>
+<li><a href="#scenar-5">Úmrtie a ukončenie afiliácií</a></li>
+<li><a href="#scenar-6">Registrácia nového športoviska</a></li>
+</ol>
+</div>
+
+<div class="scenario" id="scenar-1">
+<div class="scenario-header">
+<span class="label">Scenár 01 · REG</span>
+<h3>Registrácia mládežníckeho športovca</h3>
+</div>
+<div class="scenario-body">
+
+<p>Klub <strong>ŠK Tatran Spišská Nová Ves</strong> registruje 12-ročného Tomáša Hudáka ako hráča žiackej kategórie v basketbale. Keďže je maloletý, súhlasy udeľuje jeho zákonný zástupca — otec Peter.</p>
+
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Overenie/založenie osoby cez Identity Broker</h4>
+<p>Klubový portál pošle dáta dieťaťa do SportUp. Identity Broker pokusom o match s RFO zistí, že Tomáš existuje. Vráti stabilné interné <code>person_id</code>.</p>
+<div class="code-header">POST /v1/persons/match-or-create</div>
+<pre><code>{
+  <span class="code-key">"given_name"</span>: <span class="code-string">"Tomáš"</span>,
+  <span class="code-key">"family_name"</span>: <span class="code-string">"Hudák"</span>,
+  <span class="code-key">"date_of_birth"</span>: <span class="code-string">"2013-05-12"</span>,
+  <span class="code-key">"gender"</span>: <span class="code-string">"male"</span>,
+  <span class="code-key">"nationality"</span>: <span class="code-string">"SK"</span>,
+  <span class="code-key">"national_id"</span>: <span class="code-string">"130512/XXXX"</span>
+}
+
+<span class="code-comment">// → 200 OK</span>
+{
+  <span class="code-key">"person_id"</span>: <span class="code-string">"prs_8f2a4c1e-..."</span>,
+  <span class="code-key">"verification_status"</span>: <span class="code-string">"verified_by_rfo"</span>,
+  <span class="code-key">"is_minor"</span>: <span class="code-bool">true</span>,
+  <span class="code-key">"matched"</span>: <span class="code-bool">true</span>
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Registrácia zákonného zástupcu a spojenie</h4>
+<p>Ak otec ešte v systéme nie je, založí sa. Potom sa vytvorí vzťah osoba-zák.zástupca.</p>
+<div class="code-header">POST /v1/guardian-relationships</div>
+<pre><code>{
+  <span class="code-key">"minor_person_id"</span>: <span class="code-string">"prs_8f2a4c1e-..."</span>,
+  <span class="code-key">"guardian_person_id"</span>: <span class="code-string">"prs_c91b7d33-..."</span>,
+  <span class="code-key">"relationship_type"</span>: <span class="code-string">"legal_parent"</span>,
+  <span class="code-key">"valid_from"</span>: <span class="code-string">"2013-05-12"</span>
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">3</span>
+<h4>Udelenie súhlasov</h4>
+<p>Otec udeľuje tri súhlasy: základnú registráciu (contract, nedá sa odvolať), marketingové použitie fotografií (consent, odvolateľné), a anonymizovaný výskum (consent).</p>
+<div class="code-header">POST /v1/consents · batch</div>
+<pre><code>[
+  {
+    <span class="code-key">"person_id"</span>: <span class="code-string">"prs_8f2a4c1e-..."</span>,
+    <span class="code-key">"purpose_code"</span>: <span class="code-string">"REG-ATHLETE-001"</span>,
+    <span class="code-key">"legal_basis"</span>: <span class="code-string">"contract"</span>,
+    <span class="code-key">"granted_to_id"</span>: <span class="code-string">"org_tatran_snv"</span>,
+    <span class="code-key">"granted_by"</span>: <span class="code-string">"prs_c91b7d33-..."</span>
+  },
+  {
+    <span class="code-key">"person_id"</span>: <span class="code-string">"prs_8f2a4c1e-..."</span>,
+    <span class="code-key">"purpose_code"</span>: <span class="code-string">"MKT-IMAGE-001-MINOR"</span>,
+    <span class="code-key">"legal_basis"</span>: <span class="code-string">"consent"</span>,
+    <span class="code-key">"granted_to_id"</span>: <span class="code-string">"org_tatran_snv"</span>,
+    <span class="code-key">"granted_by"</span>: <span class="code-string">"prs_c91b7d33-..."</span>
+  },
+  {
+    <span class="code-key">"person_id"</span>: <span class="code-string">"prs_8f2a4c1e-..."</span>,
+    <span class="code-key">"purpose_code"</span>: <span class="code-string">"VYS-DEMOGRAPHIC-001"</span>,
+    <span class="code-key">"legal_basis"</span>: <span class="code-string">"public_task"</span>,
+    <span class="code-key">"granted_to_id"</span>: <span class="code-string">"org_nsc"</span>
+  }
+]</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">4</span>
+<h4>Vytvorenie afiliácie</h4>
+<p>Klubový portál zapisuje novú afiliáciu. Systém vyprodukuje dva eventy: <code>AffiliationRegistered</code> (stav pending) a po validácii <code>AffiliationActivated</code>.</p>
+<div class="code-header">POST /v1/affiliations</div>
+<pre><code>{
+  <span class="code-key">"person_id"</span>: <span class="code-string">"prs_8f2a4c1e-..."</span>,
+  <span class="code-key">"organization_id"</span>: <span class="code-string">"org_tatran_snv"</span>,
+  <span class="code-key">"activity_code"</span>: <span class="code-string">"amatersky_sportovec"</span>,
+  <span class="code-key">"legal_title"</span>: <span class="code-string">"bez_zmluvy"</span>,
+  <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-BAS"</span>,
+  <span class="code-key">"discipline_code"</span>: <span class="code-string">"SK-BAS-5v5"</span>,
+  <span class="code-key">"category_code"</span>: <span class="code-string">"SK-BAS-U13"</span>,
+  <span class="code-key">"valid_from"</span>: <span class="code-string">"2026-09-01"</span>,
+  <span class="code-key">"registration_number"</span>: <span class="code-string">"TAT-2026-0834"</span>
+}
+
+<span class="code-comment">// → 201 Created</span>
+{
+  <span class="code-key">"affiliation_id"</span>: <span class="code-string">"aff_a4e7..."</span>,
+  <span class="code-key">"status"</span>: <span class="code-string">"active"</span>,
+  <span class="code-key">"events_generated"</span>: [<span class="code-string">"AffiliationRegistered"</span>, <span class="code-string">"AffiliationActivated"</span>]
+}</code></pre>
+</div>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-2">
+<div class="scenario-header">
+<span class="label">Scenár 02 · POD · Saga</span>
+<h3>Prestup hráča medzi klubmi</h3>
+</div>
+<div class="scenario-body">
+
+<p>Profesionálny hokejista <strong>Juraj Kováč</strong> prestupuje z klubu <strong>HC 05 Banská Bystrica</strong> do klubu <strong>HK Nitra</strong>. Prestup sa realizuje k 1. júlu 2026 a modeluje sa ako saga s troma eventmi prepojenými cez <code>correlation_id</code>.</p>
+
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Zahájenie prestupu</h4>
+<p>HK Nitra iniciuje prestup cez svoj klubový portál. Vytvorí sa nová (zatiaľ neaktívna) afiliácia v stave <code>pending_transfer</code> s referenciou na zdrojovú afiliáciu.</p>
+<div class="code-header">POST /v1/transfers</div>
+<pre><code>{
+  <span class="code-key">"source_affiliation_id"</span>: <span class="code-string">"aff_bb_kovac_2023"</span>,
+  <span class="code-key">"target_organization_id"</span>: <span class="code-string">"org_hk_nitra"</span>,
+  <span class="code-key">"target_activity_code"</span>: <span class="code-string">"profesionalny_sportovec"</span>,
+  <span class="code-key">"effective_date"</span>: <span class="code-string">"2026-07-01"</span>,
+  <span class="code-key">"contract_type"</span>: <span class="code-string">"zmluva_profi"</span>,
+  <span class="code-key">"contract_duration_years"</span>: <span class="code-number">2</span>,
+  <span class="code-key">"compensation_amount"</span>: <span class="code-number">85000</span>
+}
+
+<span class="code-comment">// → generovaný event:</span>
+{
+  <span class="code-key">"event_type"</span>: <span class="code-string">"TransferRequested"</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"aff_nit_kovac_2026"</span>,
+  <span class="code-key">"correlation_id"</span>: <span class="code-string">"txn_transfer_c4f8..."</span>,
+  <span class="code-key">"occurred_at"</span>: <span class="code-string">"2026-06-15T14:22:00Z"</span>
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Ukončenie pôvodnej afiliácie</h4>
+<p>K účinnému dátumu sa zdrojová afiliácia ukončí. Event nesie to isté <code>correlation_id</code>, aby bolo možné spätne rekonštruovať celú sagu.</p>
+<div class="code-header">Event · generovaný automaticky k účinnému dátumu</div>
+<pre><code>{
+  <span class="code-key">"event_type"</span>: <span class="code-string">"AffiliationTerminated"</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"aff_bb_kovac_2023"</span>,
+  <span class="code-key">"correlation_id"</span>: <span class="code-string">"txn_transfer_c4f8..."</span>,
+  <span class="code-key">"occurred_at"</span>: <span class="code-string">"2026-07-01T00:00:00Z"</span>,
+  <span class="code-key">"data"</span>: {
+    <span class="code-key">"reason"</span>: <span class="code-string">"transfer"</span>,
+    <span class="code-key">"destination_organization_id"</span>: <span class="code-string">"org_hk_nitra"</span>
+  }
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">3</span>
+<h4>Aktivácia novej afiliácie</h4>
+<p>Nová afiliácia sa aktivuje k účinnému dátumu. Tretí event s rovnakým <code>correlation_id</code> uzatvára sagu.</p>
+<div class="code-header">Event · aktivácia</div>
+<pre><code>{
+  <span class="code-key">"event_type"</span>: <span class="code-string">"AffiliationActivated"</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"aff_nit_kovac_2026"</span>,
+  <span class="code-key">"correlation_id"</span>: <span class="code-string">"txn_transfer_c4f8..."</span>,
+  <span class="code-key">"occurred_at"</span>: <span class="code-string">"2026-07-01T00:00:00Z"</span>
+}</code></pre>
+</div>
+
+<div class="callout">
+<h4>Spätný dotaz</h4>
+<p>Dotaz "ukáž mi všetky eventy prestupu <code>txn_transfer_c4f8</code>" vráti všetky tri eventy v časovej postupnosti, nezávisle od toho, v ktorom agregáte sú uložené. Týmto sa rekonštruuje príbeh prestupu pre audit alebo disciplinárne účely.</p>
+</div>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-3">
+<div class="scenario-header">
+<span class="label">Scenár 03 · Multi-role</span>
+<h3>Jedna osoba, štyri aktívne role</h3>
+</div>
+<div class="scenario-body">
+
+<p><strong>Martina Kučerová</strong>, 34 rokov, je v systéme jediný záznam — jedno <code>person_id</code>. Má však štyri súbežné afiliácie naprieč tromi rôznymi športmi a rôznymi organizáciami.</p>
+
+<div class="code-header">GET /v1/persons/{person_id}/affiliations?status=active</div>
+<pre><code>{
+  <span class="code-key">"person_id"</span>: <span class="code-string">"prs_martina_..."</span>,
+  <span class="code-key">"affiliations"</span>: [
+    {
+      <span class="code-key">"affiliation_id"</span>: <span class="code-string">"aff_1"</span>,
+      <span class="code-key">"organization"</span>: <span class="code-string">"AC Košice (atletický klub)"</span>,
+      <span class="code-key">"activity_code"</span>: <span class="code-string">"profesionalny_sportovec"</span>,
+      <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-ATH"</span>,
+      <span class="code-key">"discipline_code"</span>: <span class="code-string">"SK-ATH-TRAIL"</span>,
+      <span class="code-key">"valid_from"</span>: <span class="code-string">"2018-01-01"</span>
+    },
+    {
+      <span class="code-key">"affiliation_id"</span>: <span class="code-string">"aff_2"</span>,
+      <span class="code-key">"organization"</span>: <span class="code-string">"ŠK Detva (bežecký klub)"</span>,
+      <span class="code-key">"activity_code"</span>: <span class="code-string">"trener"</span>,
+      <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-ATH"</span>,
+      <span class="code-key">"discipline_code"</span>: <span class="code-string">"SK-ATH-YOUTH"</span>,
+      <span class="code-key">"valid_from"</span>: <span class="code-string">"2022-09-01"</span>
+    },
+    {
+      <span class="code-key">"affiliation_id"</span>: <span class="code-string">"aff_3"</span>,
+      <span class="code-key">"organization"</span>: <span class="code-string">"OV Tatry Ultra 2026 (organizátor)"</span>,
+      <span class="code-key">"activity_code"</span>: <span class="code-string">"dobrovolnik"</span>,
+      <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-ATH"</span>,
+      <span class="code-key">"valid_from"</span>: <span class="code-string">"2026-08-15"</span>,
+      <span class="code-key">"valid_to"</span>: <span class="code-string">"2026-09-05"</span>
+    },
+    {
+      <span class="code-key">"affiliation_id"</span>: <span class="code-string">"aff_4"</span>,
+      <span class="code-key">"organization"</span>: <span class="code-string">"ŠK Rapid (šachový klub)"</span>,
+      <span class="code-key">"activity_code"</span>: <span class="code-string">"sportovy_rozhodca"</span>,
+      <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-SCH"</span>,
+      <span class="code-key">"discipline_code"</span>: <span class="code-string">"SK-SCH-RAPID"</span>,
+      <span class="code-key">"valid_from"</span>: <span class="code-string">"2020-03-10"</span>
+    }
+  ]
+}</code></pre>
+
+<div class="callout">
+<h4>Čo systém vie</h4>
+<ul>
+<li>Martina je jedna osoba, nie štyri — všetky afiliácie zdieľajú ten istý <code>person_id</code>.</li>
+<li>Keď zomrie alebo zmení meno, aktualizuje sa jeden záznam a všetky štyri afiliácie automaticky "vidia" novú informáciu.</li>
+<li>Pri delegácii na zápas detvianskeho klubu, kde je aj tréner, systém upozorní na potenciálny konflikt záujmov (rozhodca so súčasnou afiliáciou k zúčastnenému klubu).</li>
+<li>Na štatistické účely sa vie opýtať: "koľko osôb má v športe viac ako jednu aktívnu rolu?" — dotaz nad projekciou <code>current_affiliations</code>.</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-4">
+<div class="scenario-header">
+<span class="label">Scenár 04 · KOM</span>
+<h3>Komerčné overenie pre hotel</h3>
+</div>
+<div class="scenario-body">
+
+<p>Hotel <strong>Grand Jasná</strong> ponúka zľavu 20 % pre registrovaných športovcov. Pri rezervácii chce overiť, či osoba má platnú športovú registráciu — ale <strong>nepotrebuje vedieť kto to je, v akom športe ani v akom klube</strong>. Stačí mu odpoveď áno/nie.</p>
+
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Osoba vyvolá overenie zo svojej aplikácie</h4>
+<p>V SportUp mobilnej aplikácii si osoba vygeneruje krátkodobý verifikačný token. Token obsahuje len referenciu na osobu a platnosť, žiadne osobné údaje.</p>
+<div class="code-header">GET /v1/my/verification-token</div>
+<pre><code>{
+  <span class="code-key">"token"</span>: <span class="code-string">"vft_2bc4e7f8a9..."</span>,
+  <span class="code-key">"valid_until"</span>: <span class="code-string">"2026-04-20T10:30:00Z"</span>,
+  <span class="code-key">"qr_url"</span>: <span class="code-string">"https://verify.sportup.sk/vft_2bc4e7f8a9..."</span>
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Hotel overí token v certifikovanej aplikácii</h4>
+<p>Recepcia naskenuje QR kód zo zariadenia hosťa. Komerčný subjekt je certifikovaný pre scope <code>verification:athlete_discount</code>.</p>
+<div class="code-header">POST /v1/verify/athlete-status</div>
+<pre><code>{
+  <span class="code-key">"token"</span>: <span class="code-string">"vft_2bc4e7f8a9..."</span>,
+  <span class="code-key">"purpose"</span>: <span class="code-string">"KOM-BENEFIT-001"</span>,
+  <span class="code-key">"requested_attributes"</span>: [<span class="code-string">"has_active_athlete_affiliation"</span>]
+}
+
+<span class="code-comment">// → 200 OK</span>
+{
+  <span class="code-key">"valid"</span>: <span class="code-bool">true</span>,
+  <span class="code-key">"has_active_athlete_affiliation"</span>: <span class="code-bool">true</span>,
+  <span class="code-key">"category_tier"</span>: <span class="code-string">"registered"</span>
+}</code></pre>
+</div>
+
+<div class="callout green">
+<h4>Čo hotel nevie</h4>
+<p>Hotel <strong>nevidí meno, dátum narodenia, klub, šport, úroveň</strong> — nič. Dostal iba "áno, toto je registrovaný športovec". To je dôsledok princípu minimalizácie dát. Každé takéto overenie je zapísané v audite, aby si osoba mohla pozrieť, kto sa jej dát dotýkal.</p>
+</div>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-5">
+<div class="scenario-header">
+<span class="label">Scenár 05 · RFO notifikácia</span>
+<h3>Úmrtie a automatické ukončenie afiliácií</h3>
+</div>
+<div class="scenario-body">
+
+<p>Dlhoročný funkcionár a rozhodca <strong>Pavol Zámečník</strong> zomiera. Informácia prichádza automaticky z RFO cez CSRÚ notifikáciu.</p>
+
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Notifikácia z CSRÚ do Identity Brokera</h4>
+<p>Štátny register notifikuje systém o úmrtí osoby. Broker aktualizuje lokálny cache a vyprodukuje interný event.</p>
+<div class="code-header">Interný event</div>
+<pre><code>{
+  <span class="code-key">"event_type"</span>: <span class="code-string">"PersonDeathRecorded"</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"prs_zamecnik_..."</span>,
+  <span class="code-key">"occurred_at"</span>: <span class="code-string">"2026-03-18T00:00:00Z"</span>,
+  <span class="code-key">"data"</span>: {
+    <span class="code-key">"date_of_death"</span>: <span class="code-string">"2026-03-18"</span>,
+    <span class="code-key">"source"</span>: <span class="code-string">"csru_notification"</span>
+  }
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Automatická terminácia afiliácií</h4>
+<p>Systém vyhľadá všetky aktívne afiliácie osoby a pre každú vyprodukuje <code>AffiliationTerminated</code> event s dôvodom <code>death</code>.</p>
+<div class="code-header">Vygenerované eventy · batch</div>
+<pre><code>[
+  {
+    <span class="code-key">"event_type"</span>: <span class="code-string">"AffiliationTerminated"</span>,
+    <span class="code-key">"aggregate_id"</span>: <span class="code-string">"aff_sfz_rozhodca_..."</span>,
+    <span class="code-key">"data"</span>: { <span class="code-key">"reason"</span>: <span class="code-string">"death"</span>, <span class="code-key">"effective_date"</span>: <span class="code-string">"2026-03-18"</span> }
+  },
+  {
+    <span class="code-key">"event_type"</span>: <span class="code-string">"AffiliationTerminated"</span>,
+    <span class="code-key">"aggregate_id"</span>: <span class="code-string">"aff_fk_funkcionar_..."</span>,
+    <span class="code-key">"data"</span>: { <span class="code-key">"reason"</span>: <span class="code-string">"death"</span>, <span class="code-key">"effective_date"</span>: <span class="code-string">"2026-03-18"</span> }
+  }
+]</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">3</span>
+<h4>Ochrana citlivých údajov</h4>
+<p>GDPR sa po úmrtí neuplatňuje v plnom rozsahu, ale systém automaticky obmedzí prístup k citlivým údajom. Základné údaje sa zachovávajú pre historickú a štatistickú hodnotu — inak by sa rozbili dlhé časové rady (napr. zoznam majstrov SR za posledných 50 rokov).</p>
+</div>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-6">
+<div class="scenario-header">
+<span class="label">Scenár 06 · Športoviská</span>
+<h3>Registrácia nového športoviska</h3>
+</div>
+<div class="scenario-body">
+
+<p>Mesto <strong>Žilina</strong> dokončilo výstavbu novej multifunkčnej športovej haly a zapisuje ju do centrálneho katalógu. Zápis súčasne vytvára hodnotu pre šport (rezervačný systém, súťaže) aj pre cestovný ruch (verejná mapa, ubytovanie v okolí).</p>
+
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Registrácia vlastníka a prevádzkovateľa</h4>
+<p>Vlastník je mesto Žilina (organizácia typu <code>mesto</code>, RPO previazané). Prevádzkovateľ je mestská príspevková organizácia.</p>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Registrácia športoviska</h4>
+<div class="code-header">POST /v1/facilities</div>
+<pre><code>{
+  <span class="code-key">"name_sk"</span>: <span class="code-string">"Mestská športová hala Žilina-Vlčince"</span>,
+  <span class="code-key">"facility_type"</span>: <span class="code-string">"ruznopouzitelna_hala"</span>,
+  <span class="code-key">"supported_sports"</span>: [<span class="code-string">"SK-VLB"</span>, <span class="code-string">"SK-BAS"</span>, <span class="code-string">"SK-HDB"</span>, <span class="code-string">"SK-FLB"</span>],
+  <span class="code-key">"owner_organization_id"</span>: <span class="code-string">"org_mesto_zilina"</span>,
+  <span class="code-key">"operator_organization_id"</span>: <span class="code-string">"org_msh_zilina_po"</span>,
+  <span class="code-key">"address"</span>: {
+    <span class="code-key">"street"</span>: <span class="code-string">"Obežná 16"</span>,
+    <span class="code-key">"municipality_code"</span>: <span class="code-string">"SK-ZA-514301"</span>,
+    <span class="code-key">"region_code"</span>: <span class="code-string">"SK-ZA"</span>,
+    <span class="code-key">"postal_code"</span>: <span class="code-string">"01008"</span>,
+    <span class="code-key">"gps"</span>: { <span class="code-key">"lat"</span>: <span class="code-number">49.2175</span>, <span class="code-key">"lng"</span>: <span class="code-number">18.7492</span> }
+  },
+  <span class="code-key">"capacity_spectators"</span>: <span class="code-number">1800</span>,
+  <span class="code-key">"surfaces"</span>: [
+    { <span class="code-key">"type"</span>: <span class="code-string">"sport_parquet"</span>, <span class="code-key">"indoor"</span>: <span class="code-bool">true</span>, <span class="code-key">"dimensions_m"</span>: <span class="code-string">"44 × 25"</span> }
+  ],
+  <span class="code-key">"accessibility"</span>: {
+    <span class="code-key">"wheelchair"</span>: <span class="code-bool">true</span>,
+    <span class="code-key">"hearing_loop"</span>: <span class="code-bool">true</span>,
+    <span class="code-key">"parking_disabled"</span>: <span class="code-bool">true</span>
+  },
+  <span class="code-key">"public_access"</span>: <span class="code-string">"reservation"</span>,
+  <span class="code-key">"certifications"</span>: [<span class="code-string">"STN-EN-14904"</span>, <span class="code-string">"hygienicky_posudok_2026"</span>],
+  <span class="code-key">"amenities"</span>: [<span class="code-string">"parking"</span>, <span class="code-string">"changing_rooms"</span>, <span class="code-string">"showers"</span>, <span class="code-string">"cafeteria"</span>, <span class="code-string">"medical"</span>, <span class="code-string">"wifi"</span>],
+  <span class="code-key">"tourism"</span>: {
+    <span class="code-key">"nearby_accommodation"</span>: <span class="code-bool">true</span>,
+    <span class="code-key">"public_transport_stop_m"</span>: <span class="code-number">120</span>,
+    <span class="code-key">"parking_spaces"</span>: <span class="code-number">95</span>,
+    <span class="code-key">"ev_charging"</span>: <span class="code-bool">true</span>,
+    <span class="code-key">"bike_parking"</span>: <span class="code-bool">true</span>
+  },
+  <span class="code-key">"valid_from"</span>: <span class="code-string">"2026-04-15"</span>
+}
+
+<span class="code-comment">// → 201 Created</span>
+{
+  <span class="code-key">"facility_id"</span>: <span class="code-string">"fac_za_vlcince_..."</span>,
+  <span class="code-key">"status"</span>: <span class="code-string">"operational"</span>,
+  <span class="code-key">"public_data_url"</span>: <span class="code-string">"https://data.sportup.sk/facilities/fac_za_vlcince_..."</span>
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">3</span>
+<h4>Následné okamžité použitie</h4>
+<p>Len čo je športovisko zapísané a má stav <code>operational</code>, automaticky:</p>
+<ul>
+<li>Je viditeľné na verejnej mape SportUp a je dostupné cez otvorené API.</li>
+<li>Turistické platformy (<em>visitslovakia.com</em>, <em>GoZilina</em>) ho môžu zobraziť.</li>
+<li>Rezervačné systémy môžu na ňom ponúkať termíny.</li>
+<li>Zväzy (SBA, SHF, SZH) ho môžu priraďovať k ligovým zápasom.</li>
+<li>Obec má základný podklad pre výročné hlásenie o športovej infraštruktúre.</li>
+<li>Mestský magistrát môže vypisovať verejné obstarávanie na údržbu s presným popisom objektu.</li>
+</ul>
+</div>
+
+</div>
+</div>
+
+<div class="divider-ornament">§</div>
+
+<section>
+<p class="text-muted">Nasledujúca kapitola — <a href="integracie.html">Integrácie</a> — popisuje, ako systém komunikuje: REST API, MCP servery, webhooks a napojenie na štátne registre.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand">SportUp.sk</div>
+<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="domenovy-model.html">Model</a></div>
+<div>Návrh · nezáväzný · pre diskusiu</div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

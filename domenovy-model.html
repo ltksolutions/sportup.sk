@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doménový model — SportUp.sk</title>
+<meta name="description" content="Entity systému: Person, Affiliation, Organization, Facility, Activity, Qualification, Consent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">
+        <svg width="38" height="28" viewBox="0 0 48 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 2 32 L 10 18 L 13 22 L 18 14 L 22 20 L 26 14 L 29 20 L 24 32 Z" fill="#FFFFFF"/>
+          <path d="M 10 18 L 13 22 L 16 18 L 13.5 15 Z" fill="#1A2D47"/>
+          <path d="M 22 32 L 28 20 L 31 24 L 36 15 L 40 21 L 43 18 L 46 32 Z" fill="#388FC3"/>
+          <path d="M 36 15 L 38 19 L 34 20 Z" fill="#FFFFFF"/>
+        </svg>
+      </span>
+      <span class="logo-text"><span class="sport">Sport</span><span class="up">UP</span></span>
+      <span class="logo-tld">.sk</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="architektura.html">Architektúra</a></li>
+      <li><a href="domenovy-model.html">Model</a></li>
+      <li><a href="ciselniky.html">Číselníky</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="integracie.html">Integrácie</a></li>
+      <li><a href="technologie.html">Technológie</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Kapitola 03 · Doménový model</div>
+    <h1>Entity, vzťahy, <em>časová dimenzia</em></h1>
+    <p class="lead">Doménový model je postavený na rozhodnutiach, ktoré riešia 80 % budúcich problémov skôr, než vzniknú: identita oddelená od role, Affiliation a Facility ako prvotriedne entity, každý vzťah s časovou platnosťou, eventy ako zdroj pravdy.</p>
+
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<div class="toc">
+<h4>Obsah kapitoly</h4>
+<ol>
+<li><a href="#entity">Entity systému</a></li>
+<li><a href="#person">Person — identita osoby</a></li>
+<li><a href="#affiliation">Affiliation — vzťah v čase</a></li>
+<li><a href="#organization">Organization — hierarchia subjektov</a></li>
+<li><a href="#facility">Facility — športoviská</a></li>
+<li><a href="#activity">Activity — druhy športovej činnosti</a></li>
+<li><a href="#qualification">Qualification — licencie</a></li>
+<li><a href="#consent">Consent — súhlas a legal basis</a></li>
+<li><a href="#eventy">Katalóg eventov</a></li>
+<li><a href="#edge-cases">Hraničné prípady</a></li>
+</ol>
+</div>
+
+<section id="entity">
+<span class="section-number">01 · Prehľad</span>
+<h2>Entitný diagram</h2>
+<p>Nasledujúci diagram ukazuje hlavné entity systému a ich vzťahy. <strong>Affiliation</strong> je uprostred zámerne — takmer všetko v systéme sa ňou preplieta. Nie je to technický "join table", ale prvotriedna biznis entita s vlastným životným cyklom.</p>
+
+<figure>
+<svg viewBox="0 0 720 580" xmlns="http://www.w3.org/2000/svg" role="img" style="width:100%;height:auto;max-width:720px;display:block;margin:0 auto">
+<title>Entitný diagram SportUp</title>
+
+<!-- Center: AFFILIATION -->
+<rect x="280" y="240" width="160" height="100" rx="10" fill="#1A2D47" stroke="#388FC3" stroke-width="2"/>
+<text x="360" y="272" text-anchor="middle" font-family="Manrope" font-size="15" font-weight="700" fill="#FFFFFF">AFFILIATION</text>
+<text x="360" y="292" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E8F4FD">person × org × activity</text>
+<text x="360" y="308" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E8F4FD">sport × discipline</text>
+<text x="360" y="324" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#E8F4FD">valid_from → valid_to</text>
+
+<!-- Top left: PERSON -->
+<rect x="60" y="80" width="150" height="80" rx="10" fill="#E8F4FD" stroke="#388FC3" stroke-width="1.5"/>
+<text x="135" y="110" text-anchor="middle" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">PERSON</text>
+<text x="135" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#2A7AAA">interná identita</text>
+<text x="135" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#2A7AAA">↔ RFO</text>
+
+<!-- Top right: ORGANIZATION -->
+<rect x="510" y="80" width="150" height="80" rx="10" fill="#E8F4FD" stroke="#388FC3" stroke-width="1.5"/>
+<text x="585" y="110" text-anchor="middle" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">ORGANIZATION</text>
+<text x="585" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#2A7AAA">zväzy · kluby · obce</text>
+<text x="585" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#2A7AAA">komerčné ↔ RPO</text>
+
+<!-- Top center: ACTIVITY -->
+<rect x="285" y="80" width="150" height="80" rx="10" fill="#F4F6F8" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="360" y="110" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="700" fill="#1A2D47">ACTIVITY_TYPE</text>
+<text x="360" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">športovec · tréner</text>
+<text x="360" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">rozhodca · dobrovoľník</text>
+
+<!-- Bottom center: SPORT -->
+<rect x="285" y="400" width="150" height="75" rx="10" fill="#F4F6F8" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="360" y="427" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="700" fill="#1A2D47">SPORT / DISCIPLINE</text>
+<text x="360" y="447" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">90 športov</text>
+<text x="360" y="463" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">odvetvia · kategórie</text>
+
+<!-- Bottom left: QUALIFICATION -->
+<rect x="60" y="400" width="150" height="75" rx="10" fill="#F4F6F8" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="135" y="427" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="700" fill="#1A2D47">QUALIFICATION</text>
+<text x="135" y="447" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">licencie</text>
+<text x="135" y="463" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">s expiráciou</text>
+
+<!-- Bottom right: CONSENT -->
+<rect x="510" y="400" width="150" height="75" rx="10" fill="#F4F6F8" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="585" y="427" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="700" fill="#1A2D47">CONSENT</text>
+<text x="585" y="447" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">osoba × účel</text>
+<text x="585" y="463" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">× prijímateľ</text>
+
+<!-- Far right: FACILITY -->
+<rect x="510" y="240" width="150" height="100" rx="10" fill="#388FC3" stroke="#1A2D47" stroke-width="2"/>
+<text x="585" y="272" text-anchor="middle" font-family="Manrope" font-size="15" font-weight="700" fill="#FFFFFF">FACILITY</text>
+<text x="585" y="292" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#FFFFFF">športovisko</text>
+<text x="585" y="308" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#FFFFFF">vlastník · prevádzkovateľ</text>
+<text x="585" y="324" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#FFFFFF">cestovný ruch</text>
+
+<!-- Far left: EVENT -->
+<rect x="60" y="240" width="150" height="100" rx="10" fill="#F4F6F8" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="135" y="272" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="700" fill="#1A2D47">EVENT</text>
+<text x="135" y="292" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">podujatie</text>
+<text x="135" y="308" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">+ participation</text>
+<text x="135" y="324" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">+ venue (facility)</text>
+
+<!-- DOCUMENT, bottom -->
+<rect x="285" y="510" width="150" height="50" rx="10" fill="#F4F6F8" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="360" y="532" text-anchor="middle" font-family="Manrope" font-size="13" font-weight="700" fill="#1A2D47">DOCUMENT</text>
+<text x="360" y="548" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5E6B7D">prehliadky · prílohy</text>
+
+<!-- Connections -->
+<line x1="210" y1="130" x2="280" y2="250" stroke="#5E6B7D" stroke-width="1"/>
+<line x1="510" y1="130" x2="440" y2="250" stroke="#5E6B7D" stroke-width="1"/>
+<line x1="360" y1="160" x2="360" y2="240" stroke="#5E6B7D" stroke-width="1"/>
+<line x1="360" y1="340" x2="360" y2="400" stroke="#5E6B7D" stroke-width="1"/>
+<line x1="440" y1="290" x2="510" y2="290" stroke="#388FC3" stroke-width="2"/>
+<line x1="210" y1="290" x2="280" y2="290" stroke="#5E6B7D" stroke-width="1"/>
+<line x1="135" y1="160" x2="135" y2="240" stroke="#5E6B7D" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="135" y1="340" x2="135" y2="400" stroke="#5E6B7D" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="585" y1="340" x2="585" y2="400" stroke="#5E6B7D" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="585" y1="160" x2="585" y2="240" stroke="#5E6B7D" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="360" y1="475" x2="360" y2="510" stroke="#5E6B7D" stroke-width="1" stroke-dasharray="3 3"/>
+</svg>
+<figcaption>Obrázok 2 · Entity a ich vzťahy. Affiliation a Facility sú kľúčové prvotriedne entity. Plné čiary = povinné referencie, prerušované = voliteľné/nepriame vzťahy.</figcaption>
+</figure>
+</section>
+
+<section id="person">
+<span class="section-number">02 · Person</span>
+<h2>Person — identita osoby</h2>
+<p>Person je stabilná entita, ktorá opisuje človeka ako ľudskú bytosť, nie jeho športovú rolu. <strong>Žiadne športové polia v Person tabuľke nie sú</strong> — kluby, licencie, role, všetko patrí do iných entít.</p>
+
+<h3>Povinné jadro</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Pole</th><th>Typ</th><th>Popis</th></tr></thead>
+<tbody>
+<tr><td><code>person_id</code></td><td>UUID</td><td>Primárny kľúč, nemenný, interný</td></tr>
+<tr><td><code>given_name</code></td><td>String</td><td>Krstné meno</td></tr>
+<tr><td><code>family_name</code></td><td>String</td><td>Priezvisko</td></tr>
+<tr><td><code>date_of_birth</code></td><td>Date</td><td>Dátum narodenia</td></tr>
+<tr><td><code>gender</code></td><td>Enum</td><td>male / female / other / undisclosed</td></tr>
+<tr><td><code>nationality</code></td><td>ISO 3166</td><td>Štátna príslušnosť</td></tr>
+<tr><td><code>verification_status</code></td><td>Enum</td><td>unverified / self_declared / verified_by_org / verified_by_eid / verified_by_rfo</td></tr>
+<tr><td><code>date_of_death</code></td><td>Date · nullable</td><td>Dátum úmrtia (notifikácia z RFO)</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Identifikátory</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Pole</th><th>Typ</th><th>Popis</th></tr></thead>
+<tbody>
+<tr><td><code>rfo_identifier</code></td><td>String · encrypted</td><td>IFO z RFO, len pri verifikácii</td></tr>
+<tr><td><code>national_id_hash</code></td><td>Hash</td><td>Hash rodného čísla pre deduplikáciu</td></tr>
+<tr><td><code>national_id_encrypted</code></td><td>Encrypted blob</td><td>Rodné číslo — dešifruje sa len pri komunikácii s RFO</td></tr>
+<tr><td><code>foreign_id_type</code></td><td>Enum · nullable</td><td>passport / residence_permit — pre cudzincov</td></tr>
+<tr><td><code>foreign_id_value</code></td><td>String · encrypted</td><td>Hodnota zahraničného identifikátora</td></tr>
+<tr><td><code>foreign_id_country</code></td><td>ISO 3166</td><td>Krajina vydania</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+<h4>Prečo UUID a nie rodné číslo</h4>
+<p>Rodné číslo nie je vhodný primárny kľúč. Cudzinci ho nemajú. Môže sa zmeniť. A hlavne — je to citlivý osobný identifikátor, ktorý nemá cestovať v API odpovediach a logoch. UUID sú stabilné a bez sémantickej hodnoty.</p>
+</div>
+</section>
+
+<section id="affiliation">
+<span class="section-number">03 · Affiliation</span>
+<h2>Affiliation — srdce systému</h2>
+<p>Affiliation je vzťah osoby k organizácii v určitej role (druhu športovej činnosti), v určitom športe a disciplíne, platný v určitom časovom intervale. Je to najdôležitejšia entita celého systému a modeluje sa event-sourcovane.</p>
+
+<h3>Schéma</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Pole</th><th>Typ</th><th>Popis</th></tr></thead>
+<tbody>
+<tr><td><code>affiliation_id</code></td><td>UUID</td><td>Primárny kľúč</td></tr>
+<tr><td><code>person_id</code></td><td>UUID · FK</td><td>Ktorá osoba</td></tr>
+<tr><td><code>organization_id</code></td><td>UUID · FK</td><td>Ktorá organizácia</td></tr>
+<tr><td><code>activity_code</code></td><td>String · FK</td><td>Z číselníka druhov športovej činnosti</td></tr>
+<tr><td><code>legal_basis_code</code></td><td>String · FK</td><td>Z číselníka právnych titulov</td></tr>
+<tr><td><code>sport_code</code></td><td>String · FK</td><td>Z číselníka športov</td></tr>
+<tr><td><code>discipline_code</code></td><td>String · FK · nullable</td><td>Z číselníka disciplín</td></tr>
+<tr><td><code>category_code</code></td><td>String · nullable</td><td>Veková / výkonnostná kategória</td></tr>
+<tr><td><code>valid_from</code></td><td>Date</td><td>Začiatok platnosti</td></tr>
+<tr><td><code>valid_to</code></td><td>Date · nullable</td><td>Koniec platnosti (null = otvorený)</td></tr>
+<tr><td><code>status</code></td><td>Enum</td><td>pending / active / suspended / terminated</td></tr>
+<tr><td><code>registration_number</code></td><td>String · nullable</td><td>Interné ID pridelené organizáciou</td></tr>
+<tr><td><code>source_app_id</code></td><td>UUID</td><td>Certifikovaná aplikácia, ktorá záznam vytvorila</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Kľúčové vlastnosti</h3>
+<ul>
+<li><strong>Temporálnosť je vstavaná.</strong> Aktuálnosť sa odvodzuje z <code>valid_from ≤ now() ≤ COALESCE(valid_to, ∞)</code> a <code>status = active</code>.</li>
+<li><strong>Každá zmena je event.</strong> Prestup, pozastavenie, ukončenie nie je UPDATE, ale samostatná udalosť.</li>
+<li><strong>Kompozitné constrainty.</strong> Osoba nemôže mať dve aktívne "tréner" afiliácie v tom istom klube a športe súčasne.</li>
+<li><strong>Prestup = ukončenie + nový začiatok.</strong> Zachováva históriu.</li>
+</ul>
+</section>
+
+<section id="organization">
+<span class="section-number">04 · Organization</span>
+<h2>Organization — hierarchia subjektov</h2>
+<p>Organizácie nie sú ploché. Typológia pokrýva celý ekosystém — od národných zväzov cez samosprávu, štátnu správu, školstvo až po komerčné subjekty. Kompletný zoznam je v <a href="ciselniky.html#organizacie">kapitole Číselníky</a>.</p>
+
+<h3>Schéma</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Pole</th><th>Typ</th><th>Popis</th></tr></thead>
+<tbody>
+<tr><td><code>organization_id</code></td><td>UUID</td><td>Primárny kľúč</td></tr>
+<tr><td><code>org_type</code></td><td>String · FK</td><td>Z číselníka druhov organizácií</td></tr>
+<tr><td><code>legal_name</code></td><td>String</td><td>Úplný právny názov</td></tr>
+<tr><td><code>ico</code></td><td>String · nullable</td><td>IČO (ak má)</td></tr>
+<tr><td><code>legal_form_code</code></td><td>String · FK</td><td>Právna forma (z RPO číselníka)</td></tr>
+<tr><td><code>rpo_identifier</code></td><td>String · nullable</td><td>Identifikátor v RPO</td></tr>
+<tr><td><code>rpo_registered</code></td><td>Boolean</td><td>Či je v RPO</td></tr>
+<tr><td><code>parent_org_id</code></td><td>UUID · nullable</td><td>Nadradená organizácia (zväz → regionálny zväz)</td></tr>
+<tr><td><code>address</code></td><td>Object</td><td>Sídlo</td></tr>
+<tr><td><code>valid_from</code></td><td>Date</td><td>Vznik</td></tr>
+<tr><td><code>valid_to</code></td><td>Date · nullable</td><td>Zánik</td></tr>
+<tr><td><code>status</code></td><td>Enum</td><td>active / suspended / dissolved</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Jedna organizácia, viac športov</h3>
+<p>Polyvalentný klub môže byť akreditovaný vo viacerých športoch súčasne. Preto vzťah <code>Organization × Sport × Discipline</code> je samostatná entita <code>ORG_SPORT_ACCREDITATION</code> s vlastnou platnosťou a stavom uznania.</p>
+</section>
+
+<section id="facility">
+<span class="section-number">05 · Facility</span>
+<h2>Facility — športovisko</h2>
+<p>Športovisko je v SportUp prvotriedna entita — nie atribút podujatia alebo klubu. Dôvod: jedno športovisko slúži viacerým subjektom súčasne, má vlastnú prevádzkovú a technickú identitu, jeho dáta sú zároveň podkladom pre agendu <strong>cestovného ruchu</strong>.</p>
+
+<h3>Schéma</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Pole</th><th>Typ</th><th>Popis</th></tr></thead>
+<tbody>
+<tr><td><code>facility_id</code></td><td>UUID</td><td>Primárny kľúč</td></tr>
+<tr><td><code>label_sk</code></td><td>String</td><td>Názov športoviska</td></tr>
+<tr><td><code>facility_type</code></td><td>String · FK</td><td>Druh podľa číselníka</td></tr>
+<tr><td><code>owner_organization_id</code></td><td>UUID · FK</td><td>Vlastník</td></tr>
+<tr><td><code>operator_organization_id</code></td><td>UUID · FK · nullable</td><td>Prevádzkovateľ ak je iný</td></tr>
+<tr><td><code>sports_supported</code></td><td>Array&lt;sport_code&gt;</td><td>Aké športy sú tu možné</td></tr>
+<tr><td><code>disciplines_supported</code></td><td>Array&lt;discipline_code&gt;</td><td>Konkrétne disciplíny</td></tr>
+<tr><td><code>location</code></td><td>Object</td><td>Adresa, obec, kraj, GPS súradnice</td></tr>
+<tr><td><code>capacity</code></td><td>Integer · nullable</td><td>Kapacita pre divákov</td></tr>
+<tr><td><code>surface</code></td><td>Enum</td><td>Prírodná tráva, umelá tráva, tartan, parkety, ľad...</td></tr>
+<tr><td><code>indoor_outdoor</code></td><td>Enum</td><td>indoor / outdoor / both</td></tr>
+<tr><td><code>features</code></td><td>Array</td><td>Šatne, parkovanie, bufet, bezbariérový prístup...</td></tr>
+<tr><td><code>licensed_for_competitions</code></td><td>Array</td><td>Úroveň akreditácie pre súťaže</td></tr>
+<tr><td><code>access_model</code></td><td>Enum</td><td>Verejný voľný / platený / členský / komerčný</td></tr>
+<tr><td><code>tourism_tags</code></td><td>Array</td><td>Príznaky pre cestovný ruch</td></tr>
+<tr><td><code>opening_hours</code></td><td>Object</td><td>Otváracie hodiny, sezónnosť</td></tr>
+<tr><td><code>status</code></td><td>Enum</td><td>active / under_construction / temporarily_closed / demolished</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Prečo samostatná entita</h3>
+<ul>
+<li><strong>Jedno športovisko, viac subjektov.</strong> Obecný štadión využíva klub, škola, ochotnícke ligy, komerčné nájmy.</li>
+<li><strong>Vlastník ≠ prevádzkovateľ.</strong> Obec vlastní, klub prevádzkuje. Model to rozlišuje explicitne.</li>
+<li><strong>Podujatia sa odohrávajú tu.</strong> Event Participation referencuje <code>facility_id</code>.</li>
+<li><strong>Cestovný ruch.</strong> Register je verejne dotazovateľný cez otvorené API — aplikácie typu "lyžiarske strediská v Žilinskom kraji" alebo "najbližšia plaváreň" čerpajú dáta odtiaľto.</li>
+<li><strong>Dotácie a investície.</strong> Ministerstvo vie, kde sú športoviská, v akom stave, s akou kapacitou. Dotačná politika nestojí na ad-hoc prieskumoch.</li>
+</ul>
+
+<h3>Vzťahy k ostatným entitám</h3>
+<div class="grid cols-2">
+<div class="card">
+<h4>Facility ↔ Organization</h4>
+<p>M:N cez entitu <code>FACILITY_USAGE</code> — ktoré organizácie majú pravidelnú prevádzku, akú a v akom časovom okne.</p>
+</div>
+<div class="card">
+<h4>Facility ↔ Event</h4>
+<p>Podujatie sa koná na jednom alebo viacerých športoviskách. Entita <code>EVENT_VENUE</code> s časovým rozvrhom využitia.</p>
+</div>
+<div class="card">
+<h4>Facility ↔ Location</h4>
+<p>Povinná referencia na číselník obcí, okresov a krajov. GPS súradnice sú povinné — bez nich nie je možné využitie v mapových službách.</p>
+</div>
+<div class="card">
+<h4>Facility ↔ Person</h4>
+<p>Priame vzťahy neexistujú. Osoba je spojená so športoviskom len cez Organization (prevádzkovateľa) alebo cez Event Participation.</p>
+</div>
+</div>
+</section>
+
+<section id="activity">
+<span class="section-number">06 · Activity</span>
+<h2>Activity — druh športovej činnosti</h2>
+<p>Druh športovej činnosti (napr. <em>amatérsky športovec</em>, <em>tréner</em>, <em>rozhodca</em>, <em>usporiadateľ</em>, <em>dobrovoľník</em>) je hierarchický číselník. Každá Affiliation má práve jeden <code>activity_code</code> — ten istý človek v klube môže mať dve afiliácie, ak je zároveň hráčom aj trénerom.</p>
+
+<p>Konkrétne druhy činností, ich kódy a popisy nájdete v <a href="ciselniky.html#cinnosti">kapitole Číselníky → Druhy športovej činnosti</a>.</p>
+</section>
+
+<section id="qualification">
+<span class="section-number">07 · Qualification</span>
+<h2>Qualification — licencie v čase</h2>
+<p>Kvalifikácia je napríklad trénerská licencia UEFA Pro, rozhodcovská licencia, športový lekár atestácia. <strong>Kvalifikácia je viazaná na osobu, nie na afiliáciu.</strong> Tréner s licenciou UEFA B si ju nesie so sebou aj keď zmení klub. Oprávnenie trénovať konkrétny tím je však kombináciou: <em>Person + aktívna Qualification + aktívna Affiliation ako tréner</em>.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Pole</th><th>Typ</th><th>Popis</th></tr></thead>
+<tbody>
+<tr><td><code>qualification_id</code></td><td>UUID</td><td>Primárny kľúč</td></tr>
+<tr><td><code>person_id</code></td><td>UUID · FK</td><td>Držiteľ</td></tr>
+<tr><td><code>qualification_type</code></td><td>String · FK</td><td>Z číselníka kvalifikácií</td></tr>
+<tr><td><code>issuing_organization_id</code></td><td>UUID · FK</td><td>Kto vydal</td></tr>
+<tr><td><code>level</code></td><td>String · nullable</td><td>Stupeň (Pro, A, B, C...)</td></tr>
+<tr><td><code>issued_at</code></td><td>Date</td><td>Dátum vydania</td></tr>
+<tr><td><code>valid_from</code></td><td>Date</td><td>Začiatok platnosti</td></tr>
+<tr><td><code>valid_to</code></td><td>Date</td><td>Koniec platnosti</td></tr>
+<tr><td><code>status</code></td><td>Enum</td><td>active / expired / revoked / suspended</td></tr>
+<tr><td><code>document_id</code></td><td>UUID · FK</td><td>Scan dokladu</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="consent">
+<span class="section-number">08 · Consent</span>
+<h2>Consent — súhlas a legal basis</h2>
+<p>Consent je samostatná entita, nie JSON pole niekde na Person. Modeluje sa granulárne: <strong>jeden záznam na účel × organizáciu alebo aplikáciu × osobu</strong>.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Pole</th><th>Typ</th><th>Popis</th></tr></thead>
+<tbody>
+<tr><td><code>consent_id</code></td><td>UUID</td><td>Primárny kľúč</td></tr>
+<tr><td><code>person_id</code></td><td>UUID · FK</td><td>Dotknutá osoba</td></tr>
+<tr><td><code>purpose_code</code></td><td>String · FK</td><td>Z Purpose Catalogue</td></tr>
+<tr><td><code>purpose_version</code></td><td>Integer</td><td>Verzia účelu v čase udelenia</td></tr>
+<tr><td><code>legal_basis</code></td><td>Enum</td><td>consent / contract / legal_obligation / vital_interests / public_task / legitimate_interest</td></tr>
+<tr><td><code>granted_to_type</code></td><td>Enum</td><td>organization / app / public_sector</td></tr>
+<tr><td><code>granted_to_id</code></td><td>UUID</td><td>Konkrétny prijímateľ</td></tr>
+<tr><td><code>granted_at</code></td><td>Timestamp</td><td>Čas udelenia</td></tr>
+<tr><td><code>granted_by</code></td><td>UUID</td><td>Kto udelil (osoba alebo zákonný zástupca)</td></tr>
+<tr><td><code>withdrawn_at</code></td><td>Timestamp · nullable</td><td>Čas odvolania</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Detailný popis Purpose Catalogue nájdete v kapitole <a href="ucely.html">Účely spracovania</a>.</p>
+</section>
+
+<section id="eventy">
+<span class="section-number">09 · Eventy</span>
+<h2>Katalóg eventov pre Affiliation</h2>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Event</th><th>Kedy sa produkuje</th><th>Stav po evente</th></tr></thead>
+<tbody>
+<tr><td><code>AffiliationRegistered</code></td><td>Nová registrácia osoby v organizácii</td><td><code>pending</code></td></tr>
+<tr><td><code>AffiliationActivated</code></td><td>Overenie prešlo</td><td><code>active</code></td></tr>
+<tr><td><code>AffiliationSuspended</code></td><td>Pozastavenie (zranenie, disciplinárka, admin)</td><td><code>suspended</code></td></tr>
+<tr><td><code>AffiliationResumed</code></td><td>Návrat z pozastavenia</td><td><code>active</code></td></tr>
+<tr><td><code>AffiliationActivityChanged</code></td><td>Zmena druhu činnosti v tej istej organizácii</td><td><code>active</code></td></tr>
+<tr><td><code>AffiliationTerminated</code></td><td>Koniec vzťahu</td><td><code>terminated</code></td></tr>
+<tr><td><code>AffiliationCorrected</code></td><td>Oprava chybného záznamu</td><td>bez zmeny</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>Prestup — ako saga</h3>
+<p>Prestup športovca z klubu A do klubu B sa modeluje ako saga s tromi eventmi prepojenými cez <code>correlation_id</code>:</p>
+
+<div class="code-header">Prestup · sekvencia eventov</div>
+<pre><code><span class="code-comment">// 1) TransferRequested na novú (ešte neexistujúcu) afiliáciu</span>
+{
+  <span class="code-key">"event_type"</span>: <span class="code-string">"TransferRequested"</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"affil-new-123"</span>,
+  <span class="code-key">"correlation_id"</span>: <span class="code-string">"transfer-456"</span>,
+  <span class="code-key">"data"</span>: {
+    <span class="code-key">"person_id"</span>: <span class="code-string">"person-abc"</span>,
+    <span class="code-key">"from_organization_id"</span>: <span class="code-string">"club-A"</span>,
+    <span class="code-key">"to_organization_id"</span>: <span class="code-string">"club-B"</span>,
+    <span class="code-key">"effective_date"</span>: <span class="code-string">"2026-07-01"</span>
+  }
+}
+
+<span class="code-comment">// 2) AffiliationTerminated na pôvodnej afiliácii</span>
+{
+  <span class="code-key">"event_type"</span>: <span class="code-string">"AffiliationTerminated"</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"affil-old-789"</span>,
+  <span class="code-key">"correlation_id"</span>: <span class="code-string">"transfer-456"</span>,
+  <span class="code-key">"data"</span>: { <span class="code-key">"reason"</span>: <span class="code-string">"transfer"</span> }
+}
+
+<span class="code-comment">// 3) AffiliationRegistered + AffiliationActivated na novej afiliácii</span>
+{
+  <span class="code-key">"event_type"</span>: <span class="code-string">"AffiliationRegistered"</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"affil-new-123"</span>,
+  <span class="code-key">"correlation_id"</span>: <span class="code-string">"transfer-456"</span>,
+  <span class="code-key">"data"</span>: { <span class="code-comment">/* nová afiliácia v klube B */</span> }
+}</code></pre>
+</section>
+
+<section id="edge-cases">
+<span class="section-number">10 · Hraničné prípady</span>
+<h2>Čo treba vyriešiť od začiatku</h2>
+
+<div class="grid cols-2">
+<div class="card">
+<h4>Maloletí</h4>
+<p>Potrebujú <code>legal_guardian</code> vzťah (Person ↔ Person). Súhlasy udeľuje zákonný zástupca do 18 rokov. Pri dovŕšení plnoletosti systém vyzýva na opätovné potvrdenie súhlasov.</p>
+</div>
+<div class="card">
+<h4>Cudzinci</h4>
+<p>Nemajú rodné číslo. Používajú <code>foreign_id_type</code> + <code>foreign_id_value</code> + <code>foreign_id_country</code>. Deduplikácia cez meno + DOB + typ a hodnota identifikátora.</p>
+</div>
+<div class="card">
+<h4>Zmeny mena</h4>
+<p>História mien je samostatná entita <code>PERSON_NAME_HISTORY</code> s časovou platnosťou. Aktuálne meno je "posledné platné".</p>
+</div>
+<div class="card">
+<h4>Úmrtia</h4>
+<p>Notifikácia z RFO → automatické generovanie <code>AffiliationTerminated</code> eventov pre všetky aktívne afiliácie.</p>
+</div>
+<div class="card">
+<h4>Duplicitné identity</h4>
+<p>Identity Resolution: fuzzy match + manuálny review + merge operácia. Dva <code>person_id</code> sa zlúčia cez <code>PersonsMerged</code> event.</p>
+</div>
+<div class="card">
+<h4>Konflikt záujmov</h4>
+<p>Rozhodca má aktívnu afiliáciu v jednom z hrajúcich klubov? Systém to deteguje cez dotaz nad <code>current_affiliations</code>. Upozornenie, nie blokovanie.</p>
+</div>
+</div>
+</section>
+
+<div class="divider-ornament">· · ·</div>
+
+<section>
+<p class="text-muted">Nasledujúca kapitola — <a href="ciselniky.html">Číselníky a katalógy</a> — obsahuje zoznam športov, druhov činnosti, typov organizácií a katalóg športovísk.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand"><em>Sport</em>UP<span style="color:rgba(255,255,255,0.5);font-weight:500;font-style:normal;font-family:var(--font-mono);font-size:0.85rem;margin-left:0.2rem">.sk</span></div>
+<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+<div class="footer-tagline">Silný šport. Silné dáta.</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="architektura.html">Architektúra</a> · <a href="domenovy-model.html">Model</a> · <a href="priklady.html">Príklady</a></div>
+<div>Návrh · nezáväzný · pre diskusiu</div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

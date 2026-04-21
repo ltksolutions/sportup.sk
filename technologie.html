@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technológie — SportUp.sk</title>
+<meta name="description" content="Technologický stack pre implementáciu SportUp: Next.js, Node.js, MongoDB, OPA, Redis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">SportUp<span class="dot">.</span><span class="tld">sk</span></a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="architektura.html">Architektúra</a></li>
+      <li><a href="domenovy-model.html">Doménový model</a></li>
+      <li><a href="ciselniky.html">Číselníky</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="integracie.html">Integrácie</a></li>
+      <li><a href="technologie.html">Technológie</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Kapitola 08 · Technológie</div>
+    <h1>Implementačný <em>stack</em></h1>
+    <p class="lead">Navrhovaný technologický stack pre nový IS športu. Voľba zohľadňuje požiadavky event-sourced jadra, heterogénneho doménového modelu, dlhodobej udržateľnosti a dostupnosti odbornej komunity na Slovensku.</p>
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<div class="toc">
+<h4>Obsah kapitoly</h4>
+<ol>
+<li><a href="#principy">Princípy voľby technológií</a></li>
+<li><a href="#backend">Backend — Node.js</a></li>
+<li><a href="#db">Dátová vrstva — MongoDB</a></li>
+<li><a href="#frontend">Frontend a admin — Next.js</a></li>
+<li><a href="#infra">Infraštruktúrne komponenty</a></li>
+<li><a href="#deployment">Nasadenie a prevádzka</a></li>
+<li><a href="#roadmap">Roadmapa</a></li>
+</ol>
+</div>
+
+<section id="principy">
+<span class="section-number">01 · Princípy</span>
+<h2>Čo ovplyvňuje výber technológií</h2>
+<p>Výber stacku pre národný štátny register nie je "najnovšie a najlepšie". Je to rovnica medzi piatimi faktormi:</p>
+
+<div class="grid cols-2">
+<div class="card"><h4>Dlhodobá udržateľnosť</h4><p>Systém bude žiť 15+ rokov. Technológia musí byť po tomto čase stále maintainovaná. Vyhýbame sa experimentálnym rámcom a závislosti na jednom dodávateľovi.</p></div>
+<div class="card"><h4>Odborná komunita v SR</h4><p>Musí existovať dostatočný počet slovenských vývojárov, ktorí vedia danú technológiu. Inak vzniká dodávateľský lock-in.</p></div>
+<div class="card"><h4>Fit pre doménu</h4><p>Event sourcing, heterogénna schéma (veľa druhov entít s rôznymi atribútmi), geo-dotazy pre športoviská, agregáty pre štatistiky.</p></div>
+<div class="card"><h4>Open source</h4><p>Žiadne proprietárne licencie s risk of hostage. Kompletný stack je publikovateľný ako open source bez právnych prekážok.</p></div>
+<div class="card"><h4>Štandardy EÚ / SR</h4><p>Súlad s Výnosom o štandardoch pre IS verejnej správy, kompatibilita s eIDAS, OpenAPI, OAuth 2.0 / OIDC, DCAT-AP.</p></div>
+<div class="card"><h4>Cloud-agnostic</h4><p>Žiadny vendor lock-in na konkrétneho cloud providera. Možnosť prevádzky v on-prem aj v EÚ cloudoch.</p></div>
+</div>
+</section>
+
+<section id="backend">
+<span class="section-number">02 · Backend</span>
+<h2>Node.js ako backendová platforma</h2>
+<p>Jadro systému sa implementuje v <strong>Node.js</strong> v jazyku <strong>TypeScript</strong>. Voľba vychádza z troch dôvodov:</p>
+
+<ul>
+<li><strong>Zdieľanie typov medzi backend a frontend.</strong> Doménový model, DTO pre API, validačné schémy (Zod) — všetko je v jednom monorepe, jedna jazyk, jedna typová definícia. Žiadne drift medzi serverom a klientom.</li>
+<li><strong>Silná komunita na Slovensku.</strong> JavaScript/TypeScript je najpoužívanejšia technológia u nás, dostupnosť seniorných vývojárov je výrazne vyššia ako pre Java alebo .NET.</li>
+<li><strong>Asynchrónne I/O z prvého dňa.</strong> Pre integračnú platformu s mnohými externými volaniami (RFO, RPO, MCP, webhooks) je event loop výhodou.</li>
+</ul>
+
+<h3>Konkrétne komponenty</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Vrstva</th><th>Technológia</th><th>Funkcia</th></tr></thead>
+<tbody>
+<tr><td>HTTP framework</td><td><code>Fastify</code></td><td>Výkonný, low-overhead, natívna podpora JSON schema</td></tr>
+<tr><td>Validácia</td><td><code>Zod</code></td><td>Typy + runtime validácia v jednom</td></tr>
+<tr><td>OpenAPI</td><td><code>fastify-swagger</code> + <code>zod-to-openapi</code></td><td>Špecifikácia generovaná z kódu, nie naopak</td></tr>
+<tr><td>Auth</td><td><code>oidc-provider</code></td><td>Certifikovaný OIDC provider pre OAuth 2.0</td></tr>
+<tr><td>Policy engine</td><td><code>Open Policy Agent (OPA)</code></td><td>Declaratívne pravidlá v jazyku Rego</td></tr>
+<tr><td>Message queue</td><td><code>NATS JetStream</code> alebo <code>Kafka</code></td><td>Event streaming pre webhooks a projekcie</td></tr>
+<tr><td>Worker jobs</td><td><code>BullMQ</code></td><td>Scheduled úlohy, retries, dead-letter</td></tr>
+<tr><td>Logging</td><td><code>pino</code> + OpenTelemetry</td><td>Štruktúrované JSON logy, distribuovaný tracing</td></tr>
+<tr><td>Testing</td><td><code>vitest</code> + <code>supertest</code></td><td>Unit + integration testy</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="db">
+<span class="section-number">03 · MongoDB</span>
+<h2>Dátová vrstva — MongoDB</h2>
+<p><strong>MongoDB</strong> ako primárna databáza pre event store aj pre projekcie. Výber je pragmatický — MongoDB sa pre tento typ systému správa lepšie ako klasické relačné databázy.</p>
+
+<h3>Prečo MongoDB a nie PostgreSQL</h3>
+<div class="grid cols-2">
+<div class="card"><h4>Flexibilná schéma</h4><p>Rôzne typy eventov majú rôzne payloady. MongoDB dokumentový model to reflektuje priamo. V PostgreSQL by sme skončili pri JSONB poliach a museli schizofrenne prepínať medzi relačným a dokumentovým myslením.</p></div>
+<div class="card"><h4>Change streams</h4><p>Natívny mechanizmus na sledovanie zmien. Projekčné workers sa prihlásia na <code>events</code> kolekciu a prepočítavajú read modely bez potreby Kafka-like systému.</p></div>
+<div class="card"><h4>Geo-dotazy</h4><p>2dsphere indexy pre športoviská sú priamočiare. "Nájdi plavárne do 10 km od môjho hotela" je jeden dotaz.</p></div>
+<div class="card"><h4>Aggregation framework</h4><p>Silný pipeline pre štatistiky a agregované projekcie. Často sa vyhneme external ETL.</p></div>
+<div class="card"><h4>Atlas / self-hosted</h4><p>Môže sa prevádzkovať v EÚ cloude (Atlas EÚ regióny) aj on-prem (MongoDB Community Edition / Percona PSMDB).</p></div>
+<div class="card"><h4>Multi-document transactions</h4><p>Od verzie 4.0 plne podporuje transakcie naprieč dokumentmi, takže ACID garantie pre kritické operácie nie sú problém.</p></div>
+</div>
+
+<h3>Organizácia kolekcií</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kolekcia</th><th>Účel</th><th>Poznámky</th></tr></thead>
+<tbody>
+<tr><td><code>events</code></td><td>Event store — nemenný append-only log</td><td>Index na <code>aggregate_id</code>, <code>event_type</code>, <code>occurred_at</code>, <code>correlation_id</code></td></tr>
+<tr><td><code>persons</code></td><td>Projekcia — aktuálne osoby</td><td>Obnovované zo stream eventov</td></tr>
+<tr><td><code>affiliations_current</code></td><td>Projekcia — aktívne afiliácie</td><td>Rýchle dotazy "kto je teraz kde"</td></tr>
+<tr><td><code>affiliations_history</code></td><td>Projekcia — historické afiliácie</td><td>Time-travel dotazy, štatistika</td></tr>
+<tr><td><code>organizations</code></td><td>Projekcia — organizácie</td><td>Cache z RPO + vlastné atribúty</td></tr>
+<tr><td><code>facilities</code></td><td>Projekcia — športoviská</td><td>2dsphere geo-index</td></tr>
+<tr><td><code>qualifications</code></td><td>Projekcia — platné kvalifikácie</td><td>TTL-aware (expirácia)</td></tr>
+<tr><td><code>consents</code></td><td>Projekcia — platné súhlasy</td><td>Indexy na <code>person_id</code>, <code>purpose_code</code></td></tr>
+<tr><td><code>audit_log</code></td><td>Každé API volanie</td><td>10-ročná retencia, sharding po dátume</td></tr>
+<tr><td><code>stats_aggregates</code></td><td>Vopred prepočítané agregáty</td><td>Nočné joby, denné incremental updates</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="frontend">
+<span class="section-number">04 · Frontend</span>
+<h2>Next.js pre admin aplikácie</h2>
+<p>SportUp jadro samo nemá používateľské rozhranie — je to API. Ale prevádzkovateľ potrebuje <strong>administračné nástroje</strong>: správa certifikovaných aplikácií, pohľad do audit logu, správa číselníkov, správa Purpose Catalogue, dashboard pre nasadenie a incidenty. A samotná <strong>dotknutá osoba</strong> potrebuje portál, kde vidí svoje dáta, udelené súhlasy a môže ich spravovať.</p>
+
+<p>Pre tieto aplikácie je <strong>Next.js</strong> dobrá voľba:</p>
+
+<ul>
+<li><strong>React Server Components</strong> — časť UI sa renderuje na serveri s prístupom k databáze, časť klientsky. Citlivé dáta sa ľahko držia server-side.</li>
+<li><strong>Route handlers pre BFF</strong> — Backend for Frontend pattern natívne. Klient neimplementuje zložité OAuth flow, len volá svoj vlastný BFF.</li>
+<li><strong>TypeScript full-stack</strong> — zdieľaný doménový model s backendom, bez potreby code generation.</li>
+<li><strong>App Router + Streaming</strong> — moderné vzory pre low-latency používateľské zážitky.</li>
+</ul>
+
+<h3>Aplikácie postavené na Next.js</h3>
+<div class="grid cols-2">
+<div class="card"><h4>Admin portál prevádzkovateľa</h4><p>Správa aplikácií, scopes, audit, incidenty, health dashboards.</p></div>
+<div class="card"><h4>Portál dotknutej osoby</h4><p>Prehľad vlastných dát, consent dashboard, GDPR práva, verifikačné tokeny.</p></div>
+<div class="card"><h4>Developer portál</h4><p>Dokumentácia API, interaktívny OpenAPI explorer, sandbox prostredie, playground.</p></div>
+<div class="card"><h4>Open data portál</h4><p>Verejná mapa športovísk, katalóg podujatí, vizualizácie štatistík.</p></div>
+</div>
+
+<div class="callout">
+<h4>Aplikácie zväzov a klubov</h4>
+<p>Zväzy a kluby si <strong>stavajú svoje vlastné aplikácie</strong> podľa vlastných potrieb. SportUp im poskytuje API, SDK a dokumentáciu. Niektoré použijú Next.js, iné .NET, PHP alebo React Native pre mobil — to je ich rozhodnutie. SportUp nediktuje frontend stack tretím stranám.</p>
+</div>
+</section>
+
+<section id="infra">
+<span class="section-number">05 · Infraštruktúra</span>
+<h2>Doplnkové komponenty</h2>
+
+<div class="grid cols-2">
+<div class="card">
+<h4>Redis</h4>
+<p>Cache pre policy engine rozhodnutia, rate limiting (token bucket), session store pre OIDC, dočasné verifikačné tokeny.</p>
+</div>
+<div class="card">
+<h4>OpenSearch / Elasticsearch</h4>
+<p>Full-text vyhľadávanie osôb a organizácií, fuzzy match pre Identity Resolution, agregácie pre dashboardy.</p>
+</div>
+<div class="card">
+<h4>MinIO alebo S3-kompatibilný</h4>
+<p>Dokumenty (zdravotné prehliadky, fotky, scany licencií) s lifecycle managementom a end-to-end šifrovaním.</p>
+</div>
+<div class="card">
+<h4>HashiCorp Vault</h4>
+<p>Správa šifrovacích kľúčov, secrets rotation, zabezpečenie dešifrovania citlivých polí (napr. rodné číslo).</p>
+</div>
+<div class="card">
+<h4>Grafana + Prometheus + Loki</h4>
+<p>Monitoring, metriky, logy. SLO dashboards, alerting pre prevádzkový tím.</p>
+</div>
+<div class="card">
+<h4>Temporal.io</h4>
+<p>Orchestrácia dlhotrvajúcich sag (prestupy, overenia, CSRÚ synchronizácia). Retries, checkpointy, auditovateľnosť.</p>
+</div>
+</div>
+</section>
+
+<section id="deployment">
+<span class="section-number">06 · Nasadenie</span>
+<h2>Nasadenie a prevádzka</h2>
+
+<h3>Kontajnery a orchestrácia</h3>
+<p>Celý systém je kontajnerizovaný (Docker) a orchestrovaný cez <strong>Kubernetes</strong>. Pre štátny systém odporúčame <strong>EÚ cloud</strong> s compliance certifikáciami (IL4, ENISA, ISO 27001) alebo hybridný model (citlivé dáta on-prem, webové vrstvy v cloude).</p>
+
+<h3>CI/CD</h3>
+<p>GitLab alebo GitHub Actions. Každý merge cez pull request, code review, povinné testy, automatické nasadenie do staging. Produkčné deployment-y vyžadujú manuálne schválenie odpovedajúcich rolí.</p>
+
+<h3>Disaster recovery</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Parameter</th><th>Hodnota</th><th>Stratégia</th></tr></thead>
+<tbody>
+<tr><td>RPO</td><td>5 minút</td><td>MongoDB replica set + cross-region replication</td></tr>
+<tr><td>RTO (čítanie)</td><td>30 minút</td><td>Multi-AZ cluster, automatic failover</td></tr>
+<tr><td>RTO (zápis)</td><td>2 hodiny</td><td>Warm standby cluster v sekundárnej lokalite</td></tr>
+<tr><td>Archivácia eventov</td><td>nekonečná</td><td>Event store je nemenný, nič sa nemaže</td></tr>
+<tr><td>Backup audit logov</td><td>10 rokov</td><td>Cold storage, WORM režim</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="roadmap">
+<span class="section-number">07 · Roadmapa</span>
+<h2>Postupné budovanie</h2>
+<p>Systém sa nedá postaviť "big bang" — ide o niekoľkoročný projekt s postupným nasadením modulov. Navrhujeme šesť fáz:</p>
+
+<div class="grid cols-2">
+<div class="card"><span class="card-number">Fáza 1</span><h4>Základ identity</h4><p>Person, Organization, Identity Broker, napojenie na RFO/RPO. Minimálne API. 4–6 mesiacov.</p></div>
+<div class="card"><span class="card-number">Fáza 2</span><h4>Afiliácie a číselníky</h4><p>Affiliation ako event-sourced agregát, centrálne číselníky, policy engine. Pilotný zväz. 4–6 mesiacov.</p></div>
+<div class="card"><span class="card-number">Fáza 3</span><h4>Consent a GDPR</h4><p>Purpose Catalogue, consent management, portál dotknutej osoby. 3–4 mesiace.</p></div>
+<div class="card"><span class="card-number">Fáza 4</span><h4>Športoviská a podujatia</h4><p>Katalóg športovísk, kalendár podujatí, otvorené dáta. 4–6 mesiacov.</p></div>
+<div class="card"><span class="card-number">Fáza 5</span><h4>MCP a rozšírené integrácie</h4><p>MCP servery, webhooks, event stream, integrácie s externými platformami (cestovný ruch). 3–4 mesiace.</p></div>
+<div class="card"><span class="card-number">Fáza 6</span><h4>Decommission starého ISŠ</h4><p>Presun relevantných historických dát z existujúceho ISŠ do SportUp (nie ako RPOS/RFOS, ale vo forme novej dátovej štruktúry). Paralelná prevádzka počas prechodu, následne vypnutie starého systému. 6–12 mesiacov.</p></div>
+</div>
+
+<div class="callout green">
+<h4>Od prvého dňa otvorené</h4>
+<p>Už od fázy 1 sú dáta publikované ako open data a dokumentácia je verejná. Zväzy a komerční partneri môžu participovať od začiatku, ich spätná väzba formuje ďalšie fázy.</p>
+</div>
+</section>
+
+<div class="divider-ornament">§ § §</div>
+
+<section>
+<h2>Čo ďalej</h2>
+<p>Tento dokument je otvorený návrh. Privítame spätnú väzbu od národných zväzov, kluby, územnej samosprávy, úradov verejnej správy, športovej a výskumnej komunity.</p>
+
+<p>Dokumentácia bude ďalej doplňovaná o:</p>
+<ul>
+<li>Kompletnú OpenAPI 3.1 špecifikáciu s príkladmi</li>
+<li>Kompletný Purpose Catalogue vo formáte Excel a YAML</li>
+<li>Ukážkové implementácie klientov (TypeScript SDK, Python SDK)</li>
+<li>Referenčnú implementáciu pilotného zväzu</li>
+<li>Migračné scenáre z existujúceho IS športu</li>
+</ul>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand">SportUp.sk</div>
+<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="priklady.html">Príklady</a></div>
+<div>Návrh · nezáväzný · pre diskusiu</div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

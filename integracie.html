@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Integrácie — SportUp.sk</title>
+<meta name="description" content="REST API, MCP servery, webhooks, štátne registre a otvorené dáta.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">SportUp<span class="dot">.</span><span class="tld">sk</span></a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="architektura.html">Architektúra</a></li>
+      <li><a href="domenovy-model.html">Doménový model</a></li>
+      <li><a href="ciselniky.html">Číselníky</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="integracie.html">Integrácie</a></li>
+      <li><a href="technologie.html">Technológie</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Kapitola 07 · Integrácie</div>
+    <h1>API, MCP, <em>webhooks, štát</em></h1>
+    <p class="lead">Systém SportUp je postavený ako integračná platforma — všetka interakcia je cez rozhrania. Táto kapitola popisuje päť hlavných integračných ciest: REST API pre aplikácie, MCP servery pre agentické systémy, webhooks pre event-driven integrácie, napojenie na štátne registre a otvorené dáta.</p>
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<div class="toc">
+<h4>Obsah kapitoly</h4>
+<ol>
+<li><a href="#rest">REST API</a></li>
+<li><a href="#mcp">MCP servery</a></li>
+<li><a href="#webhooks">Webhooks a event stream</a></li>
+<li><a href="#stat">Napojenie na štátne registre</a></li>
+<li><a href="#open">Otvorené dáta</a></li>
+<li><a href="#certifikacia">Certifikácia aplikácií</a></li>
+</ol>
+</div>
+
+<section id="rest">
+<span class="section-number">01 · REST</span>
+<h2>REST API</h2>
+<p>REST API je hlavným rozhraním systému pre klasické aplikácie — zväzové portály, klubové systémy, obecné aplikácie, komerčné platformy. Špecifikácia je publikovaná ako OpenAPI 3.1 a všetky zmeny prechádzajú verzionovaním.</p>
+
+<h3>Princípy</h3>
+<ul>
+<li><strong>Versioning v URL</strong> — <code>/v1/</code>, <code>/v2/</code>. Paralelný beh verzií, deprecation policy oznamuje prevádzkovateľ 18 mesiacov vopred.</li>
+<li><strong>OAuth 2.0 + OIDC</strong> autentifikácia, klientské certifikáty na úrovni mTLS pre citlivé operácie.</li>
+<li><strong>Scope-based autorizácia</strong> — každý token nesie scopes, ktoré sa vyhodnocujú v policy engine spolu s consent záznamami.</li>
+<li><strong>Idempotency keys</strong> na zápisových endpointoch — klient môže bezpečne opakovať požiadavku.</li>
+<li><strong>Cursor-based pagination</strong> pre zoznamy, nie offset. Stabilné pri zmenách dát počas prechodu.</li>
+<li><strong>RFC 7807 Problem Details</strong> pre chyby — strojovo spracovateľné error kódy.</li>
+</ul>
+
+<h3>Hlavné resource paths</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Path</th><th>Účel</th><th>Typické scopes</th></tr></thead>
+<tbody>
+<tr><td><code>/v1/persons</code></td><td>Správa osôb</td><td><code>persons:read</code>, <code>persons:write:own_org</code></td></tr>
+<tr><td><code>/v1/affiliations</code></td><td>Afiliácie a prestupy</td><td><code>affiliations:read</code>, <code>affiliations:write:own_org</code></td></tr>
+<tr><td><code>/v1/qualifications</code></td><td>Kvalifikácie a licencie</td><td><code>qualifications:read</code>, <code>qualifications:write</code></td></tr>
+<tr><td><code>/v1/consents</code></td><td>Consent manažment</td><td><code>consents:read:own</code>, <code>consents:grant</code>, <code>consents:withdraw:own</code></td></tr>
+<tr><td><code>/v1/organizations</code></td><td>Organizácie</td><td><code>organizations:read</code>, <code>organizations:write:own</code></td></tr>
+<tr><td><code>/v1/facilities</code></td><td>Športoviská</td><td><code>facilities:read:public</code>, <code>facilities:write:own</code></td></tr>
+<tr><td><code>/v1/events</code></td><td>Podujatia</td><td><code>events:read</code>, <code>events:write:own</code></td></tr>
+<tr><td><code>/v1/verify</code></td><td>Verifikačné volania (komerčné)</td><td><code>verify:athlete_status</code>, <code>verify:license</code></td></tr>
+<tr><td><code>/v1/statistics</code></td><td>Agregované štatistiky</td><td><code>statistics:read:aggregate</code></td></tr>
+<tr><td><code>/v1/my</code></td><td>Dotknutá osoba — vlastné dáta</td><td><code>self:read</code>, <code>self:manage_consents</code></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="mcp">
+<span class="section-number">02 · MCP</span>
+<h2>MCP servery</h2>
+<p>Pre agentické systémy a AI asistentov (výskumné tímy, ministerské analytiky, novinári spracúvajúci športové dáta) poskytuje SportUp súbor <strong>MCP serverov</strong>. MCP (Model Context Protocol) je otvorený štandard pre komunikáciu AI agentov s externými systémami.</p>
+
+<div class="callout blue">
+<h4>MCP nie je zadný vchod</h4>
+<p>Každý MCP server je tenkou vrstvou nad rovnakým REST API. Prechádza identickým policy engine a rešpektuje rovnaké scopes a consent záznamy. MCP len dáva AI agentom ergonomický spôsob, ako opísať svoje dotazy pomocou tools.</p>
+</div>
+
+<h3>Servery</h3>
+<div class="grid cols-2">
+<div class="card">
+<h4>mcp-sport-persons</h4>
+<p class="text-muted">Vyhľadávanie osôb, základné atribúty, deduplikačné operácie. Scope-limited — agent vidí len to, na čo má oprávnenie.</p>
+</div>
+<div class="card">
+<h4>mcp-sport-affiliations</h4>
+<p class="text-muted">Afiliácie, prestupy, časové rady. Užitočné pre analytikov a športových novinárov.</p>
+</div>
+<div class="card">
+<h4>mcp-sport-qualifications</h4>
+<p class="text-muted">Licencie, platnosti, expirácie. Pre administratívne pracovníky zväzov.</p>
+</div>
+<div class="card">
+<h4>mcp-sport-events</h4>
+<p class="text-muted">Súťažný kalendár, účasti, výsledky. Napojenie na publicistiku a fanúšikovské aplikácie.</p>
+</div>
+<div class="card">
+<h4>mcp-sport-facilities</h4>
+<p class="text-muted">Katalóg športovísk vrátane turistických atribútov. Hlavné rozhranie pre cestovný ruch.</p>
+</div>
+<div class="card">
+<h4>mcp-sport-statistics</h4>
+<p class="text-muted">Anonymizované agregáty pre výskum. Differential privacy, k-anonymita.</p>
+</div>
+</div>
+</section>
+
+<section id="webhooks">
+<span class="section-number">03 · Webhooks</span>
+<h2>Webhooks a event stream</h2>
+<p>Pre systémy, ktoré potrebujú reagovať na zmeny v reálnom čase — ligové systémy, turistické platformy, mediálne spracovanie — ponúka SportUp dva spôsoby odoberania eventov.</p>
+
+<h3>Webhooks (push)</h3>
+<p>Certifikovaná aplikácia sa prihlási na odber konkrétnych typov eventov. Server pri každej udalosti vysiela HTTP POST na registrovanú URL s podpísaným payloadom. Retries, dead-letter queue, audit doručovania.</p>
+
+<div class="code-header">POST https://partner.example.com/hooks/sportup</div>
+<pre><code>Headers:
+  X-SportUp-Event: AffiliationActivated
+  X-SportUp-Signature: sha256=...
+  X-SportUp-Delivery-Id: del_a83f...
+
+{
+  <span class="code-key">"event_type"</span>: <span class="code-string">"AffiliationActivated"</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"aff_..."</span>,
+  <span class="code-key">"occurred_at"</span>: <span class="code-string">"2026-04-20T12:00:00Z"</span>,
+  <span class="code-key">"data"</span>: { <span class="code-comment">/* scope-filtered payload */</span> }
+}</code></pre>
+
+<h3>Event stream (pull, bulk)</h3>
+<p>Pre backendové systémy a dátové sklady — čitateľný AsyncAPI stream cez Server-Sent Events alebo batch API. Podporuje obnovenie od posledného <code>event_id</code> bez straty dát.</p>
+</section>
+
+<section id="stat">
+<span class="section-number">04 · Štátne registre</span>
+<h2>Napojenie na RFO, RPO a ÚPVS</h2>
+<p>Všetka komunikácia so štátnymi registrami ide cez dedikovanú službu <strong>Identity Broker</strong> (viď <a href="architektura.html#identity-broker">architektúra</a>). Zvyšok systému štátne registre priamo nevidí.</p>
+
+<figure>
+<svg viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Tok dát medzi SportUp a štátnymi registrami</title>
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#A8481F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<rect x="40" y="20" width="260" height="80" rx="8" fill="#DDE3ED" stroke="#2C4462"/>
+<text x="170" y="48" text-anchor="middle" font-family="Manrope" font-size="15" font-weight="600" fill="#2C4462">SportUp jadro</text>
+<text x="170" y="68" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#2C4462">interné UUID všade</text>
+<text x="170" y="85" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#2C4462">event store + projekcie</text>
+
+<rect x="40" y="130" width="260" height="80" rx="8" fill="#F3E5D5" stroke="#A8481F"/>
+<text x="170" y="158" text-anchor="middle" font-family="Manrope" font-size="15" font-weight="600" fill="#7E3416">Identity Broker</text>
+<text x="170" y="178" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#7E3416">match-or-create</text>
+<text x="170" y="195" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#7E3416">audit · rate limit · cache</text>
+
+<rect x="40" y="240" width="260" height="60" rx="8" fill="#F0E6C8" stroke="#8B6B1E"/>
+<text x="170" y="268" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="600" fill="#6A4F10">ÚPVS / NASES</text>
+<text x="170" y="286" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#6A4F10">modul procesnej integrácie</text>
+
+<rect x="420" y="130" width="120" height="80" rx="8" fill="#E0E8DC" stroke="#2F4B3B"/>
+<text x="480" y="158" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="600" fill="#2F4B3B">CSRÚ</text>
+<text x="480" y="178" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#2F4B3B">centrálny systém</text>
+<text x="480" y="192" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#2F4B3B">referenčných údajov</text>
+
+<rect x="420" y="240" width="120" height="60" rx="8" fill="#E8D5DC" stroke="#9B6174"/>
+<text x="480" y="268" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="600" fill="#5B3440">RFO</text>
+<text x="480" y="286" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B3440">MV SR</text>
+
+<rect x="560" y="240" width="120" height="60" rx="8" fill="#E8D5DC" stroke="#9B6174"/>
+<text x="620" y="268" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="600" fill="#5B3440">RPO</text>
+<text x="620" y="286" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B3440">ŠÚ SR</text>
+
+<line x1="170" y1="100" x2="170" y2="128" stroke="#A8481F" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="170" y1="128" x2="170" y2="100" stroke="#A8481F" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="170" y1="210" x2="170" y2="238" stroke="#A8481F" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="300" y1="270" x2="680" y2="270" stroke="#A8481F" stroke-width="1" opacity="0.4"/>
+<line x1="480" y1="240" x2="480" y2="210" stroke="#A8481F" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr)"/>
+<line x1="480" y1="130" x2="300" y2="170" stroke="#A8481F" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr)"/>
+</svg>
+<figcaption>Obrázok · Identity Broker ako jediná komunikačná hranica medzi SportUp a štátnymi registrami. Plné šípky = synchrónne dotazy, prerušované = notifikácie cez CSRÚ.</figcaption>
+</figure>
+
+<h3>Typy interakcie</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Operácia</th><th>Smer</th><th>Trigger</th></tr></thead>
+<tbody>
+<tr><td>Match-or-create osoby</td><td>SportUp → RFO</td><td>Registrácia novej osoby</td></tr>
+<tr><td>Verifikácia existujúcej osoby</td><td>SportUp → RFO</td><td>Profesionálny prestup, vyplácanie dotácie, akreditácia na reprezentáciu</td></tr>
+<tr><td>Match-or-create organizácie</td><td>SportUp → RPO</td><td>Registrácia novej organizácie</td></tr>
+<tr><td>Notifikácia o zmene</td><td>CSRÚ → SportUp</td><td>Zmena v RFO/RPO (adresa, úmrtie, zánik PO)</td></tr>
+<tr><td>Výmazová požiadavka</td><td>Obojsmerne</td><td>GDPR čl. 17 — právo na výmaz</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="open">
+<span class="section-number">05 · Otvorené dáta</span>
+<h2>Otvorené dáta — bez certifikácie</h2>
+<p>Určité vrstvy dát sú verejné a dostupné bez certifikácie, bez OAuth, bez rate limitov presahujúcich štandardný misuse prevention. Cieľom je otvoriť športovú infraštruktúru celej spoločnosti.</p>
+
+<div class="grid cols-2">
+<div class="card">
+<h4>Katalóg športovísk</h4>
+<p>Všetky športoviská v stave <code>operational</code> s verejnými atribútmi. Turistické atribúty, dostupnosť, mapa. JSON, CSV, GeoJSON, RDF.</p>
+</div>
+<div class="card">
+<h4>Kalendár podujatí</h4>
+<p>Verejné športové podujatia s miestom, časom, disciplínou. iCal, JSON, RSS.</p>
+</div>
+<div class="card">
+<h4>Všetky číselníky</h4>
+<p>Športy, odvetvia, kategórie, druhy činnosti, druhy organizácií, typy športovísk. JSON, CSV, verzionované.</p>
+</div>
+<div class="card">
+<h4>Agregované štatistiky</h4>
+<p>Počty osôb po športoch a krajoch, dostupnosť športovísk na obyvateľa, trendy v rokoch. Bez PII, k-anonymita ≥ 5.</p>
+</div>
+<div class="card">
+<h4>Register organizácií</h4>
+<p>Verejné atribúty organizácií: názov, typ, sídlo, štatutár, kontakt. Právne predpoklady sú už v RPO.</p>
+</div>
+<div class="card">
+<h4>Výsledky súťaží</h4>
+<p>Výsledky podľa organizačného výboru. Prepojené na identitu športovca cez <code>person_id</code> (s consent), alebo len ako anonymizované dáta.</p>
+</div>
+</div>
+
+<h3>Licencia a formáty</h3>
+<p>Všetky otvorené dáta sa publikujú pod licenciou <strong>CC-BY 4.0</strong> — voľné použitie vrátane komerčného s uvedením zdroja. Pre čísleníky a geodata zvažujeme CC0. Formáty podľa štandardu európskej dátovej interoperability: DCAT-AP, popis metadát v <a href="https://data.gov.sk">data.gov.sk</a>.</p>
+</section>
+
+<section id="certifikacia">
+<span class="section-number">06 · Certifikácia aplikácií</span>
+<h2>Ako sa stať certifikovanou aplikáciou</h2>
+<p>Aplikácie, ktoré chcú zapisovať alebo čítať neverejné dáta, musia prejsť certifikáciou prevádzkovateľom. Certifikácia má štyri kroky.</p>
+
+<div class="grid cols-2">
+<div class="card"><span class="card-number">I.</span><h4>Žiadosť a právna dokumentácia</h4><p>Vyplnená žiadosť, predstavenie subjektu, aký problém rieši, aké dáta potrebuje, právne posúdenie účelu spracovania.</p></div>
+<div class="card"><span class="card-number">II.</span><h4>Technický audit</h4><p>Overenie bezpečnostných opatrení, šifrovania, logovania, prístupu k produkčným dátam. Penetračný test. Kód review pri open-source aplikáciách.</p></div>
+<div class="card"><span class="card-number">III.</span><h4>Prideľovanie scopes</h4><p>Na základe účelu sa aplikácii priradia konkrétne scopes. Napríklad klubový portál dostane <code>affiliations:write:own_org</code>, komerčný hotel len <code>verify:athlete_discount</code>.</p></div>
+<div class="card"><span class="card-number">IV.</span><h4>Vydanie certifikátu a sandbox</h4><p>Aplikácia dostane klientský certifikát + OAuth credentials. Najprv sandbox prostredie s testovacími dátami, až potom prechod do produkcie.</p></div>
+</div>
+
+<div class="callout">
+<h4>Kategórie aplikácií</h4>
+<p>Rozlišujeme štyri kategórie s rôznou prísnosťou auditu: <em>tier A</em> (zväzy, štátne subjekty) — najprísnejší; <em>tier B</em> (kluby, obce) — štandardný; <em>tier C</em> (komerční, verifikačné) — odľahčený scope; <em>tier D</em> (výskum) — pseudonymizovaný prístup pod zmluvou.</p>
+</div>
+</section>
+
+<div class="divider-ornament">§</div>
+
+<section>
+<p class="text-muted">Nasledujúca kapitola — <a href="technologie.html">Technológie</a> — popisuje navrhovaný technologický stack pre implementáciu SportUp.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand">SportUp.sk</div>
+<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="priklady.html">Príklady</a></div>
+<div>Návrh · nezáväzný · pre diskusiu</div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

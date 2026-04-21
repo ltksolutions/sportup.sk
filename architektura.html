@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architektúra — SportUp.sk</title>
+<meta name="description" content="Vrstvová architektúra, zero-trust model, event sourcing a CQRS, prepojenie na štátne registre.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">
+        <svg width="38" height="28" viewBox="0 0 48 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 2 32 L 10 18 L 13 22 L 18 14 L 22 20 L 26 14 L 29 20 L 24 32 Z" fill="#FFFFFF"/>
+          <path d="M 10 18 L 13 22 L 16 18 L 13.5 15 Z" fill="#1A2D47"/>
+          <path d="M 22 32 L 28 20 L 31 24 L 36 15 L 40 21 L 43 18 L 46 32 Z" fill="#388FC3"/>
+          <path d="M 36 15 L 38 19 L 34 20 Z" fill="#FFFFFF"/>
+        </svg>
+      </span>
+      <span class="logo-text"><span class="sport">Sport</span><span class="up">UP</span></span>
+      <span class="logo-tld">.sk</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="architektura.html">Architektúra</a></li>
+      <li><a href="domenovy-model.html">Model</a></li>
+      <li><a href="ciselniky.html">Číselníky</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="integracie.html">Integrácie</a></li>
+      <li><a href="technologie.html">Technológie</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Kapitola 02 · Architektúra</div>
+    <h1>Vrstvy, hranice, <em>event store</em></h1>
+    <p class="lead">Architektúra systému vychádza z troch rozhodnutí: všetka interakcia cez certifikované API, jadro ako event-sourced systém s CQRS a komunikácia s vonkajším svetom cez dedikovanú vrstvu Identity Brokera.</p>
+
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<div class="toc">
+<h4>Obsah kapitoly</h4>
+<ol>
+<li><a href="#vrstvy">Vrstvy systému</a></li>
+<li><a href="#zero-trust">Zero-trust prístupový model</a></li>
+<li><a href="#event-sourcing">Event sourcing a CQRS</a></li>
+<li><a href="#identity-broker">Identity Broker</a></li>
+<li><a href="#policy-engine">Policy engine a consent</a></li>
+<li><a href="#sla">Prevádzkové požiadavky</a></li>
+</ol>
+</div>
+
+<section id="vrstvy">
+<span class="section-number">01 · Vrstvy</span>
+<h2>Logická architektúra v šiestich vrstvách</h2>
+<p>Systém je oddelený do šiestich horizontálnych vrstiev. Každá vrstva má jednu zodpovednosť a jasne definovanú hranicu voči susedným vrstvám. Toto rozdelenie je aj bezpečnostným modelom — každá vrstva je kandidát na vlastný deployment unit s vlastnými privilégiami.</p>
+
+<figure>
+<svg viewBox="0 0 720 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="arch-title" style="width:100%;height:auto;max-width:720px;display:block;margin:0 auto">
+<title id="arch-title">Vrstvová architektúra SportUp</title>
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#388FC3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+
+<!-- V6 Certified apps -->
+<rect x="40" y="20" width="640" height="70" rx="10" fill="#FFFFFF" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="60" y="50" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">Vrstva 6 — Certifikované aplikácie</text>
+<text x="60" y="72" font-family="Manrope" font-size="12" fill="#5E6B7D">zväzové portály · klubové systémy · obec · VÚC · komerčné · výskum · portál osoby</text>
+
+<!-- V5 API + MCP -->
+<rect x="40" y="110" width="310" height="70" rx="10" fill="#E8F4FD" stroke="#388FC3" stroke-width="1.5"/>
+<text x="60" y="140" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">Vrstva 5a — REST API + webhooks</text>
+<text x="60" y="162" font-family="Manrope" font-size="12" fill="#2A7AAA">OpenAPI 3.1, versioned, OAuth2/OIDC</text>
+
+<rect x="370" y="110" width="310" height="70" rx="10" fill="#E8F4FD" stroke="#388FC3" stroke-width="1.5"/>
+<text x="390" y="140" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">Vrstva 5b — MCP servery</text>
+<text x="390" y="162" font-family="Manrope" font-size="12" fill="#2A7AAA">agentický a výskumný prístup</text>
+
+<!-- V4 Policy -->
+<rect x="40" y="200" width="640" height="60" rx="10" fill="#1A2D47" stroke="#388FC3" stroke-width="1.5"/>
+<text x="60" y="226" font-family="Manrope" font-size="15" font-weight="700" fill="#FFFFFF">Vrstva 4 — Policy engine + Consent check</text>
+<text x="60" y="246" font-family="Manrope" font-size="12" fill="#E8F4FD">scope × purpose × legal basis na každom volaní</text>
+
+<!-- V3 Command/Query -->
+<rect x="40" y="280" width="310" height="100" rx="10" fill="#FFFFFF" stroke="#388FC3" stroke-width="1.5"/>
+<text x="60" y="308" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">Vrstva 3a — Command side</text>
+<text x="60" y="330" font-family="Manrope" font-size="12" fill="#5E6B7D">validácia biznis pravidiel</text>
+<text x="60" y="348" font-family="Manrope" font-size="12" fill="#5E6B7D">produkcia eventov</text>
+<text x="60" y="366" font-family="Manrope" font-size="12" fill="#5E6B7D">zápis do event store</text>
+
+<rect x="370" y="280" width="310" height="100" rx="10" fill="#FFFFFF" stroke="#388FC3" stroke-width="1.5"/>
+<text x="390" y="308" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">Vrstva 3b — Query side</text>
+<text x="390" y="330" font-family="Manrope" font-size="12" fill="#5E6B7D">materializované projekcie</text>
+<text x="390" y="348" font-family="Manrope" font-size="12" fill="#5E6B7D">optimalizované pre čítanie</text>
+<text x="390" y="366" font-family="Manrope" font-size="12" fill="#5E6B7D">agregáty pre výskum</text>
+
+<!-- Event store -->
+<rect x="200" y="400" width="320" height="55" rx="10" fill="#1A2D47" stroke="#388FC3" stroke-width="1.5"/>
+<text x="220" y="426" font-family="Manrope" font-size="15" font-weight="700" fill="#FFFFFF">Vrstva 2 — Event store</text>
+<text x="220" y="446" font-family="Manrope" font-size="12" fill="#E8F4FD">append-only · nemenný · versionovaný</text>
+
+<!-- Identity broker -->
+<rect x="40" y="475" width="310" height="75" rx="10" fill="#E8F4FD" stroke="#388FC3" stroke-width="1.5"/>
+<text x="60" y="500" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">Vrstva 1 — Identity Broker</text>
+<text x="60" y="520" font-family="Manrope" font-size="12" fill="#2A7AAA">match-or-create · cache referenčných dát</text>
+<text x="60" y="538" font-family="Manrope" font-size="12" fill="#2A7AAA">audit každého dotazu do štátnych registrov</text>
+
+<!-- RFO RPO -->
+<rect x="370" y="475" width="150" height="75" rx="10" fill="#F4F6F8" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="390" y="500" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">RFO</text>
+<text x="390" y="520" font-family="Manrope" font-size="11" fill="#5E6B7D">register</text>
+<text x="390" y="536" font-family="Manrope" font-size="11" fill="#5E6B7D">fyzických osôb</text>
+
+<rect x="530" y="475" width="150" height="75" rx="10" fill="#F4F6F8" stroke="#C9D1DA" stroke-width="1.5"/>
+<text x="550" y="500" font-family="Manrope" font-size="15" font-weight="700" fill="#1A2D47">RPO</text>
+<text x="550" y="520" font-family="Manrope" font-size="11" fill="#5E6B7D">register</text>
+<text x="550" y="536" font-family="Manrope" font-size="11" fill="#5E6B7D">právnických osôb</text>
+
+<!-- Connectors -->
+<line x1="195" y1="90" x2="195" y2="108" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="525" y1="90" x2="525" y2="108" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="195" y1="180" x2="195" y2="198" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="525" y1="180" x2="525" y2="198" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="195" y1="260" x2="195" y2="278" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="525" y1="260" x2="525" y2="278" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="260" y1="380" x2="290" y2="398" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="430" y1="398" x2="460" y2="380" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="195" y1="455" x2="195" y2="473" stroke="#388FC3" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+<line x1="350" y1="510" x2="368" y2="510" stroke="#388FC3" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="350" y1="514" x2="528" y2="514" stroke="#388FC3" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
+</svg>
+<figcaption>Obrázok 1 · Vrstvy systému s tokom zápisov (plné šípky) a dotazov do štátnych registrov (prerušované)</figcaption>
+</figure>
+</section>
+
+<section id="zero-trust">
+<span class="section-number">02 · Bezpečnosť</span>
+<h2>Zero-trust prístupový model</h2>
+<p>Systém predpokladá, že každý klient je potenciálne kompromitovaný. Neexistuje "dôveryhodná vnútorná sieť". Každé volanie je autentifikované, autorizované a auditované nezávisle — aj keď prichádza z toho istého infraštruktúrneho prostredia.</p>
+
+<h3>Štyri úrovne oprávnenia</h3>
+<p>Aby aplikácia vykonala zápis, musí splniť všetky štyri podmienky súčasne:</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Úroveň</th><th>Kontrola</th><th>Zodpovedný</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>Certifikácia aplikácie</strong> — prešla technickým a právnym auditom prevádzkovateľa</td><td>Prevádzkovateľ (poverený subjekt MCRŠ SR)</td></tr>
+<tr><td>2</td><td><strong>OAuth2 / OIDC token</strong> s platnými scope pre požadovanú operáciu</td><td>Authorization Server</td></tr>
+<tr><td>3</td><td><strong>Consent alebo legal basis</strong> — existuje platný záznam v Purpose Catalogue pre účel operácie</td><td>Policy engine</td></tr>
+<tr><td>4</td><td><strong>Územná / organizačná príslušnosť</strong> — aplikácia má právo zapísať práve tieto konkrétne dáta</td><td>Policy engine</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+<h4>Princíp</h4>
+<p>Certifikácia aplikácie dáva právo pristupovať k systému. Consent dáva právo pristupovať ku konkrétnym dátam konkrétnej osoby na konkrétny účel. Jedno bez druhého nestačí.</p>
+</div>
+</section>
+
+<section id="event-sourcing">
+<span class="section-number">03 · Jadro</span>
+<h2>Event sourcing a CQRS</h2>
+
+<p>Stav osôb, afiliácií, kvalifikácií a súhlasov nie je v databáze uložený ako aktuálny snapshot s históriou v logoch. Je uložený <strong>ako sekvencia nemenných udalostí</strong>, z ktorých sa aktuálny stav odvodzuje. Dáta sa nikdy neprepisujú a nikdy nemažú — len pribúdajú nové eventy.</p>
+
+<h3>Prečo to robíme</h3>
+<ul>
+<li><strong>Audit je zadarmo.</strong> Každá zmena má čas, aktora, zdrojovú aplikáciu a príčinu.</li>
+<li><strong>Time travel.</strong> Otázka "aký bol stav k 1. 1. 2023" je technicky triviálna.</li>
+<li><strong>Bezpečné opravy.</strong> Oprava chyby nie je UPDATE, ale nový event s odkazom na pôvodný.</li>
+<li><strong>Nové projekcie bez migrácie.</strong> Nový report sa postaví ako nová projekcia nad existujúcimi eventami.</li>
+<li><strong>Integrácia cez eventy.</strong> Downstream systémy sa prihlásia na stream a dostávajú zmeny v reálnom čase.</li>
+</ul>
+
+<h3>CQRS — oddelenie zápisov a čítaní</h3>
+<p>Zápisy (<em>commands</em>) idú do event store. Čítania (<em>queries</em>) idú do projekcií — materializovaných pohľadov optimalizovaných pre konkrétne dotazy. Projekcie sú eventually consistent — po zápise trvá jednotky milisekúnd, kým sa zaktualizujú.</p>
+
+<div class="code-header">Príklad · zápis afiliácie</div>
+<pre><code><span class="code-comment">// Command → validácia → event → projekcia</span>
+
+POST /v1/affiliations
+{
+  <span class="code-key">"person_id"</span>: <span class="code-string">"550e8400-e29b-41d4-a716-446655440000"</span>,
+  <span class="code-key">"organization_id"</span>: <span class="code-string">"7c3a9f1e-..."</span>,
+  <span class="code-key">"activity_code"</span>: <span class="code-string">"act_amateur_athlete"</span>,
+  <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-FTB"</span>,
+  <span class="code-key">"discipline_code"</span>: <span class="code-string">"SK-FTB-FUTSAL"</span>,
+  <span class="code-key">"valid_from"</span>: <span class="code-string">"2026-08-01"</span>
+}
+
+<span class="code-comment">// → Produkuje event:</span>
+
+{
+  <span class="code-key">"event_id"</span>: <span class="code-string">"e1c4..."</span>,
+  <span class="code-key">"event_type"</span>: <span class="code-string">"AffiliationRegistered"</span>,
+  <span class="code-key">"event_version"</span>: <span class="code-number">1</span>,
+  <span class="code-key">"aggregate_id"</span>: <span class="code-string">"affil-8f2a..."</span>,
+  <span class="code-key">"occurred_at"</span>: <span class="code-string">"2026-04-20T10:14:22Z"</span>,
+  <span class="code-key">"actor_person_id"</span>: <span class="code-string">"admin-..."</span>,
+  <span class="code-key">"source_app_id"</span>: <span class="code-string">"sfz-admin-portal"</span>,
+  <span class="code-key">"data"</span>: { <span class="code-comment">/* payload ako vyššie */</span> }
+}
+
+<span class="code-comment">// → Aktualizuje projekcie:</span>
+<span class="code-comment">//   current_affiliations (add row)</span>
+<span class="code-comment">//   person_timeline (append)</span>
+<span class="code-comment">//   organization_roster (add member)</span>
+<span class="code-comment">//   statistics_aggregates (recompute async)</span></code></pre>
+</section>
+
+<section id="identity-broker">
+<span class="section-number">04 · Hranica so štátom</span>
+<h2>Identity Broker</h2>
+<p>SportUp <strong>nie je master pre identitu osoby</strong>. Meno, dátum narodenia, adresa, dátum úmrtia — to všetko je v RFO (Register fyzických osôb). Podobne IČO, právny názov, sídlo a štatutári sú v RPO (Register právnických osôb). SportUp si tieto údaje len cachuje a aktualizuje cez notifikácie.</p>
+
+<p>Identity Broker je samostatná služba, ktorá:</p>
+<ul>
+<li>Abstraktuje komunikáciu s RFO a RPO — zvyšok systému štátne registre priamo nevidí.</li>
+<li>Udržiava stabilné mapovanie <code>person_id</code> (interné UUID) ↔ <code>IFO</code> (identifikátor z RFO).</li>
+<li>Implementuje <strong>match-or-create</strong>: pri registrácii novej osoby hľadá zhodu v RFO.</li>
+<li>Spracúva zmenové notifikácie z CSRÚ (centrálneho systému referenčných údajov).</li>
+<li>Udržiava audit každého dotazu do štátneho registra — to je legálna povinnosť.</li>
+<li>Rate-limituje dotazy podľa kvót dohodnutých s prevádzkovateľom ÚPVS.</li>
+</ul>
+
+<div class="callout success">
+<h4>Čistá hranica</h4>
+<p>Broker nedrží žiadnu biznis logiku športu. Ostatné vrstvy systému nevedia, odkiaľ prichádzajú referenčné dáta — pracujú len s internými UUID. Ak by sa raz zmenil spôsob integrácie so štátom, mení sa len Broker.</p>
+</div>
+</section>
+
+<section id="policy-engine">
+<span class="section-number">05 · Policy engine</span>
+<h2>Autorizácia a consent ako prvotriedna vrstva</h2>
+<p>Medzi API vrstvou a jadrom sedí policy engine. Každé jediné volanie — čítanie aj zápis — ním prechádza. Engine odpovedá na jedinú otázku: <em>má táto certifikovaná aplikácia oprávnenie na túto operáciu nad týmito dátami pre tento účel práve teraz?</em></p>
+
+<h3>Vstupy pre rozhodnutie</h3>
+<ul>
+<li>Identita aplikácie (app_id + certifikát)</li>
+<li>OAuth2 scope a token klaimy</li>
+<li>Identita dotknutej osoby (<code>person_id</code>)</li>
+<li>Účel operácie (<code>purpose_code</code> z Purpose Catalogue)</li>
+<li>Právny základ (z katalógu)</li>
+<li>Platný consent záznam alebo iný legal basis</li>
+<li>Rozsah (čítanie, zápis, hromadný export)</li>
+</ul>
+
+<p>Engine je implementovaný ako <strong>Open Policy Agent</strong> (OPA) alebo ekvivalent. Pravidlá sú deklaratívne, versionované v gite, auditovateľné. Vyhodnotenie typickej operácie trvá pod 5 ms s cacheovaním.</p>
+
+<h3>Výsledok</h3>
+<p>API vrstva dostane buď zelenú (dáta sa vrátia, zápis sa vykoná), alebo <code>403 Forbidden</code> s konkrétnym kódom problému: <code>consent_missing</code>, <code>consent_withdrawn</code>, <code>purpose_not_covered</code>, <code>app_not_certified_for_scope</code>, <code>out_of_territorial_scope</code>. Každé odmietnutie je auditované.</p>
+</section>
+
+<section id="sla">
+<span class="section-number">06 · Prevádzka</span>
+<h2>Prevádzkové požiadavky</h2>
+
+<div class="grid cols-2">
+<div class="card">
+<h4>Dostupnosť</h4>
+<p>99.9 % pre čítanie, 99.5 % pre zápis. Plánované okná na údržbu v nesúťažnej sezóne.</p>
+</div>
+<div class="card">
+<h4>Data residency</h4>
+<p>Všetky dáta v EÚ, primárne v SR. Záložné lokality v rámci EÚ. Žiadne spracovateľstvo v tretích krajinách bez explicitného rámca.</p>
+</div>
+<div class="card">
+<h4>Recovery</h4>
+<p>RPO &lt; 5 min, RTO &lt; 2 h pre kritické funkcie. Event store je nemenný — obnova znamená prehrať eventy.</p>
+</div>
+<div class="card">
+<h4>Audit</h4>
+<p>Každé API volanie je zaznamenané 10 rokov. Dotknutá osoba má právo na zoznam všetkých prístupov k jej dátam.</p>
+</div>
+<div class="card">
+<h4>Latencia</h4>
+<p>p50 pod 50 ms pre verifikačné volania, p95 pod 200 ms pre štandardné dotazy, p95 pod 2 s pre agregáty.</p>
+</div>
+<div class="card">
+<h4>Rate limity</h4>
+<p>Diferencovane podľa kategórie aplikácie. Zväzové portály vyššie kvóty, komerčné overovanie burst limits.</p>
+</div>
+</div>
+</section>
+
+<div class="divider-ornament">· · ·</div>
+
+<section>
+<p class="text-muted">Nasledujúca kapitola — <a href="domenovy-model.html">Doménový model</a> — podrobne rozoberá entity systému, ich vzťahy a schému eventov.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand"><em>Sport</em>UP<span style="color:rgba(255,255,255,0.5);font-weight:500;font-style:normal;font-family:var(--font-mono);font-size:0.85rem;margin-left:0.2rem">.sk</span></div>
+<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+<div class="footer-tagline">Silný šport. Silné dáta.</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="architektura.html">Architektúra</a> · <a href="domenovy-model.html">Model</a> · <a href="priklady.html">Príklady</a></div>
+<div>Návrh · nezáväzný · pre diskusiu</div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

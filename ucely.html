@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Účely spracovania — SportUp.sk</title>
+<meta name="description" content="Vrstvený Purpose Catalogue pre GDPR-compliant spracovanie osobných údajov v športe a cestovnom ruchu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">SportUp<span class="dot">.</span><span class="tld">sk</span></a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="architektura.html">Architektúra</a></li>
+      <li><a href="domenovy-model.html">Doménový model</a></li>
+      <li><a href="ciselniky.html">Číselníky</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="integracie.html">Integrácie</a></li>
+      <li><a href="technologie.html">Technológie</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Kapitola 05 · Účely spracovania</div>
+    <h1>Purpose <em>Catalogue</em></h1>
+    <p class="lead">Centrálny register GDPR-relevantných účelov spracovania osobných údajov v slovenskom športe a cestovnom ruchu. Vrstvený tak, aby sa nemusel pre každý šport vytvárať odznova — univerzálne účely pokrývajú 90 % prevádzky, nad nimi kategóriové a špecifické doplnky.</p>
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<div class="toc">
+<h4>Obsah kapitoly</h4>
+<ol>
+<li><a href="#princip">Vrstvený princíp katalógu</a></li>
+<li><a href="#schema">Schéma záznamu účelu</a></li>
+<li><a href="#kategorie">Jedenásť kategórií účelov</a></li>
+<li><a href="#identita">A · Identita a registrácia</a></li>
+<li><a href="#kvalifikacie">B · Kvalifikácie a licencie</a></li>
+<li><a href="#sutaze">C · Súťaže a podujatia</a></li>
+<li><a href="#zdravie">D · Zdravie a bezpečnosť</a></li>
+<li><a href="#financie">E · Finančné a administratívne</a></li>
+<li><a href="#disciplina">F · Disciplinárne</a></li>
+<li><a href="#vyskum">G · Výskum a štatistika</a></li>
+<li><a href="#marketing">H · Marketing a médiá</a></li>
+<li><a href="#komercia">I · Komerčné overovanie</a></li>
+<li><a href="#turizmus">J · Športoviská a cestovný ruch</a></li>
+<li><a href="#reprezentacia">K · Reprezentácia a medzinárodné</a></li>
+<li><a href="#zivot">Životný cyklus účelu</a></li>
+</ol>
+</div>
+
+<section id="princip">
+<span class="section-number">01 · Princíp</span>
+<h2>Vrstvený katalóg</h2>
+<p>Keby sme pre každý zo 90 uznaných športov vytvorili samostatný katalóg účelov, skončili by sme s paralelnými kópiami toho istého s drobnými odchýlkami a nikto by to neudržal. Preto je katalóg vrstvený:</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Vrstva</th><th>Rozsah</th><th>Príklady</th><th>Počet</th></tr></thead>
+<tbody>
+<tr><td><strong>0</strong></td><td>Univerzálne — pre všetky športy a organizácie</td><td>Registrácia, prestupy, štatistika, dotácie</td><td>~50</td></tr>
+<tr><td><strong>1</strong></td><td>Kategóriové — podľa typu športu alebo subjektu</td><td>Pre-match medical clearance pre úpolové; rezervácie pre hotely</td><td>~15–20</td></tr>
+<tr><td><strong>2</strong></td><td>Špecifické — pridávajú národné zväzy alebo rezort</td><td>Evidencia zbraní (streľba), biologický pas (cyklistika), turistické štatistiky</td><td>~40–60</td></tr>
+<tr><td><strong>3</strong></td><td>Disciplinárne — veľmi výnimočné</td><td>Špecifické poistenie pre plážový futbal</td><td>jednotky</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Reálne sa v systéme pohybuje <strong>okolo 110 – 130 aktívnych účelov</strong>. To je zvládnuteľné pre správu aj pre dotknutú osobu, ktorá si môže potrebovať preskúmať svoje súhlasy.</p>
+</section>
+
+<section id="schema">
+<span class="section-number">02 · Schéma</span>
+<h2>Štruktúra záznamu</h2>
+<p>Každý účel má rovnakú štruktúru bez ohľadu na vrstvu. Záznam zároveň slúži ako dokument pre dotknutú osobu — musí mať zrozumiteľný opis v slovenčine.</p>
+
+<div class="code-header">Purpose · schéma</div>
+<pre><code>{
+  <span class="code-key">"purpose_code"</span>: <span class="code-string">"REG-SPORTOVEC-001"</span>,
+  <span class="code-key">"version"</span>: <span class="code-string">"1.0"</span>,
+  <span class="code-key">"inheritance_level"</span>: <span class="code-number">0</span>,
+  <span class="code-key">"applicable_scope"</span>: {
+    <span class="code-key">"sports"</span>: <span class="code-string">"all"</span>,
+    <span class="code-key">"disciplines"</span>: <span class="code-string">"all"</span>,
+    <span class="code-key">"roles"</span>: [<span class="code-string">"amatersky_sportovec"</span>, <span class="code-string">"profesionalny_sportovec"</span>]
+  },
+  <span class="code-key">"label_sk"</span>: <span class="code-string">"Registrácia športovca v zväze a klube"</span>,
+  <span class="code-key">"description_sk"</span>: <span class="code-string">"Spracovanie osobných údajov športovca na účely evidencie v centrálnom registri SportUp, jeho materskom klube a príslušnom národnom zväze, vrátane vystavenia registračného preukazu a účasti na súťažiach."</span>,
+  <span class="code-key">"legal_basis"</span>: <span class="code-string">"contract + public_task"</span>,
+  <span class="code-key">"legal_reference"</span>: <span class="code-string">"§ 79 zákona č. 440/2015 Z.z. o športe"</span>,
+  <span class="code-key">"required_data_scopes"</span>: [
+    <span class="code-string">"core_identity"</span>,
+    <span class="code-string">"contact"</span>,
+    <span class="code-string">"photo"</span>
+  ],
+  <span class="code-key">"special_category"</span>: <span class="code-string">"none"</span>,
+  <span class="code-key">"withdrawal_allowed"</span>: <span class="code-bool">false</span>,
+  <span class="code-key">"retention_period_days"</span>: <span class="code-number">1825</span>,
+  <span class="code-key">"retention_trigger"</span>: <span class="code-string">"affiliation_termination"</span>,
+  <span class="code-key">"applies_to_minors"</span>: <span class="code-string">"with_guardian_consent"</span>,
+  <span class="code-key">"transfer_to_third_country"</span>: <span class="code-bool">false</span>,
+  <span class="code-key">"automated_decision_making"</span>: <span class="code-bool">false</span>,
+  <span class="code-key">"status"</span>: <span class="code-string">"active"</span>,
+  <span class="code-key">"valid_from"</span>: <span class="code-string">"2026-09-01"</span>
+}</code></pre>
+</section>
+
+<section id="kategorie">
+<span class="section-number">03 · Kategórie</span>
+<h2>Jedenásť kategórií účelov</h2>
+<p>Účely sú rozdelené do jedenástich vecných tried. Každá má svoj prefix a vlastnú governance doménu.</p>
+
+<div class="grid cols-2">
+<div class="card"><h4>A · REG</h4><p>Identita a registrácia. Univerzálne, základ celého systému.</p></div>
+<div class="card"><h4>B · KVL</h4><p>Kvalifikácie a licencie. Trénerské, rozhodcovské, zdravotnícke.</p></div>
+<div class="card"><h4>C · POD</h4><p>Súťaže a podujatia. Účasť, prestupy, delegácie.</p></div>
+<div class="card"><h4>D · ZDR</h4><p>Zdravie a bezpečnosť. Citlivé údaje, čl. 9 GDPR.</p></div>
+<div class="card"><h4>E · FIN</h4><p>Finančné a administratívne. Dotácie, odmeny, dane.</p></div>
+<div class="card"><h4>F · DIS</h4><p>Disciplinárne a regulačné konania.</p></div>
+<div class="card"><h4>G · VYS</h4><p>Výskum a štatistika. Anonymizované agregáty.</p></div>
+<div class="card"><h4>H · MKT</h4><p>Marketing a médiá. Takmer vždy výslovný súhlas.</p></div>
+<div class="card"><h4>I · KOM</h4><p>Komerčné overovanie. Minimálny scope, áno/nie odpovede.</p></div>
+<div class="card"><h4>J · TUR</h4><p>Športoviská a cestovný ruch. Rezervácie, dostupnosť, turistické služby.</p></div>
+<div class="card"><h4>K · REP</h4><p>Reprezentácia a medzinárodné. Cezhraničné transfery.</p></div>
+</div>
+</section>
+
+<section id="identita">
+<span class="section-number">04 · A · REG</span>
+<h2>Identita a registrácia</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th></tr></thead>
+<tbody>
+<tr><td><code>REG-OSOBA-001</code></td><td>Základná registrácia osoby v SportUp</td><td>Public task</td></tr>
+<tr><td><code>REG-SPORTOVEC-001</code></td><td>Registrácia športovca v športe a odvetví</td><td>Contract + public task</td></tr>
+<tr><td><code>REG-TRENER-001</code></td><td>Registrácia trénera</td><td>Contract</td></tr>
+<tr><td><code>REG-ROZHODCA-001</code></td><td>Registrácia športového rozhodcu</td><td>Contract</td></tr>
+<tr><td><code>REG-DELEGAT-001</code></td><td>Registrácia delegáta zväzu, technického funkcionára</td><td>Contract</td></tr>
+<tr><td><code>REG-LEKAR-001</code></td><td>Registrácia lekára / zdravotníka v športe</td><td>Contract</td></tr>
+<tr><td><code>REG-DOBROVOLNIK-001</code></td><td>Registrácia dobrovoľníka na podujatí</td><td>Consent</td></tr>
+<tr><td><code>REG-USPORIADATEL-001</code></td><td>Registrácia usporiadateľa a hlavného usporiadateľa</td><td>Contract + public task</td></tr>
+<tr><td><code>REG-BEZP-001</code></td><td>Registrácia bezpečnostného manažéra podujatia</td><td>Legal obligation</td></tr>
+<tr><td><code>REG-ZASTUPCA-001</code></td><td>Registrácia zákonného zástupcu maloletého</td><td>Legal obligation</td></tr>
+<tr><td><code>REG-CUDZINEC-001</code></td><td>Registrácia cudzinca v športe v SR</td><td>Contract + legit. interest</td></tr>
+<tr><td><code>REG-VERIFY-001</code></td><td>Overenie identity voči RFO / eID</td><td>Legal obligation</td></tr>
+<tr><td><code>REG-ORG-001</code></td><td>Registrácia športovej organizácie</td><td>Legal obligation (zákon o športe)</td></tr>
+<tr><td><code>REG-SPORTOVISKO-001</code></td><td>Registrácia športoviska</td><td>Public task</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="kvalifikacie">
+<span class="section-number">05 · B · KVL</span>
+<h2>Kvalifikácie a licencie</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th></tr></thead>
+<tbody>
+<tr><td><code>KVL-LICENCIA-001</code></td><td>Správa trénerskej licencie (stupne)</td><td>Contract</td></tr>
+<tr><td><code>KVL-LICENCIA-002</code></td><td>Správa rozhodcovskej licencie</td><td>Contract</td></tr>
+<tr><td><code>KVL-VZDELAVANIE-001</code></td><td>Evidencia absolvovaných vzdelávacích kurzov</td><td>Contract</td></tr>
+<tr><td><code>KVL-CPD-001</code></td><td>Kontinuálne vzdelávanie a jeho platnosť</td><td>Legal obligation</td></tr>
+<tr><td><code>KVL-MEDZINARODNE-001</code></td><td>Medzinárodná kvalifikácia (UEFA, FIDE, FIS…)</td><td>Contract</td></tr>
+<tr><td><code>KVL-SAFEGUARDING-001</code></td><td>Certifikát ochrany detí v športe</td><td>Legal obligation</td></tr>
+<tr><td><code>KVL-KONTROLOR-001</code></td><td>Oprávnenia kontrolóra v športovej organizácii</td><td>Legal obligation</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="sutaze">
+<span class="section-number">06 · C · POD</span>
+<h2>Súťaže a podujatia</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th></tr></thead>
+<tbody>
+<tr><td><code>POD-UCAST-001</code></td><td>Účasť športovca na súťaži</td><td>Contract</td></tr>
+<tr><td><code>POD-PRESTUP-001</code></td><td>Prestup športovca medzi klubmi</td><td>Contract</td></tr>
+<tr><td><code>POD-VYSLEDKY-001</code></td><td>Publikácia výsledkov (verejné)</td><td>Legitimate interest</td></tr>
+<tr><td><code>POD-REBRICEK-001</code></td><td>Rebríčky a klasifikácia</td><td>Legitimate interest</td></tr>
+<tr><td><code>POD-DELEGACIA-001</code></td><td>Delegácia rozhodcov a delegátov</td><td>Contract</td></tr>
+<tr><td><code>POD-ORGANIZACIA-001</code></td><td>Logistika účastníkov podujatia</td><td>Contract</td></tr>
+<tr><td><code>POD-AKREDITACIA-001</code></td><td>Akreditácie na podujatie</td><td>Contract</td></tr>
+<tr><td><code>POD-SPORTOVISKO-001</code></td><td>Rezervácia športoviska pre súťaž</td><td>Contract</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="zdravie">
+<span class="section-number">07 · D · ZDR</span>
+<h2>Zdravie a bezpečnosť</h2>
+<div class="callout">
+<h4>Čl. 9 GDPR</h4>
+<p>Všetky účely tejto kategórie pracujú s osobitnou kategóriou údajov (zdravotné údaje). Samotný súhlas osoby nestačí — potrebný je dodatočný právny základ podľa čl. 9 ods. 2 GDPR.</p>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th><th>Poznámka</th></tr></thead>
+<tbody>
+<tr><td><code>ZDR-PREHLIADKA-001</code></td><td>Lekárska prehliadka pred súťažou</td><td>Legal obligation + čl. 9(2)(h)</td><td>Povinné pre väčšinu športov</td></tr>
+<tr><td><code>ZDR-ANTIDOPING-001</code></td><td>Anti-doping testovanie (ADAMS)</td><td>Legal obligation + WADA Code</td><td>Transfer do zahraničia</td></tr>
+<tr><td><code>ZDR-URAZ-001</code></td><td>Evidencia úrazov v športe</td><td>Legal obligation</td><td>Hlásenie poisťovniam</td></tr>
+<tr><td><code>ZDR-POISTENIE-001</code></td><td>Úrazové poistenie športovca</td><td>Contract</td><td>—</td></tr>
+<tr><td><code>ZDR-NUDZA-001</code></td><td>Núdzové kontakty</td><td>Vital interests + consent</td><td>—</td></tr>
+<tr><td><code>ZDR-BIOPAS-001</code></td><td>Biologický pas (cyklistika, atletika, plávanie)</td><td>Legal obligation (UCI / WADA)</td><td>Vybrané športy</td></tr>
+<tr><td><code>ZDR-PSYCH-001</code></td><td>Športová psychológia, mentálna príprava</td><td>Consent</td><td>—</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="financie">
+<span class="section-number">08 · E · FIN</span>
+<h2>Finančné a administratívne</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th></tr></thead>
+<tbody>
+<tr><td><code>FIN-CLENSKE-001</code></td><td>Členské príspevky</td><td>Contract</td></tr>
+<tr><td><code>FIN-DOTACIA-001</code></td><td>Vyplácanie dotácií zo štátneho rozpočtu</td><td>Legal obligation</td></tr>
+<tr><td><code>FIN-ODMENA-001</code></td><td>Odmeny víťazov, štipendiá</td><td>Contract</td></tr>
+<tr><td><code>FIN-DAN-001</code></td><td>Daňové hlásenia (profesionálni športovci)</td><td>Legal obligation</td></tr>
+<tr><td><code>FIN-UZNANY-001</code></td><td>Príspevky pre uznaný šport</td><td>Legal obligation</td></tr>
+<tr><td><code>FIN-TALENT-001</code></td><td>Podpora talentovanej mládeže</td><td>Public task</td></tr>
+<tr><td><code>FIN-INFRAST-001</code></td><td>Dotácie na výstavbu a obnovu športovísk</td><td>Legal obligation</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="disciplina">
+<span class="section-number">09 · F · DIS</span>
+<h2>Disciplinárne a regulačné</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th></tr></thead>
+<tbody>
+<tr><td><code>DIS-KONANIE-001</code></td><td>Disciplinárne konania</td><td>Legitimate interest + contract (stanovy)</td></tr>
+<tr><td><code>DIS-PRIESTUPOK-001</code></td><td>Evidencia porušení (karty, tresty)</td><td>Legitimate interest</td></tr>
+<tr><td><code>DIS-DOPING-001</code></td><td>Anti-doping priestupok</td><td>Legal obligation</td></tr>
+<tr><td><code>DIS-ROZHODCOVSKE-001</code></td><td>Rozhodcovské konania (CAS, zmierovacie)</td><td>Legitimate interest</td></tr>
+<tr><td><code>DIS-MATCHFIX-001</code></td><td>Podozrenia z ovplyvňovania zápasov</td><td>Legal obligation</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="vyskum">
+<span class="section-number">10 · G · VYS</span>
+<h2>Výskum a štatistika</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th><th>Forma dát</th></tr></thead>
+<tbody>
+<tr><td><code>VYS-DEMOGRAFIA-001</code></td><td>Demografický výskum</td><td>Public task</td><td>Anonymizované agregáty</td></tr>
+<tr><td><code>VYS-MINISTERSTVO-001</code></td><td>Zákonné hlásenie rezortu</td><td>Legal obligation</td><td>Agregáty</td></tr>
+<tr><td><code>VYS-AKADEMIA-001</code></td><td>Akademický výskum</td><td>Consent</td><td>Pseudonymizované</td></tr>
+<tr><td><code>VYS-VYKON-001</code></td><td>Výskum športovej výkonnosti</td><td>Consent + contract</td><td>Plné dáta</td></tr>
+<tr><td><code>VYS-TALENT-001</code></td><td>Národný register talentov</td><td>Public task</td><td>Plné dáta</td></tr>
+<tr><td><code>VYS-TURIZMUS-001</code></td><td>Analytika cestovného ruchu v športe</td><td>Public task</td><td>Anonymizované</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="marketing">
+<span class="section-number">11 · H · MKT</span>
+<h2>Marketing a médiá</h2>
+<div class="callout">
+<h4>Výslovný súhlas</h4>
+<p>Takmer všetky účely tejto kategórie stoja výlučne na výslovnom súhlase dotknutej osoby. Pre maloletých platí dvojnásobok — súhlas zákonného zástupcu a (od 13 rokov) informovaný asent dieťaťa.</p>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th></tr></thead>
+<tbody>
+<tr><td><code>MKT-FOTO-001</code></td><td>Foto / video zo súťaží pre propagáciu</td><td>Consent</td></tr>
+<tr><td><code>MKT-FOTO-001-MALOLETY</code></td><td>Foto / video maloletého (prísnejšie pravidlá)</td><td>Consent zákon. zástupcu + asent</td></tr>
+<tr><td><code>MKT-SOCIAL-001</code></td><td>Sociálne médiá</td><td>Consent</td></tr>
+<tr><td><code>MKT-SPONZOR-001</code></td><td>Sponzorské plnenia (fotografie, mená)</td><td>Consent + contract</td></tr>
+<tr><td><code>MKT-KOMERCIA-001</code></td><td>Komerčné využitie práv osobnosti</td><td>Consent + contract</td></tr>
+<tr><td><code>MKT-PRENOS-001</code></td><td>Prenos zo súťaží (TV, streamy)</td><td>Legitimate interest</td></tr>
+<tr><td><code>MKT-NEWSLETTER-001</code></td><td>Newsletter zväzu / klubu</td><td>Consent</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="komercia">
+<span class="section-number">12 · I · KOM</span>
+<h2>Komerčné overovanie</h2>
+<p>Táto kategória je špeciálna — komerčné subjekty nemajú prístup k plným PII, len k <strong>overovacím odpovediam</strong>. Hotel nevidí meno športovca, iba dostane áno / nie, či je daný preukaz platný a či zodpovedá zľavovej kategórii.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th><th>Scope</th></tr></thead>
+<tbody>
+<tr><td><code>KOM-OVERENIE-001</code></td><td>Overenie platnosti registrácie športovca</td><td>Consent</td><td>áno / nie</td></tr>
+<tr><td><code>KOM-PRISTUP-001</code></td><td>Prístup na športoviská (akreditácie)</td><td>Contract</td><td>Meno + foto</td></tr>
+<tr><td><code>KOM-BENEFIT-001</code></td><td>Zľavy a benefity pre športovcov</td><td>Consent</td><td>Typ licencie, platnosť</td></tr>
+<tr><td><code>KOM-POISTENIE-001</code></td><td>Overenie poistenia</td><td>Contract</td><td>Platnosť poistenia</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="turizmus">
+<span class="section-number">13 · J · TUR</span>
+<h2>Športoviská a cestovný ruch</h2>
+<p>Táto kategória sa viaže na entitu <strong>Športovisko</strong> a jej rozšírenú použiteľnosť pre cestovný ruch — v súlade s pôsobnosťou Ministerstva cestovného ruchu a športu SR. Rovnaké dáta o športovej infraštruktúre slúžia aj turistom, cestovným kanceláriám a oblastným organizáciám cestovného ruchu.</p>
+
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th><th>Pre koho</th></tr></thead>
+<tbody>
+<tr><td><code>TUR-KATALOG-001</code></td><td>Verejný katalóg športovísk (otvorené dáta)</td><td>Public task</td><td>Verejnosť, turisti</td></tr>
+<tr><td><code>TUR-REZERVACIA-001</code></td><td>Rezervácia športoviska</td><td>Contract</td><td>Kluby, jednotlivci</td></tr>
+<tr><td><code>TUR-DOSTUPNOST-001</code></td><td>Real-time dostupnosť športoviska</td><td>Public task</td><td>Verejnosť</td></tr>
+<tr><td><code>TUR-PODUJATIE-001</code></td><td>Kalendár verejných športových podujatí</td><td>Public task + consent</td><td>Turisti, médiá</td></tr>
+<tr><td><code>TUR-SLUZBA-001</code></td><td>Sprostredkovanie nadväzujúcich služieb (ubytovanie, strava)</td><td>Consent</td><td>Komerčné subjekty</td></tr>
+<tr><td><code>TUR-CERTIFIKACIA-001</code></td><td>Certifikácia športovísk pre súťaže</td><td>Legal obligation</td><td>Zväzy, rezort</td></tr>
+<tr><td><code>TUR-INFRAST-001</code></td><td>Analytika rozvoja infraštruktúry</td><td>Public task</td><td>Samospráva, rezort</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout green">
+<h4>Dvojaká použiteľnosť dát</h4>
+<p>Katalóg športovísk je príkladom dátovej synergie: rovnaká evidencia (lokalita, kapacita, vybavenie, dostupnosť) slúži športovému zväzu na výber dejiska majstrovstiev aj turistickej informačnej kancelárii na odporučenie návštevníkovi. Práve toto si vyžaduje oddelené účely spracovania — tá istá dátová položka, dvaja rôzni konzumenti, dva rôzne právne základy.</p>
+</div>
+</section>
+
+<section id="reprezentacia">
+<span class="section-number">14 · K · REP</span>
+<h2>Reprezentácia a medzinárodné</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kód</th><th>Účel</th><th>Legal basis</th><th>Cezhranica</th></tr></thead>
+<tbody>
+<tr><td><code>REP-NARODNE-001</code></td><td>Reprezentácia SR</td><td>Contract + public task</td><td>—</td></tr>
+<tr><td><code>REP-NOMINACIA-001</code></td><td>Výber do národného tímu</td><td>Legitimate interest</td><td>—</td></tr>
+<tr><td><code>REP-MEDZINARODNE-001</code></td><td>Prihláška na medzinárodné podujatie</td><td>Contract</td><td>Áno</td></tr>
+<tr><td><code>REP-FEDERACIA-001</code></td><td>Registrácia v medzinárodnej federácii</td><td>Contract</td><td>Áno</td></tr>
+<tr><td><code>REP-VIZA-001</code></td><td>Podpora vybavenia víz pre reprezentantov</td><td>Legitimate interest + consent</td><td>Áno</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="zivot">
+<span class="section-number">15 · Životný cyklus</span>
+<h2>Ako vzniká, mení sa a zaniká účel</h2>
+
+<div class="grid cols-3">
+<div class="card"><span class="card-number">I.</span><h4>Návrh</h4><p class="text-muted">Prevádzkovateľ alebo zväz navrhne nový účel cez pull request v repozitári katalógu.</p></div>
+<div class="card"><span class="card-number">II.</span><h4>Pripomienkovanie</h4><p class="text-muted">DPO, právny tím, dotknuté zväzy a ÚOOÚ pripomienkujú.</p></div>
+<div class="card"><span class="card-number">III.</span><h4>Schválenie</h4><p class="text-muted">Pridelený kód, zverejnená verzia 1.0, vstupuje do platnosti.</p></div>
+<div class="card"><span class="card-number">IV.</span><h4>Aktívny</h4><p class="text-muted">Používa sa pri nových súhlasoch. Existujúce odkazujú na konkrétnu verziu.</p></div>
+<div class="card"><span class="card-number">V.</span><h4>Deprecated</h4><p class="text-muted">Nové súhlasy sa už neudeľujú. Existujúce zostávajú.</p></div>
+<div class="card"><span class="card-number">VI.</span><h4>Ukončený</h4><p class="text-muted">Po vypršaní všetkých súvisiacich súhlasov sa účel archivuje.</p></div>
+</div>
+
+<h3>Verzionovanie</h3>
+<p>Zmena 1.0 → 1.1 je <em>minor</em> — drobná úprava formulácie, bez potreby re-consent. Zmena 1.x → 2.0 je <em>major</em> — materiálna zmena účelu alebo rozsahu dát. Všetci existujúci držitelia súhlasov dostávajú žiadosť o re-consent.</p>
+
+<div class="callout blue">
+<h4>Open data</h4>
+<p>Kompletný katalóg účelov je verejný a publikovaný ako open data v JSON a CSV formáte s licenciou CC-BY. Dotknutá osoba si môže kedykoľvek preskúmať, aké účely spracovania v slovenskom športe existujú a ktoré z nich pre jej dáta platia.</p>
+</div>
+</section>
+
+<div class="divider-ornament">§</div>
+
+<section>
+<p class="text-muted">Nasledujúca kapitola — <a href="priklady.html">Príklady dát</a> — ukazuje, ako vyzerajú konkrétne dáta pre bežné scenáre: registrácia, prestup, viacrolové zapojenie, rezervácia športoviska.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand">SportUp.sk</div>
+<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="priklady.html">Príklady</a></div>
+<div>Návrh · nezáväzný · pre diskusiu</div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

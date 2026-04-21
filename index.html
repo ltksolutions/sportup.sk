@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SportUp.sk — Jednotný národný register osôb v športe</title>
+<meta name="description" content="Koncepčný návrh centrálneho informačného systému pre osoby v športe a katalógu športovísk.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">
+        <svg width="38" height="28" viewBox="0 0 48 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 2 32 L 10 18 L 13 22 L 18 14 L 22 20 L 26 14 L 29 20 L 24 32 Z" fill="#FFFFFF"/>
+          <path d="M 10 18 L 13 22 L 16 18 L 13.5 15 Z" fill="#1A2D47"/>
+          <path d="M 22 32 L 28 20 L 31 24 L 36 15 L 40 21 L 43 18 L 46 32 Z" fill="#388FC3"/>
+          <path d="M 36 15 L 38 19 L 34 20 Z" fill="#FFFFFF"/>
+        </svg>
+      </span>
+      <span class="logo-text"><span class="sport">Sport</span><span class="up">UP</span></span>
+      <span class="logo-tld">.sk</span>
+    </a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="architektura.html">Architektúra</a></li>
+      <li><a href="domenovy-model.html">Model</a></li>
+      <li><a href="ciselniky.html">Číselníky</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="integracie.html">Integrácie</a></li>
+      <li><a href="technologie.html">Technológie</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Koncepčný dokument · verzia 0.1</div>
+    <h1>Jednotný národný register <em>osôb a športovísk</em></h1>
+    <p class="lead">Centrálny informačný systém pre zber a správu dát o všetkých osobách v slovenskom športe — od športovcov cez trénerov, rozhodcov a delegátov až po lekárov, dobrovoľníkov a technický personál. Súčasne národný katalóg športovísk prepojený s agendou cestovného ruchu.</p>
+    <div class="hero-meta">
+      <div>Rozsah<span>90 uznaných športov</span></div>
+      <div>Zdroj pravdy<span>event-sourced jadro</span></div>
+      <div>Prístup<span>certifikované aplikácie · API · MCP</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<section>
+<span class="section-number">01 · Situácia</span>
+<h2>Problém, ktorý riešime</h2>
+<p>Slovenský šport má dnes fragmentované evidencie osôb. Každý národný zväz si vedie vlastný register hráčov, tréneri sú evidovaní niekde inde, dobrovoľníci na podujatiach nikde, komerčné subjekty nemajú spôsob overiť si platnosť licencie. Osoba, ktorá je v jednom športe hráčkou, v druhom trénerkou a v treťom organizátorkou podujatia, existuje v systémoch ako tri neprepojené záznamy.</p>
+<p>Dôsledky sú konkrétne: duplicitné licencie, nespoľahlivé štatistiky, nemožnosť agregovaných demografických analýz, komplikované prestupy, neefektívne rozdeľovanie dotácií, rozdielne úrovne ochrany osobných údajov. Pridruženou medzerou je absencia jednotného národného katalógu športovísk, bez ktorého nevieme systematicky rozvíjať športovú infraštruktúru ani prepájať šport s cestovným ruchom.</p>
+</section>
+
+<section>
+<span class="section-number">02 · Zámer</span>
+<h2>Čo navrhujeme</h2>
+<p>Nový informačný systém športu, ktorý je <strong>zdrojom pravdy</strong> pre identitu a športové afiliácie všetkých osôb v športe, pre všetky druhy organizácií a pre všetky športoviská v SR. Systém sám nemá žiadne používateľské rozhranie — poskytuje len rozhrania (REST API, MCP servery, webhooks), cez ktoré k nemu pristupujú certifikované aplikácie tretích strán.</p>
+
+<div class="callout">
+<h4>Kľúčový princíp</h4>
+<p>Register nevlastní aplikačnú logiku. Poskytuje overené dáta a pravidlá. Aplikácie poskytujú používateľské zážitky. Každá strana robí to, v čom je dobrá.</p>
+</div>
+
+<p>Osoba nie je v registri definovaná svojou rolou, ale svojou identitou. Ten istý človek môže byť súčasne športovcom, trénerom, rozhodcom, dobrovoľníkom a zákonným zástupcom svojho dieťaťa — a systém ho pozná ako jednu osobu s viacerými súbežnými afiliáciami.</p>
+</section>
+
+<section>
+<span class="section-number">03 · Princípy</span>
+<h2>Šesť princípov, na ktorých systém stojí</h2>
+
+<div class="grid cols-2">
+<div class="card">
+<span class="card-number">I.</span>
+<h3>API-first a headless</h3>
+<p>Register sám nie je aplikácia. Je to infraštruktúra. Všetka interakcia prebieha cez štandardizované rozhrania — žiadny vstavaný portál pre koncových používateľov.</p>
+</div>
+
+<div class="card">
+<span class="card-number">II.</span>
+<h3>Identita oddelená od role</h3>
+<p>Osoba je stabilná. Rola sa mení, zaniká, pribúda. Človek je jeden záznam bez ohľadu na to, koľkými rolami naraz prechádza.</p>
+</div>
+
+<div class="card">
+<span class="card-number">III.</span>
+<h3>Event-sourced jadro</h3>
+<p>Každá zmena je nemenná udalosť. Aktuálny stav sa odvodzuje. História je úplná, auditovateľná a dá sa preprojektovať do nových pohľadov bez migrácií.</p>
+</div>
+
+<div class="card">
+<span class="card-number">IV.</span>
+<h3>Referenčné dáta zo štátu</h3>
+<p>Identita fyzických a právnických osôb nie je v SportUp autoritatívna — preberá sa z RFO a RPO. SportUp je autoritatívny len pre športové dáta.</p>
+</div>
+
+<div class="card">
+<span class="card-number">V.</span>
+<h3>GDPR v jadre</h3>
+<p>Súhlasy, účely spracovania a právne základy sú prvotriedne entity modelu. Každý prístup k osobným údajom prechádza policy enginom.</p>
+</div>
+
+<div class="card">
+<span class="card-number">VI.</span>
+<h3>Zero-trust</h3>
+<p>Čítať a zapisovať môžu len aplikácie certifikované prevádzkovateľom. Každé volanie je autentifikované, autorizované a auditované.</p>
+</div>
+</div>
+</section>
+
+<section>
+<span class="section-number">04 · Subjekty</span>
+<h2>Kto systém používa</h2>
+<p>Systém je navrhnutý tak, aby obslúžil celý ekosystém — od národných zväzov cez územnú samosprávu až po komerčné subjekty. Každý s rozsahom prístupu, ktorý zodpovedá jeho role.</p>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>Subjekt</th><th>Typická úloha</th><th>Rozsah prístupu</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Národný zväz</strong></td><td>Registrácia športovcov, trénerov, rozhodcov, delegátov v rámci športu</td><td>CRUD nad vlastnou členskou bázou</td></tr>
+<tr><td><strong>Klub</strong></td><td>Správa členov, prestupy, prihlášky na súťaže</td><td>CRUD nad vlastnými členmi v rámci pravidiel zväzu</td></tr>
+<tr><td><strong>Obec / mesto</strong></td><td>Vlastné športové programy, správa dotácií, evidencia mládežníckych športovcov</td><td>Dáta v rámci územnej pôsobnosti</td></tr>
+<tr><td><strong>VÚC</strong></td><td>Krajské športové programy, analytika, koordinácia</td><td>Agregované a vlastné dáta v rámci kraja</td></tr>
+<tr><td><strong>Ministerstvo CR a športu SR</strong></td><td>Uznanie športov, dotačná politika, prepojenie so stratégiou cestovného ruchu</td><td>Agregované dáta, dohľad, audit</td></tr>
+<tr><td><strong>Prevádzkovateľ športoviska</strong></td><td>Evidencia športoviska, rezervácie, využívanie</td><td>Vlastné športovisko + jeho využitie</td></tr>
+<tr><td><strong>Komerčný subjekt</strong></td><td>Ubytovanie, doprava, zľavy pre športovcov</td><td>Verifikačné volania — áno/nie, žiadne PII</td></tr>
+<tr><td><strong>Lekár / zdravotník</strong></td><td>Zdravotné prehliadky, anti-doping, úrazy</td><td>Citlivé zdravotné údaje so samostatným scope</td></tr>
+<tr><td><strong>Výskumník</strong></td><td>Demografický a výkonnostný výskum</td><td>Anonymizované agregáty</td></tr>
+<tr><td><strong>Dotknutá osoba</strong></td><td>Pohľad na vlastné dáta, správa súhlasov, právo na výmaz</td><td>Plný prístup k vlastným dátam</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section>
+<span class="section-number">05 · Obsah</span>
+<h2>Čo v dokumentácii nájdete</h2>
+
+<div class="grid cols-2">
+<a href="architektura.html" class="card-link">
+<h3>Architektúra</h3>
+<p>Vrstvy systému, zero-trust model, event sourcing, CQRS a prepojenie na štátne registre.</p>
+<span class="arrow">→</span>
+</a>
+
+<a href="domenovy-model.html" class="card-link">
+<h3>Doménový model</h3>
+<p>Entity systému: Person, Affiliation, Organization, Facility, Role, Qualification, Consent.</p>
+<span class="arrow">→</span>
+</a>
+
+<a href="ciselniky.html" class="card-link">
+<h3>Číselníky a katalógy</h3>
+<p>90 športov a ich disciplíny, druhy športovej činnosti, typy organizácií, katalóg športovísk.</p>
+<span class="arrow">→</span>
+</a>
+
+<a href="ucely.html" class="card-link">
+<h3>Účely spracovania</h3>
+<p>GDPR Purpose Catalogue — vrstvený katalóg účelov od univerzálnych po športovo-špecifické.</p>
+<span class="arrow">→</span>
+</a>
+
+<a href="priklady.html" class="card-link">
+<h3>Príklady dát</h3>
+<p>Konkrétne scenáre: registrácia, prestup, viacrolové zapojenie, overenie pre hotel, vyhľadanie športoviska.</p>
+<span class="arrow">→</span>
+</a>
+
+<a href="integracie.html" class="card-link">
+<h3>Integrácie</h3>
+<p>REST API, MCP servery, webhooks, napojenie na RFO, RPO a ÚPVS.</p>
+<span class="arrow">→</span>
+</a>
+
+<a href="technologie.html" class="card-link">
+<h3>Technológie</h3>
+<p>Navrhovaný stack: Next.js, Node.js, MongoDB, OPA, Redis — a prečo.</p>
+<span class="arrow">→</span>
+</a>
+</div>
+</section>
+
+<div class="divider-ornament">· · ·</div>
+
+<section>
+<p class="text-muted" style="font-size: 0.95rem;">Tento dokument je otvorený návrh. Je postavený na princípoch, ktoré sa osvedčili v štátnych registroch severských krajín, v referenčných modeloch európskej interoperability a v moderných GDPR-compliant architektúrach. Privíta spätnú väzbu od národných zväzov, samosprávy, úradov verejnej správy, športových komunít a výskumnej obce.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand"><em>Sport</em>UP<span style="color:rgba(255,255,255,0.5);font-weight:500;font-style:normal;font-family:var(--font-mono);font-size:0.85rem;margin-left:0.2rem">.sk</span></div>
+<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+<div class="footer-tagline">Silný šport. Silné dáta.</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="architektura.html">Architektúra</a> · <a href="domenovy-model.html">Model</a> · <a href="priklady.html">Príklady</a></div>
+<div>Návrh · nezáväzný · pre diskusiu</div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
