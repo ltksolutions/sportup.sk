@@ -27,6 +27,8 @@
       <li><a href="priklady.html">Príklady</a></li>
       <li><a href="integracie.html">Integrácie</a></li>
       <li><a href="technologie.html">Technológie</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="https://github.com/ltksolutions/sportup.sk" class="nav-github" aria-label="GitHub repozitár" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
     </ul>
   </div>
 </nav>
@@ -49,6 +51,7 @@
 <li><a href="#cinnosti">Druhy športovej činnosti fyzických osôb</a></li>
 <li><a href="#organizacie">Druhy organizácií</a></li>
 <li><a href="#sporty">Športy a odvetvia</a></li>
+<li><a href="#sutaze">Typy súťaží a aktivít</a></li>
 <li><a href="#sportoviska">Katalóg športovísk</a></li>
 <li><a href="#kategorie">Vekové a výkonnostné kategórie</a></li>
 <li><a href="#kvalifikacie">Typy kvalifikácií</a></li>
@@ -74,17 +77,23 @@
 <section id="cinnosti">
 <span class="section-number">02 · Druhy činnosti</span>
 <h2>Druhy športovej činnosti fyzických osôb</h2>
-<p>Katalóg druhov činnosti pokrýva všetky typy osôb, ktoré sa v športovom ekosystéme vyskytujú — od profesionálnych a amatérskych športovcov cez trénerov, rozhodcov, zdravotnícky personál a dobrovoľníkov až po mediálnych zástupcov a prevádzkovateľov športovísk. Celkom <strong>31 druhov</strong>, zoskupených do šiestich kategórií pre prehľadnosť a agregované dotazy.</p>
+<p>Katalóg druhov činnosti pokrýva všetky typy osôb, ktoré sa v športovom ekosystéme vyskytujú — od profesionálnych a amatérskych športovcov cez voľnočasových a rekreačných aktívnych ľudí, trénerov, rozhodcov, zdravotnícky personál a dobrovoľníkov až po mediálnych zástupcov a prevádzkovateľov športovísk. Celkom <strong>32 druhov</strong>, zoskupených do šiestich kategórií pre prehľadnosť a agregované dotazy.</p>
 
 <h3>Športovci</h3>
 <div class="table-wrap">
 <table>
 <thead><tr><th>Kód</th><th>Druh činnosti</th><th>Typická pôsobnosť</th></tr></thead>
 <tbody>
-<tr><td><code>amatersky_sportovec</code></td><td>Amatérsky športovec</td><td>Klub, národný zväz</td></tr>
-<tr><td><code>profesionalny_sportovec</code></td><td>Profesionálny športovec</td><td>Klub, zväz, ligové súťaže</td></tr>
+<tr><td><code>profesionalny_sportovec</code></td><td>Profesionálny športovec</td><td>Klub, zväz, ligové súťaže — zmluva o profesionálnom vykonávaní športu</td></tr>
+<tr><td><code>amatersky_sportovec</code></td><td>Amatérsky športovec</td><td>Klub, národný zväz — registrovaný v oficiálnych súťažiach</td></tr>
+<tr><td><code>volnocasovy_sportovec</code></td><td>Voľnočasový športovec</td><td>Neoficiálne organizované a hobby aktivity — bez registrácie v zväze</td></tr>
 </tbody>
 </table>
+</div>
+
+<div class="callout">
+<h4>Prečo rozlišujeme voľnočasového športovca</h4>
+<p>Mnohé športy sa reálne vykonávajú mimo oficiálnych štruktúr — školské, klubové a mestské futbalové ligy, hobby behecké podujatia, turistické a cyklistické aktivity, neformálne volejbalové zápasy. Tieto aktivity patria do športu a cestovného ruchu rovnako, ako oficiálne súťaže — len ich neriadi žiadny národný zväz. Bez kategórie <code>volnocasovy_sportovec</code> by zostali mimo akejkoľvek evidencie a štatistiky.</p>
 </div>
 
 <h3>Tréneri a športoví odborníci</h3>
@@ -256,9 +265,40 @@
 <section id="sporty">
 <span class="section-number">04 · Športy</span>
 <h2>Športy a odvetvia</h2>
-<p>Slovensko má cez deväťdesiat štátom uznaných športov. Kompletný zoznam udržiava rezortné ministerstvo v zmysle zákona o športe. SportUp preberá tento zoznam ako autoritatívny a udržiava s ním synchronizáciu.</p>
+<p>Športy v SportUp sa delia <strong>dvoma nezávislými osami</strong>: podľa štátneho uznania (uznané a neuznané) a podľa začlenenia do olympijského programu (olympijské a neolympijské). Každá os má iného správcu a iné dôsledky pre evidenciu, dotácie a reprezentáciu.</p>
 
-<p>Každý šport má v SportUp kód podľa konvencie <code>SK-XXX</code> a môže obsahovať viacero odvetví. Napríklad šport <strong>Futbal</strong> má tri odvetvia — Futbal, Futsal a Plážový futbal.</p>
+<h3>Os č. 1 — uznané a neuznané športy</h3>
+
+<div class="grid cols-2">
+<div class="card">
+<h4>Uznané športy</h4>
+<p>Štátom uznané športy podľa zákona č. 440/2015 Z. z. o športe. Riadia ich <strong>národné športové zväzy</strong> zapísané v SportUp ako typ <code>narodny_zvaz</code>. Majú nárok na štátnu podporu, povinnosti voči regulácii a spravované oficiálne súťaže.</p>
+<p class="text-muted" style="font-size: 0.9rem;">Príklad: Futbal (riadi SFZ a jeho regionálne zväzy), Ľadový hokej (SZĽH), Atletika (SAZ).</p>
+</div>
+<div class="card">
+<h4>Neuznané športy</h4>
+<p>Športy, ktoré nemajú štatút uznaného športu — zvyčajne ich <strong>neriadi žiadny národný zväz</strong> alebo ich riadi záujmové občianske združenie bez štátneho uznania. Napriek tomu sú evidované v SportUp, pretože sa reálne vykonávajú a majú svoje komunity, podujatia a športoviská.</p>
+<p class="text-muted" style="font-size: 0.9rem;">Príklad: Parkour, nové lezecké disciplíny pred uznaním, rôzne hobby a mestské športy.</p>
+</div>
+</div>
+
+<h3>Os č. 2 — olympijské a neolympijské športy</h3>
+
+<div class="grid cols-2">
+<div class="card">
+<h4>Olympijské športy</h4>
+<p>Zaradené v programe letných alebo zimných olympijských hier. Na Slovensku ich zastrešuje <strong>Slovenský olympijský a športový výbor (SOŠV)</strong>, ktorý riadi olympijskú reprezentáciu a organizuje nomináciu na olympijské hry. Aktuálny zoznam: <a href="https://www.olympic.sk/sporty/prehlad" target="_blank" rel="noopener">olympic.sk/sporty</a>.</p>
+</div>
+<div class="card">
+<h4>Neolympijské športy</h4>
+<p>Uznané alebo neuznané športy mimo olympijského programu. Niektoré majú vlastné strešné podujatia (World Games, paralympijské hry, medzinárodné šampionáty). SOŠV ich podporuje v rámci svojej transformácie na strešnú organizáciu slovenského športu (od 2018).</p>
+</div>
+</div>
+
+<div class="callout green">
+<h4>Dve osi sa krížia</h4>
+<p>Tieto dve delenia sú nezávislé. Futbal je uznaný aj olympijský. Šach je uznaný, ale neolympijský. Parkour nie je ani jedno ani druhé. Každá kombinácia existuje a má svoje dôsledky pre riadenie, podporu a evidenciu.</p>
+</div>
 
 <h3>Štruktúra záznamu</h3>
 <div class="code-header">Sport · schéma</div>
@@ -267,11 +307,17 @@
   <span class="code-key">"label_sk"</span>: <span class="code-string">"Futbal"</span>,
   <span class="code-key">"label_en"</span>: <span class="code-string">"Football"</span>,
   <span class="code-key">"category"</span>: <span class="code-string">"team_ball"</span>,
+
+  <span class="code-comment">// Os č. 1 — štátne uznanie</span>
   <span class="code-key">"is_recognized"</span>: <span class="code-bool">true</span>,
   <span class="code-key">"recognition_date"</span>: <span class="code-string">"2008-06-30"</span>,
   <span class="code-key">"national_federation_id"</span>: <span class="code-string">"org-sfz-..."</span>,
+
+  <span class="code-comment">// Os č. 2 — olympijský program</span>
   <span class="code-key">"is_olympic"</span>: <span class="code-bool">true</span>,
   <span class="code-key">"is_paralympic"</span>: <span class="code-bool">false</span>,
+  <span class="code-key">"olympic_program"</span>: [<span class="code-string">"summer"</span>],
+
   <span class="code-key">"disciplines"</span>: [
     { <span class="code-key">"code"</span>: <span class="code-string">"SK-FTB-MEN"</span>, <span class="code-key">"label_sk"</span>: <span class="code-string">"Futbal"</span> },
     { <span class="code-key">"code"</span>: <span class="code-string">"SK-FTB-FUTSAL"</span>, <span class="code-key">"label_sk"</span>: <span class="code-string">"Futsal"</span> },
@@ -282,7 +328,7 @@
 }</code></pre>
 
 <h3>Kategorizácia pre policy a štatistiku</h3>
-<p>Každý šport je klasifikovaný do nadkategórie, aby sa dali aplikovať kategóriové účely spracovania a agregovať štatistiky:</p>
+<p>Každý šport je navyše klasifikovaný do tematickej nadkategórie, aby sa dali aplikovať kategóriové účely spracovania (napr. povinná pred-zápasová medical clearance pre úpolové športy) a agregovať štatistiky:</p>
 
 <div class="grid cols-3">
 <div class="card"><h4>team_ball</h4><p>Kolektívne loptové — futbal, hokej, basketbal, volejbal, hádzaná, florbal, vodné pólo</p></div>
@@ -297,8 +343,69 @@
 </div>
 </section>
 
+<section id="sutaze">
+<span class="section-number">05 · Súťaže</span>
+<h2>Typy súťaží a aktivít</h2>
+<p>Športové aktivity v SportUp rozlišujeme podľa dvoch nezávislých vlastností — či sú <strong>organizované</strong> a či sú <strong>oficiálne</strong>. Kombináciou vznikajú tri reálne kategórie, ktoré sa v systéme sledujú samostatne, pretože majú rozdielne požiadavky na evidenciu, poistenie, zodpovednosť a ochranu osobných údajov.</p>
+
+<div class="grid cols-3">
+<div class="card">
+<h4>Oficiálne organizované</h4>
+<p>Súťaže, ktoré riadi národný zväz podľa svojich pravidiel a predpisov. Majú registrovaných hráčov, licencovaných rozhodcov, povinné lekárske prehliadky, výsledky sa zapisujú do oficiálnych tabuliek.</p>
+<p class="text-muted" style="font-size: 0.9rem;"><em>Príklad: majstrovská súťaž SFZ, extraliga v ľadovom hokeji, M-SR v atletike.</em></p>
+</div>
+<div class="card">
+<h4>Neoficiálne organizované</h4>
+<p>Organizované podujatia mimo štruktúry národných zväzov. Organizátorom môže byť škola, klub, centrum voľného času, mesto, obec, VÚC alebo komerčný subjekt. Majú formálny priebeh (prihlášky, pravidlá, rozhodcov), ale nie sú zahrnuté v oficiálnom súťažnom systéme.</p>
+<p class="text-muted" style="font-size: 0.9rem;"><em>Príklad: školské majstrovstvá, firemná liga, mestský turnaj, charitatívny beh, školská olympiáda.</em></p>
+</div>
+<div class="card">
+<h4>Neorganizované (hobby)</h4>
+<p>Voľnočasové športové aktivity bez organizátora — cvičia, behajú, bicyklujú, plávajú, chodia po horách. Nikto ich neriadi, nikto nevedie zápisnice. Sú dôležitou súčasťou športového života a rozvoja cestovného ruchu.</p>
+<p class="text-muted" style="font-size: 0.9rem;"><em>Príklad: rodinný pingpong v parku, samostatný beh v lese, turistika, cvičenie v posilňovni.</em></p>
+</div>
+</div>
+
+<h3>Prečo to rozlišujeme</h3>
+<p>Ten istý šport sa môže vykonávať vo všetkých troch režimoch súčasne. <strong>Futbal</strong> je klasický príklad: oficiálne organizovaný ho riadi <strong>SFZ a jeho 38 regionálnych zväzov</strong>; neoficiálne organizovaný vzniká v školách, kluboch, centrách voľného času, mestách, obciach, VÚC a pod záštitou ministerstva školstva; hobby futbal si hrajú priatelia na ihrisku bez akéhokoľvek organizátora. V SportUp to vieme sledovať — ale len tam, kde má zmysel evidencia.</p>
+
+<div class="callout">
+<h4>Čo sa eviduje a čo nie</h4>
+<p>Oficiálne a neoficiálne organizované súťaže sa evidujú — majú organizátora, registrovaných účastníkov, výsledky, príp. delegovaných rozhodcov. <strong>Hobby aktivity sa priamo neevidujú</strong> — nikto nezapisuje, že niekto bežal v lese. Sledujeme len agregátne ukazovatele (napr. návštevnosť športovísk, súhrnné štatistiky), ktoré neobsahujú osobné údaje.</p>
+</div>
+
+<h3>Štruktúra záznamu</h3>
+<div class="code-header">Activity · schéma</div>
+<pre><code>{
+  <span class="code-key">"activity_id"</span>: <span class="code-string">"act-2026-futbal-bb-123"</span>,
+  <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-FTB"</span>,
+  <span class="code-key">"discipline_code"</span>: <span class="code-string">"SK-FTB-MEN"</span>,
+
+  <span class="code-comment">// Dve nezávislé vlastnosti</span>
+  <span class="code-key">"is_organized"</span>: <span class="code-bool">true</span>,
+  <span class="code-key">"is_official"</span>: <span class="code-bool">false</span>,
+
+  <span class="code-comment">// Kto aktivitu riadi / organizuje</span>
+  <span class="code-key">"organizer_id"</span>: <span class="code-string">"org-mesto-bb"</span>,
+  <span class="code-key">"organizer_type"</span>: <span class="code-string">"mesto"</span>,
+
+  <span class="code-comment">// Časové a miestne zaradenie</span>
+  <span class="code-key">"venue_id"</span>: <span class="code-string">"venue-stad-bb-mier"</span>,
+  <span class="code-key">"starts_at"</span>: <span class="code-string">"2026-05-18T14:00:00+02:00"</span>,
+  <span class="code-key">"ends_at"</span>: <span class="code-string">"2026-05-18T17:00:00+02:00"</span>,
+
+  <span class="code-key">"label_sk"</span>: <span class="code-string">"Mestský futbalový turnaj 2026"</span>,
+  <span class="code-key">"status"</span>: <span class="code-string">"scheduled"</span>
+}</code></pre>
+
+<div class="callout green">
+<h4>Prepojenie s cestovným ruchom</h4>
+<p>Verejné športové podujatia (neoficiálne organizované aj hobby akcie so zverejneným kalendárom) sú zaradené do <strong>otvoreného kalendára aktivít</strong>, ktorý slúži ako vstup pre turistické informačné kancelárie, cestovné kancelárie a oblastné organizácie cestovného ruchu. Tu sa najviac prejavuje dvojaká povaha SportUp — šport plus cestovný ruch.</p>
+</div>
+</section>
+
 <section id="sportoviska">
-<span class="section-number">05 · Športoviská</span>
+<span class="section-number">06 · Športoviská</span>
 <h2>Nový katalóg športovísk</h2>
 <p>Centrálny register športovísk je jedna z najhodnotnejších nových funkcií SportUp. Slúži ako <strong>otvorená infraštruktúra pre šport aj cestovný ruch súčasne</strong>.</p>
 
@@ -384,7 +491,7 @@
 </section>
 
 <section id="kategorie">
-<span class="section-number">06 · Kategórie</span>
+<span class="section-number">07 · Kategórie</span>
 <h2>Vekové a výkonnostné kategórie</h2>
 <p>Kategórie sú špecifické pre každý šport — každý národný zväz si definuje vlastnú vekovú a výkonnostnú štruktúru. SportUp ich neuniformuje, ale vyžaduje zápis do centrálneho číselníka pre interoperabilitu.</p>
 
@@ -397,7 +504,7 @@
 </section>
 
 <section id="kvalifikacie">
-<span class="section-number">07 · Kvalifikácie</span>
+<span class="section-number">08 · Kvalifikácie</span>
 <h2>Typy kvalifikácií a licencií</h2>
 
 <div class="table-wrap">
@@ -427,7 +534,7 @@
 </section>
 
 <section id="pravne-tituly">
-<span class="section-number">08 · Právne tituly</span>
+<span class="section-number">09 · Právne tituly</span>
 <h2>Právne tituly</h2>
 <p>SportUp preberá oficiálne číselníky právnych titulov bez zmeny — sú definované zákonom o športe.</p>
 
@@ -463,7 +570,7 @@
 </section>
 
 <section id="uzemne">
-<span class="section-number">09 · Územné</span>
+<span class="section-number">10 · Územné</span>
 <h2>Územné číselníky</h2>
 <p>Územné členenie SR preberáme z autoritatívnych štátnych zdrojov — ÚPVS a Štatistický úrad SR. V systéme sa nikdy nezapisujú ako voľný text.</p>
 
@@ -485,17 +592,19 @@
 </section>
 
 <section id="governance">
-<span class="section-number">10 · Governance</span>
+<span class="section-number">11 · Governance</span>
 <h2>Kto spravuje ktorý číselník</h2>
 
 <div class="table-wrap">
 <table>
 <thead><tr><th>Číselník</th><th>Správca</th><th>Schvaľovanie zmien</th></tr></thead>
 <tbody>
-<tr><td>Športy (uznané)</td><td>Ministerstvo cestovného ruchu a športu SR</td><td>Minister (zákon o športe)</td></tr>
+<tr><td>Športy — uznanie (uznané/neuznané)</td><td>Ministerstvo cestovného ruchu a športu SR</td><td>Minister (zákon č. 440/2015 Z. z.)</td></tr>
+<tr><td>Športy — olympijské zaradenie</td><td>Slovenský olympijský a športový výbor</td><td>Synchronizácia s programom MOV</td></tr>
 <tr><td>Odvetvia (disciplíny)</td><td>Národný zväz pre daný šport</td><td>Prevádzkovateľ SportUp (validácia)</td></tr>
 <tr><td>Druhy športovej činnosti</td><td>Prevádzkovateľ SportUp</td><td>Konzultácia s národnými zväzmi a ÚOOÚ</td></tr>
 <tr><td>Druhy organizácií</td><td>Prevádzkovateľ SportUp</td><td>Konzultácia s ŠÚ SR a MV SR</td></tr>
+<tr><td>Typy súťaží a aktivít</td><td>Prevádzkovateľ SportUp</td><td>Konzultácia so zväzmi a samosprávou</td></tr>
 <tr><td>Kategórie (veková, výkonnostná)</td><td>Národný zväz</td><td>Prevádzkovateľ (konzistencia)</td></tr>
 <tr><td>Kvalifikácie a licencie</td><td>Národný zväz / prevádzkovateľ</td><td>Vzájomná validácia</td></tr>
 <tr><td>Katalóg športovísk</td><td>Prevádzkovateľ SportUp</td><td>Prevádzkovateľ športoviska vstupne, validácia obce</td></tr>
@@ -525,11 +634,11 @@
 <div class="footer-inner">
 <div>
 <div class="footer-brand">SportUp.sk</div>
-<div>Koncepčný dokument · verzia 0.1 · 2026</div>
+<div>Otvorené riešenie pre šport a cestovný ruch · verzia 0.1</div>
 </div>
 <div>
-<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="priklady.html">Príklady</a></div>
-<div>Návrh · nezáväzný · pre diskusiu</div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="kontakt.html">Kontakt</a></div>
+<div>Ján Letko · <a href="mailto:sportup@ltk.solutions">sportup@ltk.solutions</a></div>
 </div>
 </div>
 </footer>

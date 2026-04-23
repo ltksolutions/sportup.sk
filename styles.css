@@ -186,6 +186,15 @@ section { margin-bottom: 2.5rem; }
 .nav-links a:hover { color: var(--white); text-decoration: none; }
 .nav-links a.active { color: var(--white); border-bottom-color: var(--blue); }
 
+.nav-github {
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 2px solid transparent !important;
+  padding: 0.4rem 0.35rem !important;
+}
+.nav-github svg { display: block; opacity: 0.72; transition: opacity 0.15s; }
+.nav-github:hover svg { opacity: 1; }
+
 .nav-toggle {
   display: none;
   background: none; border: none;
