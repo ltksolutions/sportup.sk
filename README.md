@@ -51,6 +51,18 @@ Pre samotný informačný systém (odlišný od tohto prezentačného webu) je n
 
 Detaily v [technologie.html](technologie.html).
 
+## Vizuálna identita
+
+Brand assety (logo, favicon, farby, typografia) sú dostupné v adresári [`brand/`](./brand/):
+
+- **Plné logo** v 5 variantoch (`brand/logo/*.svg`)
+- **Favicon set** pre web a PWA (`favicon/*`)
+- **CSS premenné** pre 3rd-party aplikácie (`brand/css/sportup-brand.css`)
+- **PNG exporty** v štyroch veľkostiach pre tlač a marketing (`brand/raster/`)
+- **Plná dokumentácia** s pravidlami použitia — [`brand/BRAND.md`](./brand/BRAND.md)
+
+Celá vizuálna identita je v súlade so SportUp Design Manual v2.0 (2026).
+
 ## Lokálne spustenie prezentačného webu
 
 Web je čisto statický — stačí otvoriť `index.html` v prehliadači. Pre lokálny development server:

@@ -1,0 +1,57 @@
+/* ============================================================
+   SportUp — Brand CSS Variables
+   Podľa Design Manual v2.0 (2026)
+   ============================================================ */
+
+:root {
+  /* --- Primárne farby --- */
+  --sportup-navy:        #1A2D47;   /* Hlavná farba značky                */
+  --sportup-blue:        #388FC3;   /* Akcent, "UP" v logu, slogan        */
+  --sportup-white:       #FFFFFF;   /* Negatív, "Sport" v logu            */
+
+  /* --- Sekundárne farby --- */
+  --sportup-gray:        #8E8E92;   /* Slogan a sekundárny text           */
+  --sportup-bg-light:    #F4F6F8;   /* Pozadia sekcií, kariet             */
+  --sportup-accent-light:#E8F4FD;   /* Zvýraznenia, badges                */
+
+  /* --- Typografia --- */
+  --font-heading: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  --font-body:    'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', Consolas, monospace;
+  --font-logo:    'Helvetica Neue', 'Arial Black', sans-serif; /* len pre logotyp */
+
+  /* --- Pomer použitia farieb (informatívne) --- */
+  --ratio-navy:  55%;
+  --ratio-blue:  30%;
+  --ratio-other: 15%;
+
+  /* --- Spacing & radius (odvodené od ochrannej zóny U) --- */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+}
+
+/* RGB hodnoty pre alpha kompozíciu — používa sa napr. rgba(var(--sportup-navy-rgb), 0.6) */
+:root {
+  --sportup-navy-rgb: 26, 45, 71;
+  --sportup-blue-rgb: 56, 143, 195;
+}
+
+/* --- Pomocné triedy --- */
+.sportup-bg-navy      { background-color: var(--sportup-navy); color: var(--sportup-white); }
+.sportup-bg-blue      { background-color: var(--sportup-blue); color: var(--sportup-white); }
+.sportup-bg-light     { background-color: var(--sportup-bg-light); color: var(--sportup-navy); }
+
+.sportup-text-navy    { color: var(--sportup-navy); }
+.sportup-text-blue    { color: var(--sportup-blue); }
+.sportup-text-gray    { color: var(--sportup-gray); }
+
+/* --- Slogan styling --- */
+.sportup-slogan {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--sportup-blue);
+  letter-spacing: 0.02em;
+}
