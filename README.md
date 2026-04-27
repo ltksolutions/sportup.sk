@@ -53,15 +53,17 @@ Detaily v [technologie.html](technologie.html).
 
 ## Vizuálna identita
 
-Brand assety (logo, favicon, farby, typografia) sú dostupné v adresári [`brand/`](./brand/):
+Oficiálne brand assety od dizajnéra (logo, ikona, favicon) sú v adresári [`brand/`](./brand/):
 
-- **Plné logo** v 5 variantoch (`brand/logo/*.svg`)
-- **Favicon set** pre web a PWA (`favicon/*`)
-- **CSS premenné** pre 3rd-party aplikácie (`brand/css/sportup-brand.css`)
-- **PNG exporty** v štyroch veľkostiach pre tlač a marketing (`brand/raster/`)
-- **Plná dokumentácia** s pravidlami použitia — [`brand/BRAND.md`](./brand/BRAND.md)
+- **Wordmark** v 4 variantoch (`brand/logo/SportUp-{primary,dark,white,navy}.svg`)
+- **SU ikona** v 4 variantoch (`brand/icon/SportUp-icon-{light,dark,white,navy}.svg`)
+- **Affinity Designer zdroj** (`brand/SportUP_logo.af`)
+- **Design Manual v2.0** (`brand/SportUp_Design_Manual.pdf`) — 10 strán pravidiel
+- **Vizuálny náhľad všetkých assetov** — [`brand/preview.html`](./brand/preview.html)
+- **Plná dokumentácia v slovenčine** — [`brand/BRAND.md`](./brand/BRAND.md)
+- **Favicon set** pre web a PWA (`favicon/*`) — vyrenderovaný z `SportUp-icon-light`
 
-Celá vizuálna identita je v súlade so SportUp Design Manual v2.0 (2026).
+Web v koreni repa používa `sportup-logo.svg` (= `SportUp-dark.svg`) v hlavičke navy panela.
 
 ## Lokálne spustenie prezentačného webu
 
