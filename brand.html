@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand a vizuálna identita — SportUp.sk</title>
+<meta name="description" content="Vizuálna identita SportUp — logo, farby, typografia, pravidlá používania. Stiahnite si oficiálne brand assety a Design Manual.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="favicon/su-icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#1A2D47">
+<meta property="og:title" content="Brand a vizuálna identita — SportUp.sk">
+<meta property="og:description" content="Logo, farby, typografia a pravidlá používania značky SportUp.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sk_SK">
+<meta property="og:site_name" content="SportUp.sk">
+<meta name="twitter:card" content="summary">
+<style>
+  /* Brand page specific styles */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0 2.5rem;
+  }
+  @media (max-width: 900px) { .logo-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .logo-card {
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    border: 1px solid var(--border);
+    min-height: 180px;
+  }
+  .logo-card.bg-light  { background: var(--white); }
+  .logo-card.bg-dark   { background: var(--navy); border-color: var(--navy); }
+  .logo-card.bg-blue   { background: var(--blue); border-color: var(--blue); }
+  .logo-card.bg-paper  { background: #f0ece5; }
+
+  .logo-card img { width: 100%; max-width: 180px; height: auto; align-self: center; }
+  .logo-card-meta { width: 100%; }
+  .logo-card-label {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 0.2rem;
+  }
+  .logo-card-file {
+    font-family: var(--font-mono); font-size: 0.7rem;
+  }
+  .bg-light .logo-card-label { color: var(--text-muted); }
+  .bg-light .logo-card-file  { color: var(--text-muted); }
+  .bg-dark .logo-card-label  { color: rgba(255,255,255,0.5); }
+  .bg-dark .logo-card-file   { color: rgba(255,255,255,0.35); }
+  .bg-blue .logo-card-label  { color: rgba(255,255,255,0.7); }
+  .bg-blue .logo-card-file   { color: rgba(255,255,255,0.5); }
+  .bg-paper .logo-card-label { color: var(--text-muted); }
+  .bg-paper .logo-card-file  { color: var(--text-muted); }
+
+  /* Color palette */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0 2.5rem;
+  }
+  @media (max-width: 800px) { .color-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .color-swatch {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .color-block { height: 90px; }
+  .color-meta { padding: 0.75rem; background: var(--white); }
+  .color-name { font-weight: 600; font-size: 0.92rem; color: var(--navy); }
+  .color-hex {
+    font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--text-muted); margin-top: 0.15rem;
+  }
+
+  /* Typography sample */
+  .type-sample {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    margin: 1rem 0 2rem;
+  }
+  .type-sample-label {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--blue); text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .type-sample-display {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: 2.4rem; line-height: 1.1; color: var(--navy);
+    margin-bottom: 0.4rem;
+  }
+  .type-sample-display.italic { font-style: italic; color: var(--blue); }
+  .type-sample-display.mono {
+    font-family: 'JetBrains Mono', monospace; font-weight: 500;
+    font-size: 1.5rem;
+  }
+  .type-sample-info {
+    font-size: 0.85rem; color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  /* Download CTA */
+  .cta-download {
+    display: flex; flex-wrap: wrap; gap: 1rem;
+    background: var(--navy);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin: 1.5rem 0 2.5rem;
+    color: var(--white);
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cta-text { flex: 1; min-width: 280px; }
+  .cta-text h3 { color: var(--white); margin: 0 0 0.4rem; }
+  .cta-text p { color: rgba(255,255,255,0.65); margin: 0; font-size: 0.92rem; }
+  .cta-buttons { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .btn-cta {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.7rem 1.1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.88rem; font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .btn-cta-primary {
+    background: var(--blue); color: var(--white);
+  }
+  .btn-cta-primary:hover {
+    background: #4a9fd1; transform: translateY(-1px); text-decoration: none;
+  }
+  .btn-cta-secondary {
+    background: rgba(255,255,255,0.1); color: var(--white);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn-cta-secondary:hover {
+    background: rgba(255,255,255,0.15); text-decoration: none;
+  }
+
+  /* Rules grid */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1rem 0 2rem;
+  }
+  @media (max-width: 800px) { .rules-grid { grid-template-columns: 1fr; } }
+  .rule-block { padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border); }
+  .rule-block.do  { background: #f0f9f4; border-color: #c8e6d3; }
+  .rule-block.dont { background: #fdf2f2; border-color: #f5cdc6; }
+  .rule-block-title {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+  .rule-block.do .rule-block-title  { color: #2d7a4a; }
+  .rule-block.dont .rule-block-title { color: #c0392b; }
+  .rule-block ul { margin: 0; padding-left: 1.1rem; }
+  .rule-block li { font-size: 0.9rem; color: var(--navy); margin-bottom: 0.35rem; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="SportUp — Good Idea Sport Slovakia">
+      <img src="sportup-logo.svg" alt="SportUp" width="140" height="58">
+    </a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li class="nav-dropdown"><button class="nav-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown="docs">Dokumentácia <svg class="dd-chevron" width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1,3 5.5,8 10,3"/></svg></button><ul class="nav-dropdown-menu" role="menu"><li role="none"><a href="architektura.html" class="dd-item" role="menuitem"><span class="dd-name">Architektúra</span><span class="dd-desc">Vrstvy, event sourcing, zero-trust model</span></a></li><li role="none"><a href="domenovy-model.html" class="dd-item" role="menuitem"><span class="dd-name">Doménový model</span><span class="dd-desc">Entity, vzťahy a časová dimenzia</span></a></li><li role="none"><a href="ciselniky.html" class="dd-item" role="menuitem"><span class="dd-name">Číselníky</span><span class="dd-desc">90 športov, typy organizácií a aktivít</span></a></li><li role="none"><a href="integracie.html" class="dd-item" role="menuitem"><span class="dd-name">Integrácie</span><span class="dd-desc">API, MCP servery, štátne registre</span></a></li><li role="none"><a href="technologie.html" class="dd-item" role="menuitem"><span class="dd-name">Technológie</span><span class="dd-desc">Stack: Next.js, MongoDB, Node.js, OPA</span></a></li><li role="none"><a href="brand.html" class="dd-item" role="menuitem"><span class="dd-name">Brand</span><span class="dd-desc">Logo, farby, typografia a vizuálna identita</span></a></li><li role="none"><a href="brand/SportUp_Design_Manual.pdf" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">Design Manual ↗</span><span class="dd-desc">PDF — pravidlá používania značky v2.1</span></a></li></ul></li>
+      <li class="nav-dropdown"><button class="nav-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown="ecosystem">Ekosystém <svg class="dd-chevron" width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1,3 5.5,8 10,3"/></svg></button><ul class="nav-dropdown-menu" role="menu"><li role="none"><a href="ekosystem.html" class="dd-item" role="menuitem"><span class="dd-name">SportUp.sk</span><span class="dd-desc">Centrálny register osôb a organizácií</span></a></li><li role="none"><a href="https://activity.sportup.sk" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">Activity.SportUp.sk ↗</span><span class="dd-desc">Podujatia, aktivity a pohybové programy</span></a></li><li role="none"><a href="https://clubup.sk" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">ClubUp.sk ↗</span><span class="dd-desc">Správa klubov a oddielov</span></a></li></ul></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="https://github.com/ltksolutions/sportup.sk" class="nav-github" aria-label="GitHub repozitár" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Vizuálna identita · Brand</div>
+    <h1>Brand a vizuálna <em>identita</em></h1>
+    <p class="lead">SportUp je otvorený národný projekt s konzistentnou vizuálnou identitou. Logo, farby, typografia a pravidlá používania sú zdokumentované v Design Manuáli a všetky brand assety sú voľne dostupné v repozitári pre certifikovaných partnerov a vývojárov ekosystému.</p>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+<section id="logo">
+<span class="section-number">01 · Logo</span>
+<h2>Dvoj-úrovňová štruktúra</h2>
+<p>SportUp má dve rovnocenné verzie loga. <strong>Primárna verzia s pohorím</strong> je hlavnou tvárou značky pre marketingové materiály, web hero sekcie, dokumenty a tlač. <strong>Sekundárna wordmark verzia</strong> sa používa v obmedzenom priestore — favicon set, mobilné aplikácie, sociálne siete, malé formáty pod 32 px výšky pohoria.</p>
+
+<h3 style="margin-top: 2rem;">Primárna verzia — s pohorím</h3>
+<div class="logo-grid">
+  <div class="logo-card bg-light">
+    <img src="brand/logo/SportUp-primary-mountain.svg" alt="Primary mountain — light">
+    <div class="logo-card-meta">
+      <div class="logo-card-label">Primary · svetlé</div>
+      <div class="logo-card-file">SportUp-primary-mountain.svg</div>
+    </div>
+  </div>
+  <div class="logo-card bg-dark">
+    <img src="brand/logo/SportUp-dark-mountain.svg" alt="Dark mountain">
+    <div class="logo-card-meta">
+      <div class="logo-card-label">Dark · navy</div>
+      <div class="logo-card-file">SportUp-dark-mountain.svg</div>
+    </div>
+  </div>
+  <div class="logo-card bg-blue">
+    <img src="brand/logo/SportUp-white-mountain.svg" alt="White mountain">
+    <div class="logo-card-meta">
+      <div class="logo-card-label">White · farebné / foto</div>
+      <div class="logo-card-file">SportUp-white-mountain.svg</div>
+    </div>
+  </div>
+  <div class="logo-card bg-paper">
+    <img src="brand/logo/SportUp-navy-mountain.svg" alt="Navy mountain">
+    <div class="logo-card-meta">
+      <div class="logo-card-label">Navy · jednofarebná tlač</div>
+      <div class="logo-card-file">SportUp-navy-mountain.svg</div>
+    </div>
+  </div>
+</div>
+
+<h3>Sekundárna verzia — wordmark</h3>
+<div class="logo-grid">
+  <div class="logo-card bg-light">
+    <img src="brand/logo/SportUp-primary.svg" alt="Primary wordmark" style="max-width: 160px;">
+    <div class="logo-card-meta">
+      <div class="logo-card-label">Primary · svetlé</div>
+      <div class="logo-card-file">SportUp-primary.svg</div>
+    </div>
+  </div>
+  <div class="logo-card bg-dark">
+    <img src="brand/logo/SportUp-dark.svg" alt="Dark wordmark" style="max-width: 160px;">
+    <div class="logo-card-meta">
+      <div class="logo-card-label">Dark · navy</div>
+      <div class="logo-card-file">SportUp-dark.svg</div>
+    </div>
+  </div>
+  <div class="logo-card bg-blue">
+    <img src="brand/logo/SportUp-white.svg" alt="White wordmark" style="max-width: 160px;">
+    <div class="logo-card-meta">
+      <div class="logo-card-label">White · farebné / foto</div>
+      <div class="logo-card-file">SportUp-white.svg</div>
+    </div>
+  </div>
+  <div class="logo-card bg-paper">
+    <img src="brand/logo/SportUp-navy.svg" alt="Navy wordmark" style="max-width: 160px;">
+    <div class="logo-card-meta">
+      <div class="logo-card-label">Navy · jednofarebná tlač</div>
+      <div class="logo-card-file">SportUp-navy.svg</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section id="farby">
+<span class="section-number">02 · Farby</span>
+<h2>Firemná paleta</h2>
+<p>Primárna paleta SportUp pozostáva z troch základných farieb. Pomer použitia je pevne stanovený: <strong>Navy 55 %</strong>, <strong>Blue 30 %</strong>, ostatné farby <strong>15 %</strong>. Sekundárne farby (Paper, Muted, Light, Accent) sa používajú pre pozadia, sekundárny text, karty a zvýraznenia.</p>
+
+<h3 style="margin-top: 2rem;">Primárne farby</h3>
+<div class="color-grid">
+  <div class="color-swatch"><div class="color-block" style="background:#1A2D47;"></div><div class="color-meta"><div class="color-name">SportUp Navy</div><div class="color-hex">#1A2D47</div></div></div>
+  <div class="color-swatch"><div class="color-block" style="background:#388FC3;"></div><div class="color-meta"><div class="color-name">SportUp Blue</div><div class="color-hex">#388FC3</div></div></div>
+  <div class="color-swatch"><div class="color-block" style="background:#FFFFFF; border-bottom: 1px solid var(--border);"></div><div class="color-meta"><div class="color-name">White</div><div class="color-hex">#FFFFFF</div></div></div>
+  <div class="color-swatch"><div class="color-block" style="background:#F8F6F1;"></div><div class="color-meta"><div class="color-name">Paper</div><div class="color-hex">#F8F6F1</div></div></div>
+  <div class="color-swatch"><div class="color-block" style="background:#6B7A8D;"></div><div class="color-meta"><div class="color-name">Muted</div><div class="color-hex">#6B7A8D</div></div></div>
+</div>
+</section>
+
+<section id="typografia">
+<span class="section-number">03 · Typografia</span>
+<h2>Písma značky</h2>
+<p>Logotyp Sport / UP používa výhradne Helvetica Neue Black Italic — text je v exportoch prevedený na krivky, takže pri bežnom použití loga nie je font potrebný. Pre webovú a marketingovú komunikáciu sa používa Poppins (voľne dostupná cez Google Fonts) a JetBrains Mono pre kód a technické názvy.</p>
+
+<div class="type-sample">
+  <div class="type-sample-label">Logotyp · Helvetica Neue Black Italic</div>
+  <div class="type-sample-display" style="font-style: italic; font-weight: 900;">Sport<span style="color: var(--blue);">UP</span></div>
+  <div class="type-sample-info">Vyhradené pre logotyp · weight 900 · v exportoch prevedené na krivky</div>
+</div>
+
+<div class="type-sample">
+  <div class="type-sample-label">Komunikácia · Poppins (Google Fonts)</div>
+  <div class="type-sample-display">Aa Bb Cc Dd Ee — 0123456789</div>
+  <div class="type-sample-display" style="font-size: 1.2rem; font-weight: 400; margin-bottom: 0.4rem;">áäčďéíľĺňóôŕšťúýž · ÁÄČĎÉÍĽĹŇÓÔŔŠŤÚÝŽ</div>
+  <div class="type-sample-info">Regular 400 · Medium 500 · SemiBold 600 · Bold 700 · Bold Italic</div>
+</div>
+
+<div class="type-sample">
+  <div class="type-sample-label">Kód a API · JetBrains Mono</div>
+  <div class="type-sample-display mono">api.sportup.sk/v1/persons</div>
+  <div class="type-sample-info">Regular 400 · Medium 500 — pre technické názvy, API endpoints a kód</div>
+</div>
+</section>
+
+<section id="pravidla">
+<span class="section-number">04 · Pravidlá</span>
+<h2>Správne používanie značky</h2>
+<p>Každý variant loga má svoje pravidlá a kontext použitia. Pre podrobné inštrukcie — ochrannú zónu, minimálne veľkosti, anatómiu loga a aplikácie v rôznych médiách — si prosím stiahnite kompletný Design Manual.</p>
+
+<div class="rules-grid">
+  <div class="rule-block do">
+    <div class="rule-block-title">✓ Povolené</div>
+    <ul>
+      <li>Použiť oficiálne SVG zo zložky <code>brand/logo/</code></li>
+      <li>Vybrať správny farebný variant podľa pozadia</li>
+      <li>Preferovať primárnu verziu (s pohorím) v marketingu</li>
+      <li>Použiť wordmark verziu pre obmedzený priestor (favicon, app)</li>
+      <li>Pridať atribúciu „Powered by SportUp" v aplikáciách na SportUp API</li>
+      <li>Zachovať brand farby — minimálne navy hlavičku a modré akcenty</li>
+    </ul>
+  </div>
+  <div class="rule-block dont">
+    <div class="rule-block-title">✗ Zakázané</div>
+    <ul>
+      <li>Deformovať alebo otáčať logo</li>
+      <li>Meniť farby alebo pomer Sport/UP</li>
+      <li>Pridávať tieň, glow, gradient alebo iné efekty</li>
+      <li>Umiestňovať logo na pozadie s nízkym kontrastom</li>
+      <li>Orezávať logo — vždy musí byť zobrazené celé</li>
+      <li>Oddeľovať pohorie od wordmarku v primárnej verzii</li>
+    </ul>
+  </div>
+</div>
+</section>
+
+<section id="download">
+<span class="section-number">05 · Stiahnutie</span>
+<h2>Brand assety a Design Manual</h2>
+<p>Všetky brand assety sú dostupné v adresári <code>brand/</code> v GitHub repozitári pod licenciou MIT. Súčasťou sú oficiálne SVG logá, favicon set, ikony a kompletný Design Manual v PDF formáte.</p>
+
+<div class="cta-download">
+  <div class="cta-text">
+    <h3>SportUp Design Manual v2.1</h3>
+    <p>12-stranový PDF s pravidlami používania značky, anatómiou loga, farbami, typografiou a aplikačnými príkladmi.</p>
+  </div>
+  <div class="cta-buttons">
+    <a href="brand/SportUp_Design_Manual.pdf" class="btn-cta btn-cta-primary" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 1v10M3 8l5 5 5-5M2 14h12"/></svg>
+      Stiahnuť PDF
+    </a>
+    <a href="https://github.com/ltksolutions/sportup.sk/tree/main/brand" class="btn-cta btn-cta-secondary" target="_blank" rel="noopener">
+      Brand zložka na GitHube ↗
+    </a>
+  </div>
+</div>
+
+<div class="callout">
+  <h4>Pre vývojárov certifikovaných aplikácií</h4>
+  <p>Ak vyvíjate aplikáciu konzumujúcu SportUp API, môžete použiť oficiálne brand assety podľa pravidiel v Design Manuáli. Pre otázky k integrácii alebo špeciálne použitie kontaktujte <a href="mailto:sportup@ltk.solutions">sportup@ltk.solutions</a>.</p>
+</div>
+</section>
+
+</div><!-- /container -->
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand"><em>Sport</em>UP<span class="footer-tld">.sk</span></div>
+<div class="footer-slogan">Good Idea Sport Slovakia</div>
+<div>Otvorené riešenie pre šport a cestovný ruch · verzia 0.1</div>
+<div class="footer-tagline">Silný šport. Silné dáta.</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="kontakt.html">Kontakt</a></div>
+<div style="margin-bottom: 0.3rem;"><a href="https://activity.sportup.sk" target="_blank" rel="noopener">Activity.SportUp.sk</a> · <a href="https://clubup.sk" target="_blank" rel="noopener">ClubUp.sk</a></div>
+<div>Ján Letko · <a href="mailto:sportup@ltk.solutions">sportup@ltk.solutions</a></div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
