@@ -335,6 +335,7 @@ section { margin-bottom: 2.5rem; }
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin: 2.5rem 0;
+  align-items: stretch;
 }
 @media (max-width: 860px) {
   .ecosystem-grid { grid-template-columns: 1fr; }
@@ -350,6 +351,8 @@ section { margin-bottom: 2.5rem; }
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  height: 100%;
+  box-sizing: border-box;
 }
 .eco-card:hover {
   border-color: var(--blue);
