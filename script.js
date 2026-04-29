@@ -101,5 +101,64 @@
         a.setAttribute('aria-current', 'page');
       }
     });
+
+    // ── Ekosystém dropdown ──────────────────────────────────────────
+    const dropdownBtn = document.querySelector('.nav-dropdown-btn');
+    const dropdownMenu = document.querySelector('.nav-dropdown-menu');
+
+    if (dropdownBtn && dropdownMenu) {
+      const isMobile = () => window.innerWidth <= MOBILE_BREAKPOINT;
+
+      const openDropdown = () => {
+        dropdownBtn.setAttribute('aria-expanded', 'true');
+      };
+      const closeDropdown = () => {
+        dropdownBtn.setAttribute('aria-expanded', 'false');
+      };
+      const toggleDropdown = () => {
+        const expanded = dropdownBtn.getAttribute('aria-expanded') === 'true';
+        expanded ? closeDropdown() : openDropdown();
+      };
+
+      // Click always works (mobile needs click; desktop it's a toggle)
+      dropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleDropdown();
+      });
+
+      // On desktop, also open on hover
+      const dropdownEl = dropdownBtn.closest('.nav-dropdown');
+      if (dropdownEl) {
+        dropdownEl.addEventListener('mouseenter', () => {
+          if (!isMobile()) openDropdown();
+        });
+        dropdownEl.addEventListener('mouseleave', () => {
+          if (!isMobile()) closeDropdown();
+        });
+      }
+
+      // Close when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!dropdownEl || !dropdownEl.contains(e.target)) closeDropdown();
+      });
+
+      // ESC closes dropdown
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDropdown();
+      });
+
+      // Mark dropdown button active if we're on ekosystem.html
+      if (path === 'ekosystem.html') {
+        dropdownBtn.classList.add('dd-active');
+      }
+
+      // Mark current item inside dropdown
+      dropdownMenu.querySelectorAll('.dd-item').forEach((a) => {
+        const href = a.getAttribute('href');
+        if (href && (href === path || href.split('/').pop() === path)) {
+          a.classList.add('dd-current');
+        }
+      });
+    }
   });
 })();

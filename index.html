@@ -44,6 +44,17 @@
       <li><a href="integracie.html">Integrácie</a></li>
       <li><a href="technologie.html">Technológie</a></li>
       <li><a href="kontakt.html">Kontakt</a></li>
+      <li class="nav-dropdown">
+        <button class="nav-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true">
+          Ekosystém
+          <svg class="dd-chevron" width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1,3 5.5,8 10,3"/></svg>
+        </button>
+        <ul class="nav-dropdown-menu" role="menu">
+          <li role="none"><a href="ekosystem.html" class="dd-item" role="menuitem"><span class="dd-name">SportUp.sk</span><span class="dd-desc">Centrálny register osôb a organizácií</span></a></li>
+          <li role="none"><a href="https://activity.sportup.sk" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">Activity.SportUp.sk ↗</span><span class="dd-desc">Podujatia, aktivity a pohybové programy</span></a></li>
+          <li role="none"><a href="https://clubup.sk" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">ClubUp.sk ↗</span><span class="dd-desc">Správa klubov a oddielov</span></a></li>
+        </ul>
+      </li>
       <li><a href="https://github.com/ltksolutions/sportup.sk" class="nav-github" aria-label="GitHub repozitár" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
     </ul>
   </div>
@@ -134,8 +145,55 @@
 </div>
 </section>
 
+<section id="ekosystem">
+<span class="section-number">04 · Ekosystém</span>
+<h2>Otvorený ekosystém troch platforiem</h2>
+<p>SportUp.sk je centrálnym registrom, no funguje ako súčasť širšieho otvoreného ekosystému. Ostatné platformy sa naň napájajú cez <strong>štandardizované MCP API rozhrania</strong> — a rovnako otvorene komunikujú medzi sebou. Čítanie aj zápis dát môžu vykonávať výhradne <strong>aplikácie certifikované prevádzkovateľom</strong>.</p>
+
+<div class="ecosystem-grid" style="margin-top: 1.75rem;">
+
+  <div class="eco-card eco-current">
+    <span class="eco-card-badge">Táto platforma</span>
+    <h3 class="eco-card-title">SportUp.sk</h3>
+    <p class="eco-card-desc">Centrálny národný register všetkých osôb a organizácií v športe — od športovcov, trénerov a rozhodcov, cez dobrovoľníkov a lekárov, až po technický personál a podporovateľov. Základ, na ktorý sa odkazujú ostatné platformy ekosystému.</p>
+    <div class="eco-card-tags">
+      <span class="eco-tag">Register osôb</span>
+      <span class="eco-tag">90 športov</span>
+      <span class="eco-tag">API-first</span>
+    </div>
+  </div>
+
+  <a href="https://activity.sportup.sk" class="eco-card" target="_blank" rel="noopener">
+    <span class="eco-card-badge">Platforma ekosystému</span>
+    <h3 class="eco-card-title">Activity.SportUp.sk</h3>
+    <p class="eco-card-desc">Agenda podujatí, súťaží a pohybových aktivít. Eviduje officiálne ligové súťaže federácií, neoficiálne školské a obecné podujatia aj hobby aktivity. Kľúčový nástroj pre prepojenie športu s cestovným ruchom — OOCR, TIC a komerčné subjekty.</p>
+    <div class="eco-card-tags">
+      <span class="eco-tag">Podujatia</span>
+      <span class="eco-tag">Súťaže</span>
+      <span class="eco-tag">Cestovný ruch</span>
+    </div>
+    <span class="eco-card-link">activity.sportup.sk ↗</span>
+  </a>
+
+  <a href="https://clubup.sk" class="eco-card" target="_blank" rel="noopener">
+    <span class="eco-card-badge">Platforma ekosystému</span>
+    <h3 class="eco-card-title">ClubUp.sk</h3>
+    <p class="eco-card-desc">Správa klubov, oddielov a ich interných agend — členstvo, príspevky, komunikácia a dokumentácia. Otvorená a certifikovaná alternatíva k roztriešteným komerčným riešeniam, priamo napojená na národný register.</p>
+    <div class="eco-card-tags">
+      <span class="eco-tag">Kluby</span>
+      <span class="eco-tag">Členstvo</span>
+      <span class="eco-tag">Oddiely</span>
+    </div>
+    <span class="eco-card-link">clubup.sk ↗</span>
+  </a>
+
+</div>
+
+<p style="margin-top: 1.5rem;"><a href="ekosystem.html">Kompletný prehľad ekosystému a API architektúry →</a></p>
+</section>
+
 <section>
-<span class="section-number">04 · Subjekty</span>
+<span class="section-number">05 · Subjekty</span>
 <h2>Kto systém používa</h2>
 <p>Systém je navrhnutý tak, aby obslúžil celý ekosystém — od národných zväzov cez územnú samosprávu až po komerčné subjekty. Každý s rozsahom prístupu, ktorý zodpovedá jeho role.</p>
 
@@ -161,7 +219,7 @@
 </section>
 
 <section>
-<span class="section-number">05 · Obsah</span>
+<span class="section-number">06 · Obsah</span>
 <h2>Čo v dokumentácii nájdete</h2>
 
 <div class="grid cols-2">
