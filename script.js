@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const MOBILE_BREAKPOINT = 1240; // must match the CSS @media (max-width: 1240px)
+  const MOBILE_BREAKPOINT = 1600; // must match the CSS @media (max-width: 1600px)
 
   document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.querySelector('.nav-toggle');
