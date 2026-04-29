@@ -1,125 +1,79 @@
 # SportUp — Brand Assets
 
 Vizuálna identita projektu **SportUp — Good Idea Sport Slovakia** podľa
-[SportUp Design Manual v2.0 (2026)](./SportUp_Design_Manual.pdf).
+SportUp Design Manual v2.0 (2026).
 
 > Otvorené riešenie pre slovenský šport a podporu cestovného ruchu.
-> Národný informačný systém pre šport, prevádzkovaný v gescii Ministerstva cestovného ruchu a športu SR.
 
 ---
 
-## Štruktúra
+## Logotyp — dve verzie
 
-```
-sportup.sk/
-├── brand/                          ← MASTER assety od dizajnéra (oficiálne SVG + PNG)
-│   ├── BRAND.md                          # Tento súbor
-│   ├── SportUp_Design_Manual.pdf         # Plná dokumentácia (10 strán)
-│   ├── SportUP_logo.af                   # Affinity Designer zdroj
-│   ├── logo/                             # Wordmark — 4 oficiálne varianty
-│   │   ├── SportUp-primary.svg/.png            # Navy blok + biele "Sport" + modré "UP"
-│   │   ├── SportUp-dark.svg/.png               # Biely blok + navy "Sport" + modré "UP" (pre tmavé pozadia)
-│   │   ├── SportUp-white.svg/.png              # Monochromatická biela
-│   │   └── SportUp-navy.svg/.png               # Monochromatická navy
-│   └── icon/                             # SU ikona — 4 oficiálne varianty (favicon, app)
-│       ├── SportUp-icon-light.svg/.png         # Navy zaoblený štvorec + biele "S" + modré "U"
-│       ├── SportUp-icon-dark.svg/.png          # Biely zaoblený štvorec + navy "S" + modré "U"
-│       ├── SportUp-icon-white.svg/.png         # Monochromatická biela
-│       └── SportUp-icon-navy.svg/.png          # Monochromatická navy
-│
-├── favicon/                        ← Vyrenderované favicony pre web (z brand/icon/SportUp-icon-light)
-│   ├── su-icon.svg                       # Master SVG (kópia oficiálneho)
-│   ├── su-icon-{16,32,48,64,96,128,180,192,256,512}.png
-│   ├── favicon.ico                       # Multi-rozmerný (16/32/48/64)
-│   ├── apple-touch-icon.png              # 180×180
-│   └── android-chrome-{192x192,512x512}.png
-│
-├── sportup-logo.svg                ← Logo používané v hlavičke webu (= SportUp-dark.svg)
-├── site.webmanifest                ← PWA manifest
-└── styles.css                      ← CSS dokumentačného webu (brand premenné inline)
-```
+SportUp má dve rovnocenné verzie loga. Každá existuje v štyroch farebných variantoch.
 
 ---
 
-## Farby
+### Primárna verzia — s pohorím
 
-| Token | HEX | RGB | CMYK | Použitie |
-|---|---|---|---|---|
-| **SportUp Navy** | `#1A2D47` | `26, 45, 71` | `82, 60, 40, 42` | Hlavná farba, navy blok loga, hlavičky |
-| **SportUp Blue** | `#388FC3` | `56, 143, 195` | `65, 27, 0, 10` | Akcent, "UP" v logu, slogan, linky |
-| **White** | `#FFFFFF` | `255, 255, 255` | `0, 0, 0, 0` | Negatív, "Sport" v logu, pozadia |
-| Subtitle Gray | `#8E8E92` | `142, 142, 146` | — | Sekundárny text |
-| Light Background | `#F4F6F8` | `244, 246, 248` | — | Pozadia sekcií, kariet |
-| Accent Blue Light | `#E8F4FD` | `232, 244, 253` | — | Zvýraznenia, badges |
+Plné logo so slovenským pohorím nad wordmarkom. Používa sa všade tam, kde je dostatok priestoru a kde chceme vyjadriť identitu značky v plnej šírke — marketingové materiály, web hero sekcie, dokumenty, prezentácie, tlač.
 
-**Pomer použitia:** Navy 55 % · Blue 30 % · ostatné 15 %.
+| Variant | Súbor | Použitie |
+|---|---|---|
+| Primary | `logo/SportUp-primary-mountain.svg` | Svetlé pozadie — základná verzia |
+| Dark | `logo/SportUp-dark-mountain.svg` | Tmavé / navy pozadie (navigácia webu) |
+| White | `logo/SportUp-white-mountain.svg` | Farebné / fotografické pozadie |
+| Navy | `logo/SportUp-navy-mountain.svg` | Jednofarebná tlač, gravírovanie |
 
-### Väzba na národnú značku Slovenska
+---
 
-SportUp komunikuje pod sloganom **„Good Idea Sport Slovakia"** — oficiálnym sub-sloganom národnej značky Slovenskej republiky pre oblasť športu (Ministerstvo zahraničných vecí SR, 2016). Modrá farebnosť SportUp identity korešponduje s vizuálnym jazykom značky Good Idea Slovakia.
+### Sekundárna verzia — wordmark (bez pohoria)
+
+Samotný wordmark bez pohoria. Používa sa tam, kde je priestor obmedzený alebo kde sa pohorie zobrazí nekvalitne (pod 32 px výšky, favicony, aplikačné ikony).
+
+| Variant | Súbor | Použitie |
+|---|---|---|
+| Primary | `logo/SportUp-primary.svg` | Svetlé pozadie |
+| Dark | `logo/SportUp-dark.svg` | Tmavé / navy pozadie |
+| White | `logo/SportUp-white.svg` | Farebné / fotografické pozadie |
+| Navy | `logo/SportUp-navy.svg` | Jednofarebná tlač |
+
+---
+
+### Ikona (SU)
+
+Skrátená verzia — zaoblený štvorec so symbolom SU. Favicon, app ikona, profilový obrázok.
+
+| Variant | Súbor |
+|---|---|
+| Light | `icon/SportUp-icon-light.svg` |
+| Dark | `icon/SportUp-icon-dark.svg` |
+| White | `icon/SportUp-icon-white.svg` |
+| Navy | `icon/SportUp-icon-navy.svg` |
+
+Favicon set pre web → `/favicon/` v koreni repozitára.
+
+---
+
+## Farebná paleta
+
+| Názov | HEX | RGB | Použitie |
+|---|---|---|---|
+| Navy | `#1A2D47` | 26 45 71 | Primárna — pozadie, text, header |
+| Blue | `#388FC3` | 56 143 195 | Akcentová — UP, CTA, linky |
+| White | `#FFFFFF` | 255 255 255 | Texty na tmavom pozadí |
+| Paper | `#F8F6F1` | 248 246 241 | Teplé pozadie stránky |
+| Muted | `#6B7A8D` | 107 122 141 | Sekundárny text |
 
 ---
 
 ## Typografia
 
-| Použitie | Font | Rez |
+| Rola | Font | Váha |
 |---|---|---|
-| **Logotyp Sport / UP** | Helvetica Neue Black Italic | weight 900, italic — *iba pre logo, prevedené na krivky* |
-| Nadpisy, CTA | Poppins | Bold (700) |
-| Bežný text | Poppins | Regular (400) |
-| Slogan, zvýraznenia | Poppins | Bold Italic (700 italic) |
-| Kód, technické polia | JetBrains Mono | Regular (400) |
-
-Poppins je voľne dostupná cez [Google Fonts](https://fonts.google.com/specimen/Poppins).
-
----
-
-## Použitie loga — 3 scenáre
-
-### 1) Dokumentačný web SportUp.sk *(už nasadené)*
-
-Web používa **`SportUp-dark.svg`** (biely blok variant) v hlavičke s navy pozadím — referuje na `/sportup-logo.svg` v koreni repa. Brand farby a typografia sú definované v `/styles.css`.
-
-### 2) Externá aplikácia (zväz, klub, mesto, certifikovaná appka)
-
-Pre 3rd-party aplikácie konzumujúce SportUp API a vyžadujúce vizuálnu konzistenciu:
-
-```html
-<!-- Plné logo v hlavičke (vyber správny variant podľa pozadia) -->
-<img src="https://raw.githubusercontent.com/ltksolutions/sportup.sk/main/brand/logo/SportUp-primary.svg"
-     alt="SportUp — Good Idea Sport Slovakia" height="48">
-```
-
-| Pozadie aplikácie | Použi variant |
-|---|---|
-| Biele / svetlé | `SportUp-primary.svg` |
-| Navy / tmavé | `SportUp-dark.svg` |
-| Fotografia / farebné | `SportUp-white.svg` |
-| Jednofarebná tlač | `SportUp-navy.svg` |
-
-### 3) Tlač, prezentácie, marketing
-
-Originálne SVG od dizajnéra majú **paths prevedené na krivky** — žiadne fonty nie sú potrebné. PNG exporty sú v rozlíšení 1024 × 245 px (wordmark) a 512 × 512 px (ikona) — pre vyššie DPI tlač (CMYK ofset) použi SVG. Affinity Designer zdroj `SportUP_logo.af` je tiež v repe pre dizajnérov.
-
----
-
-## Pravidlá použitia
-
-### ✅ Správne
-
-- Logo používaj **vždy v plnom tvare** vrátane "UP" presahujúcej časti.
-- Dodrž **ochrannú zónu** — voľný priestor okolo loga rovný výške písmena „U".
-- Minimálna veľkosť: **40 mm** v tlači, **160 px** na obrazovke.
-- Pomer strán **4.18 : 1** (1024 × 245 px).
-
-### ❌ Zakázané
-
-- Deformovať alebo otáčať logo.
-- Meniť farby alebo pomer Sport/UP.
-- Pridávať tieň, glow, gradient alebo iné efekty.
-- Umiestňovať na pozadie s nízkym kontrastom alebo rušivé fotografie.
-- Orezávať logo — vždy musí byť zobrazené celé.
-- Používať logo ako vzorku, textúru alebo opakované pozadie.
+| Nadpisy | Poppins | 700, 800 Italic |
+| Telo textu | Poppins | 400, 500 |
+| Kód / API | JetBrains Mono | 400, 500 |
+| Slogan | Poppins | 700 Italic |
 
 ---
 
@@ -127,30 +81,55 @@ Originálne SVG od dizajnéra majú **paths prevedené na krivky** — žiadne f
 
 > ***Good Idea Sport Slovakia***
 
-Sub-slogan národnej značky Slovenskej republiky pre oblasť športu (MZV SR, 2016).
-Používa sa **pod logom** alebo ako samostatný marketingový claim.
-Font: Poppins Bold Italic, farba `#388FC3`.
+Sub-slogan národnej značky SR pre oblasť športu. Používa sa pod logom alebo ako standalone marketingový claim.
+
+---
+
+## Pravidlá použitia
+
+### ✅ Povolené
+- Použiť logo v správnom variante podľa pozadia.
+- Použiť primárnu verziu (s pohorím) v marketingových materiáloch.
+- Použiť sekundárnu verziu (wordmark) v obmedzených priestoroch (< 120 px šírky).
+- Pridať atribúciu „Powered by SportUp" v aplikáciách konzumujúcich SportUp API.
+
+### ❌ Zakázané
+- Deformovať alebo otáčať logo.
+- Meniť farby alebo pomer Sport/UP.
+- Pridávať tieň, glow, gradient alebo iné efekty.
+- Umiestňovať logo na pozadie s nízkym kontrastom.
+- Oddeľovať pohorie od wordmarku v primárnej verzii.
+
+---
+
+## Minimálne veľkosti
+
+| Verzia | Minimálna šírka |
+|---|---|
+| Primárna (s pohorím) | 120 px |
+| Sekundárna (wordmark) | 80 px |
+| Ikona SU | 24 px |
 
 ---
 
 ## Pre vývojárov certifikovaných aplikácií
 
-Ak buduješ aplikáciu, ktorá konzumuje SportUp API alebo MCP server a chceš zachovať vizuálnu konzistenciu so značkou SportUp:
-
-1. **Použi oficiálne SVG** z `brand/logo/` — sú vector-perfect bez závislosti na fontoch.
-2. **Vyber správny variant** podľa farby pozadia (tabuľka vyššie).
-3. **Pridaj atribúciu** „Powered by SportUp" alebo „Pripojené cez SportUp" v päte aplikácie.
-4. **Zachovaj brand farby** — minimálne navy hlavičku a modré akcenty.
+1. Použi officiálne SVG z `brand/logo/` — vector-perfect, bez závislosti na fontoch.
+2. Vyber variant podľa farby pozadia (tabuľka vyššie).
+3. Na navy / tmavom pozadí vždy použiť `-dark-` variant.
+4. Zachovaj brand farby — minimálne navy hlavičku a modré akcenty.
 
 ---
 
-## Licencia a kontakt
+## Zdroje
 
-| | |
+| Súbor | Popis |
 |---|---|
-| Web | [www.sportup.sk](https://www.sportup.sk) |
-| E-mail | sportup@ltk.solutions |
-| GitHub | [ltksolutions/sportup.sk](https://github.com/ltksolutions/sportup.sk) |
+| `SportUp_Design_Manual.pdf` | Kompletný design manual v2.0 |
+| `SportUP_logo.af` | Affinity Designer zdrojový súbor |
+| `preview.html` | Vizuálny prehľad všetkých assetov |
 
-© 2026 SportUp — Good Idea Sport Slovakia. Brand identity je súčasťou open-source projektu.
-Logo a označenie „SportUp" sú chránené v zmysle pravidiel uvedených v Design Manuáli v2.0.
+---
+
+© 2026 SportUp — Good Idea Sport Slovakia.
+Kontakt: [sportup@ltk.solutions](mailto:sportup@ltk.solutions)

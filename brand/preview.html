@@ -2,195 +2,152 @@
 <html lang="sk">
 <head>
 <meta charset="UTF-8">
-<title>SportUp — Brand Assets Preview</title>
-<link rel="icon" type="image/svg+xml" href="../favicon/su-icon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SportUp — Brand Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --navy: #1A2D47;
-    --blue: #388FC3;
-    --gray: #8E8E92;
-    --bg-light: #F4F6F8;
-    --accent-light: #E8F4FD;
+    --navy: #1A2D47; --blue: #388FC3; --white: #fff;
+    --paper: #F8F6F1; --border: #E2DDD6; --muted: #6B7A8D;
+    --r: 12px;
   }
-  * { box-sizing: border-box; }
-  body {
-    font-family: 'Poppins', system-ui, sans-serif;
-    color: var(--navy);
-    background: var(--bg-light);
-    margin: 0; padding: 40px 24px;
-    line-height: 1.5;
-  }
-  .container { max-width: 1100px; margin: 0 auto; }
-  h1 { font-size: 2rem; margin: 0 0 0.25rem; font-weight: 700; }
-  h2 {
-    font-size: 1.1rem; margin: 3rem 0 1rem; color: var(--navy);
-    font-weight: 700; padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--accent-light);
-  }
-  .slogan {
-    font-style: italic; font-weight: 700; color: var(--blue);
-    font-size: 1.05rem; margin: 0 0 2rem;
-  }
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.25rem;
-  }
-  .card {
-    background: white; border-radius: 12px; padding: 2rem 1.5rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    display: flex; flex-direction: column; align-items: center;
-    min-height: 200px; justify-content: center;
-  }
-  .card.dark  { background: var(--navy); }
-  .card.blue  { background: var(--blue); }
-  .card.photo {
-    background:
-      linear-gradient(135deg, rgba(26,45,71,0.45), rgba(56,143,195,0.55)),
-      linear-gradient(45deg, #6a8a9a 0%, #4a6478 50%, #5d7b8e 100%);
-  }
-  .card .label {
-    font-size: 0.85rem; color: var(--gray);
-    margin-top: 1.25rem; text-align: center;
-  }
-  .card.dark .label, .card.blue .label, .card.photo .label {
-    color: rgba(255,255,255,0.85);
-  }
-  .card img { display: block; max-width: 100%; height: auto; }
-  .card .logo-img { max-width: 280px; max-height: 80px; }
-  .card .icon-img { width: 96px; height: 96px; }
+  body { font-family: 'Poppins', sans-serif; background: var(--paper); color: var(--navy); padding: 2.5rem; }
+  h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 3rem; }
 
-  .colors {
-    display: flex; gap: 1rem; flex-wrap: wrap;
+  .section { margin-bottom: 3rem; }
+  .section-label {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 1rem; padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
   }
-  .swatch {
-    width: 160px; padding: 1rem; border-radius: 10px;
-    font-size: 0.78rem; line-height: 1.45;
-  }
-  .swatch.navy   { background: var(--navy); color: white; }
-  .swatch.blue   { background: var(--blue); color: white; }
-  .swatch.white  { background: white; border: 1px solid #ddd; }
-  .swatch.gray   { background: var(--gray); color: white; }
-  .swatch.bgL    { background: var(--bg-light); border: 1px solid #ddd; }
-  .swatch.acc    { background: var(--accent-light); border: 1px solid #ddd; }
-  .swatch strong { display: block; font-size: 0.92rem; margin-bottom: 0.35rem; }
 
-  .icons-row {
-    display: flex; align-items: end; gap: 2rem;
-    background: white; padding: 2rem; border-radius: 12px;
-    flex-wrap: wrap;
-  }
-  .icon-item { text-align: center; }
-  .icon-item img { display: block; margin: 0 auto 0.4rem; }
-  .icon-item .label { font-size: 0.72rem; color: var(--gray); }
+  .variants { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  @media (max-width: 900px) { .variants { grid-template-columns: repeat(2, 1fr); } }
 
-  footer {
-    margin-top: 4rem; padding-top: 1.5rem;
-    border-top: 1px solid rgba(0,0,0,0.08);
-    font-size: 0.82rem; color: var(--gray); text-align: center;
+  .variant {
+    border-radius: var(--r); padding: 2rem 1.5rem 1.25rem;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 1rem;
   }
-  footer a { color: var(--blue); text-decoration: none; }
+  .variant.light  { background: var(--white); border: 1px solid var(--border); }
+  .variant.dark   { background: var(--navy); }
+  .variant.color  { background: var(--blue); }
+  .variant.mono   { background: #f0ece5; border: 1px solid var(--border); }
+
+  .variant img { width: 160px; height: auto; }
+  .variant .label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+  .variant.light  .label { color: var(--muted); }
+  .variant.dark   .label { color: rgba(255,255,255,0.45); }
+  .variant.color  .label { color: rgba(255,255,255,0.6); }
+  .variant.mono   .label { color: var(--muted); }
+  .variant .file  { font-size: 0.68rem; font-family: monospace; }
+  .variant.light  .file { color: var(--muted); }
+  .variant.dark   .file { color: rgba(255,255,255,0.3); }
+  .variant.color  .file { color: rgba(255,255,255,0.5); }
+  .variant.mono   .file { color: var(--muted); }
+
+  .icon-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .icon-variant {
+    border-radius: var(--r); padding: 1.5rem; display: flex; flex-direction: column;
+    align-items: center; gap: 0.75rem; min-width: 120px;
+  }
+  .icon-variant img { width: 56px; height: 56px; }
+  .icon-variant .label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .colors { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .swatch { border-radius: 8px; width: 80px; }
+  .swatch-color { height: 56px; border-radius: 8px 8px 0 0; border: 1px solid rgba(0,0,0,0.06); }
+  .swatch-info { padding: 0.5rem 0; }
+  .swatch-name { font-size: 0.75rem; font-weight: 600; }
+  .swatch-hex  { font-size: 0.68rem; font-family: monospace; color: var(--muted); }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <h1>SportUp — Brand Assets</h1>
-  <p class="slogan">Good Idea Sport Slovakia</p>
-  <p style="color: var(--gray); font-size: 0.92rem; margin: 0 0 2rem;">
-    Vizuálny prehľad oficiálnych brand assetov podľa
-    <a href="./SportUp_Design_Manual.pdf" style="color: var(--blue);">Design Manual v2.0</a>.
-  </p>
+<h1>SportUp — Brand Preview</h1>
+<p class="subtitle">Design Manual v2.0 · Good Idea Sport Slovakia · sportup@ltk.solutions</p>
 
-  <h2>Wordmark — 4 varianty</h2>
-  <div class="grid">
-
-    <div class="card">
-      <img class="logo-img" src="./logo/SportUp-primary.svg" alt="Plnofarebná verzia">
-      <div class="label"><strong>SportUp-primary.svg</strong><br>Plnofarebná — svetlé pozadie</div>
+<!-- PRIMARY (MOUNTAIN) -->
+<div class="section">
+  <div class="section-label">Primárna verzia — s pohorím (hlavná)</div>
+  <div class="variants">
+    <div class="variant light">
+      <img src="logo/SportUp-primary-mountain.svg" alt="Primary mountain">
+      <div><div class="label">Primary · svetlé pozadie</div><div class="file">SportUp-primary-mountain.svg</div></div>
     </div>
-
-    <div class="card dark">
-      <img class="logo-img" src="./logo/SportUp-dark.svg" alt="Verzia pre tmavé pozadie">
-      <div class="label"><strong>SportUp-dark.svg</strong><br>Plnofarebná — tmavé pozadie</div>
+    <div class="variant dark">
+      <img src="logo/SportUp-dark-mountain.svg" alt="Dark mountain">
+      <div><div class="label">Dark · navy / tmavé</div><div class="file">SportUp-dark-mountain.svg</div></div>
     </div>
-
-    <div class="card photo">
-      <img class="logo-img" src="./logo/SportUp-white.svg" alt="Biela mono verzia">
-      <div class="label"><strong>SportUp-white.svg</strong><br>Monochromatická biela</div>
+    <div class="variant color">
+      <img src="logo/SportUp-white-mountain.svg" alt="White mountain">
+      <div><div class="label">White · farebné / foto</div><div class="file">SportUp-white-mountain.svg</div></div>
     </div>
-
-    <div class="card">
-      <img class="logo-img" src="./logo/SportUp-navy.svg" alt="Navy mono verzia">
-      <div class="label"><strong>SportUp-navy.svg</strong><br>Monochromatická navy</div>
+    <div class="variant mono">
+      <img src="logo/SportUp-navy-mountain.svg" alt="Navy mountain">
+      <div><div class="label">Navy · jednofarebná tlač</div><div class="file">SportUp-navy-mountain.svg</div></div>
     </div>
   </div>
-
-  <h2>SU ikona — 4 varianty</h2>
-  <div class="grid">
-
-    <div class="card">
-      <img class="icon-img" src="./icon/SportUp-icon-light.svg" alt="Icon light">
-      <div class="label"><strong>SportUp-icon-light.svg</strong><br>Navy štvorec — primárna favicon</div>
-    </div>
-
-    <div class="card dark">
-      <img class="icon-img" src="./icon/SportUp-icon-dark.svg" alt="Icon dark">
-      <div class="label"><strong>SportUp-icon-dark.svg</strong><br>Biely štvorec — pre tmavé pozadia</div>
-    </div>
-
-    <div class="card photo">
-      <img class="icon-img" src="./icon/SportUp-icon-white.svg" alt="Icon white">
-      <div class="label"><strong>SportUp-icon-white.svg</strong><br>Monochromatická biela</div>
-    </div>
-
-    <div class="card">
-      <img class="icon-img" src="./icon/SportUp-icon-navy.svg" alt="Icon navy">
-      <div class="label"><strong>SportUp-icon-navy.svg</strong><br>Monochromatická navy</div>
-    </div>
-
-  </div>
-
-  <h2>Favicon — vyrenderované veľkosti</h2>
-  <div class="icons-row">
-    <div class="icon-item">
-      <img src="../favicon/su-icon-16.png" width="16" height="16">
-      <div class="label">16 px</div>
-    </div>
-    <div class="icon-item">
-      <img src="../favicon/su-icon-32.png" width="32" height="32">
-      <div class="label">32 px</div>
-    </div>
-    <div class="icon-item">
-      <img src="../favicon/su-icon-64.png" width="64" height="64">
-      <div class="label">64 px</div>
-    </div>
-    <div class="icon-item">
-      <img src="../favicon/su-icon-128.png" width="128" height="128">
-      <div class="label">128 px</div>
-    </div>
-    <div class="icon-item">
-      <img src="../favicon/su-icon-256.png" width="180" height="180">
-      <div class="label">256 px</div>
-    </div>
-  </div>
-
-  <h2>Farebná paleta</h2>
-  <div class="colors">
-    <div class="swatch navy"><strong>Navy</strong>#1A2D47<br>RGB 26, 45, 71<br>CMYK 82, 60, 40, 42</div>
-    <div class="swatch blue"><strong>Blue</strong>#388FC3<br>RGB 56, 143, 195<br>CMYK 65, 27, 0, 10</div>
-    <div class="swatch white"><strong>White</strong>#FFFFFF<br>RGB 255, 255, 255</div>
-    <div class="swatch gray"><strong>Gray</strong>#8E8E92<br>Subtitle text</div>
-    <div class="swatch bgL"><strong>BG Light</strong>#F4F6F8<br>Pozadia</div>
-    <div class="swatch acc"><strong>Accent Light</strong>#E8F4FD<br>Badges</div>
-  </div>
-
-  <footer>
-    SportUp · Design Manual v2.0 · 2026 ·
-    <a href="https://github.com/ltksolutions/sportup.sk">github.com/ltksolutions/sportup.sk</a>
-  </footer>
-
 </div>
+
+<!-- SECONDARY (WORDMARK) -->
+<div class="section">
+  <div class="section-label">Sekundárna verzia — wordmark (obmedzený priestor)</div>
+  <div class="variants">
+    <div class="variant light">
+      <img src="logo/SportUp-primary.svg" alt="Primary wordmark" style="height:34px;width:auto;">
+      <div><div class="label">Primary · svetlé pozadie</div><div class="file">SportUp-primary.svg</div></div>
+    </div>
+    <div class="variant dark">
+      <img src="logo/SportUp-dark.svg" alt="Dark wordmark" style="height:34px;width:auto;">
+      <div><div class="label">Dark · navy / tmavé</div><div class="file">SportUp-dark.svg</div></div>
+    </div>
+    <div class="variant color">
+      <img src="logo/SportUp-white.svg" alt="White wordmark" style="height:34px;width:auto;">
+      <div><div class="label">White · farebné / foto</div><div class="file">SportUp-white.svg</div></div>
+    </div>
+    <div class="variant mono">
+      <img src="logo/SportUp-navy.svg" alt="Navy wordmark" style="height:34px;width:auto;">
+      <div><div class="label">Navy · jednofarebná tlač</div><div class="file">SportUp-navy.svg</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ICON -->
+<div class="section">
+  <div class="section-label">Ikona SU — favicon, app, sociálne siete</div>
+  <div class="icon-row">
+    <div class="icon-variant" style="background:#fff;border:1px solid var(--border);">
+      <img src="icon/SportUp-icon-light.svg" alt="Icon light">
+      <div class="label" style="color:var(--muted)">Light</div>
+    </div>
+    <div class="icon-variant" style="background:var(--navy);">
+      <img src="icon/SportUp-icon-dark.svg" alt="Icon dark">
+      <div class="label" style="color:rgba(255,255,255,.45)">Dark</div>
+    </div>
+    <div class="icon-variant" style="background:var(--blue);">
+      <img src="icon/SportUp-icon-white.svg" alt="Icon white">
+      <div class="label" style="color:rgba(255,255,255,.6)">White</div>
+    </div>
+    <div class="icon-variant" style="background:#f0ece5;border:1px solid var(--border);">
+      <img src="icon/SportUp-icon-navy.svg" alt="Icon navy">
+      <div class="label" style="color:var(--muted)">Navy</div>
+    </div>
+  </div>
+</div>
+
+<!-- COLORS -->
+<div class="section">
+  <div class="section-label">Farebná paleta</div>
+  <div class="colors">
+    <div class="swatch"><div class="swatch-color" style="background:#1A2D47;"></div><div class="swatch-info"><div class="swatch-name">Navy</div><div class="swatch-hex">#1A2D47</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#388FC3;"></div><div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#388FC3</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#FFFFFF;border:1px solid #e2ddd6;"></div><div class="swatch-info"><div class="swatch-name">White</div><div class="swatch-hex">#FFFFFF</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#F8F6F1;border:1px solid #e2ddd6;"></div><div class="swatch-info"><div class="swatch-name">Paper</div><div class="swatch-hex">#F8F6F1</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#6B7A8D;"></div><div class="swatch-info"><div class="swatch-name">Muted</div><div class="swatch-hex">#6B7A8D</div></div></div>
+  </div>
+</div>
+
 </body>
 </html>
