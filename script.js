@@ -2,7 +2,7 @@
 (() => {
   'use strict';
 
-  const MOBILE_BREAKPOINT = 1600; // must match the CSS @media (max-width: 1600px)
+  const MOBILE_BREAKPOINT = 1024; // must match the CSS @media (max-width: 1024px)
 
   document.addEventListener('DOMContentLoaded', () => {
     const toggle = document.querySelector('.nav-toggle');
@@ -102,63 +102,65 @@
       }
     });
 
-    // ── Ekosystém dropdown ──────────────────────────────────────────
-    const dropdownBtn = document.querySelector('.nav-dropdown-btn');
-    const dropdownMenu = document.querySelector('.nav-dropdown-menu');
+    // ── Dropdown menus (Dokumentácia + Ekosystém) ───────────────────
+    const isMobile = () => window.innerWidth <= MOBILE_BREAKPOINT;
 
-    if (dropdownBtn && dropdownMenu) {
-      const isMobile = () => window.innerWidth <= MOBILE_BREAKPOINT;
+    const closeAllDropdowns = (except = null) => {
+      document.querySelectorAll('.nav-dropdown-btn').forEach((btn) => {
+        if (btn !== except) btn.setAttribute('aria-expanded', 'false');
+      });
+    };
 
-      const openDropdown = () => {
-        dropdownBtn.setAttribute('aria-expanded', 'true');
-      };
-      const closeDropdown = () => {
-        dropdownBtn.setAttribute('aria-expanded', 'false');
-      };
-      const toggleDropdown = () => {
-        const expanded = dropdownBtn.getAttribute('aria-expanded') === 'true';
-        expanded ? closeDropdown() : openDropdown();
-      };
+    document.querySelectorAll('.nav-dropdown').forEach((dropdown) => {
+      const btn = dropdown.querySelector('.nav-dropdown-btn');
+      const menu = dropdown.querySelector('.nav-dropdown-menu');
+      if (!btn || !menu) return;
 
-      // Click always works (mobile needs click; desktop it's a toggle)
-      dropdownBtn.addEventListener('click', (e) => {
+      const isOpen = () => btn.getAttribute('aria-expanded') === 'true';
+      const open = () => { closeAllDropdowns(btn); btn.setAttribute('aria-expanded', 'true'); };
+      const close = () => btn.setAttribute('aria-expanded', 'false');
+
+      // Click — toggle (works on both mobile and desktop)
+      btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        toggleDropdown();
+        isOpen() ? close() : open();
       });
 
-      // On desktop, also open on hover
-      const dropdownEl = dropdownBtn.closest('.nav-dropdown');
-      if (dropdownEl) {
-        dropdownEl.addEventListener('mouseenter', () => {
-          if (!isMobile()) openDropdown();
-        });
-        dropdownEl.addEventListener('mouseleave', () => {
-          if (!isMobile()) closeDropdown();
-        });
+      // Hover — desktop only
+      dropdown.addEventListener('mouseenter', () => { if (!isMobile()) open(); });
+      dropdown.addEventListener('mouseleave', () => { if (!isMobile()) close(); });
+
+      // Clicking a link inside the menu closes everything
+      menu.addEventListener('click', (e) => {
+        if (e.target.closest('a')) closeAllDropdowns();
+      });
+
+      // Mark dropdown button active if current page is one of its children
+      const childLinks = Array.from(menu.querySelectorAll('a[href]'))
+        .map(a => a.getAttribute('href').split('/').pop());
+      if (childLinks.includes(path) || (path === '' && childLinks.includes('index.html'))) {
+        btn.classList.add('dd-active');
       }
-
-      // Close when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!dropdownEl || !dropdownEl.contains(e.target)) closeDropdown();
-      });
-
-      // ESC closes dropdown
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeDropdown();
-      });
-
-      // Mark dropdown button active if we're on ekosystem.html
-      if (path === 'ekosystem.html') {
-        dropdownBtn.classList.add('dd-active');
+      // Ekosystém: also active on ekosystem.html
+      if (btn.dataset.dropdown === 'ecosystem' && path === 'ekosystem.html') {
+        btn.classList.add('dd-active');
       }
 
       // Mark current item inside dropdown
-      dropdownMenu.querySelectorAll('.dd-item').forEach((a) => {
-        const href = a.getAttribute('href');
-        if (href && (href === path || href.split('/').pop() === path)) {
+      menu.querySelectorAll('.dd-item').forEach((a) => {
+        const href = (a.getAttribute('href') || '').split('/').pop();
+        if (href === path || (path === '' && href === 'index.html')) {
           a.classList.add('dd-current');
         }
       });
-    }
+    });
+
+    // Close all on outside click
+    document.addEventListener('click', () => closeAllDropdowns());
+
+    // ESC closes all dropdowns
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllDropdowns();
+    });
   });
 })();
