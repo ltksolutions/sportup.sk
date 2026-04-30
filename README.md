@@ -1,108 +1,95 @@
 # SportUp.sk
 
-**Otvorené riešenie pre slovenský šport a podporu cestovného ruchu.**
+> **Otvorené riešenie pre slovenský šport a podporu cestovného ruchu**
+>
+> Jednotný národný register osôb, organizácií a aktivít s verejným registrom športovísk a vzdelávacími a rozvojovými službami postavený na otvorenej architektúre s otvorenými zdrojovými kódmi.
 
-Jednotný národný register osôb, organizácií a aktivít s verejným registrom športovísk a vzdelávacími a rozvojovými službami. Postavený na otvorenej architektúre s otvorenými zdrojovými kódmi.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status: Concept](https://img.shields.io/badge/Status-Concept_v0.1-orange.svg)]()
+[![Slovak](https://img.shields.io/badge/Lang-Slovak-blue.svg)]()
 
 ---
 
 ## O projekte
 
-SportUp je koncepčný návrh nového informačného systému športu pre Slovenskú republiku. Cieľom je nahradiť dnešné fragmentované evidencie (zväzové registre, klubové kartotéky, samostatné tabuľky na MS Exceli) jednotnou, moderne navrhnutou platformou postavenou na princípoch:
+SportUp.sk je koncepčný návrh nového informačného systému športu pre Slovenskú republiku. Cieľom je nahradiť existujúce čiastkové registre jednotným dátovým ekosystémom, ktorý:
 
-- **API-first a headless** — systém neobsahuje používateľské rozhranie, poskytuje len rozhrania (REST API, MCP, webhooks)
-- **Identita oddelená od role** — jedna osoba môže byť súčasne športovcom, trénerom, rozhodcom, dobrovoľníkom
-- **Event-sourced jadro** — každá zmena je nemenná udalosť, aktuálny stav sa odvodzuje
-- **Referenčné dáta zo štátu** — identita fyzických a právnických osôb sa preberá z RFO a RPO
-- **GDPR v jadre** — súhlasy a účely spracovania sú prvotriedne entity
-- **Zero-trust** — čítať a zapisovať môžu len certifikované aplikácie
-- **Otvorenosť** — otvorený kód, otvorené API, otvorené dáta
+- **eviduje všetky osoby v športe** — športovcov (profesionálov, amatérov, voľnočasových), trénerov, rozhodcov, delegátov, lekárov, dobrovoľníkov, organizátorov a ďalších
+- **eviduje všetky organizácie** zapojené do športu — zväzy, kluby, mestá a obce, VÚC, školy, akadémie, štátne orgány, komerčné subjekty
+- **eviduje šport a aktivity v dvoch osách** — uznané/neuznané, olympijské/neolympijské, organizované/neorganizované
+- **udržiava verejný register športovísk** — slúži športu aj cestovnému ruchu (v súlade s pôsobnosťou MCRŠ SR)
+- **poskytuje API a MCP rozhrania** — integráciu pre zväzové, klubové, samosprávne a komerčné aplikácie
+- **prepája sa na štátne registre** — RFO, RPO cez ÚPVS
 
-## Prezentačný web
+## Repozitár obsahuje
 
-Statický dokumentačný web sídli v tomto repozitári v koreňovom adresári. Obsahuje 9 stránok s popisom architektúry, dátového modelu, číselníkov, účelov spracovania, príkladov, integrácií, technológií a kontaktu.
-
-Verejne dostupný na [sportup.sk](https://sportup.sk).
-
-## Dokumentácia
-
-| Kapitola | Obsah |
-|----------|-------|
-| [Úvod](index.html) | Vízia, princípy a subjekty systému |
-| [Architektúra](architektura.html) | Vrstvový model, zero-trust, event sourcing, Identity Broker |
-| [Doménový model](domenovy-model.html) | Entity: Person, Affiliation, Organization, Facility, Role, Consent |
-| [Číselníky](ciselniky.html) | Športy, disciplíny, súťaže, organizácie, športoviská, kvalifikácie |
-| [Účely spracovania](ucely.html) | Purpose Catalogue — 11 kategórií GDPR-relevantných účelov |
-| [Príklady](priklady.html) | Konkrétne scenáre: registrácia, prestup, multi-role, úmrtie |
-| [Integrácie](integracie.html) | REST API, MCP, webhooks, napojenie na štátne registre |
-| [Technológie](technologie.html) | Navrhovaný stack: Next.js + Node.js + MongoDB + OPA |
-| [Kontakt](kontakt.html) | Autor, kontakt a spôsoby spolupráce |
-
-## Technologický stack pre IS športu
-
-Pre samotný informačný systém (odlišný od tohto prezentačného webu) je navrhnutý stack:
-
-- **Backend** — Node.js + TypeScript
-- **API** — Next.js (admin aplikácie), dedikované servisy pre REST a MCP
-- **Databáza** — MongoDB (event store + projekcie)
-- **Policy engine** — Open Policy Agent (OPA)
-- **Cache** — Redis
-- **Messaging** — webhooks + event stream
-
-Detaily v [technologie.html](technologie.html).
-
-## Vizuálna identita
-
-Oficiálne brand assety od dizajnéra (logo, ikona, favicon) sú v adresári [`brand/`](./brand/):
-
-- **Wordmark** v 4 variantoch (`brand/logo/SportUp-{primary,dark,white,navy}.svg`)
-- **SU ikona** v 4 variantoch (`brand/icon/SportUp-icon-{light,dark,white,navy}.svg`)
-- **Affinity Designer zdroj** (`brand/SportUP_logo.af`)
-- **Design Manual v2.0** (`brand/SportUp_Design_Manual.pdf`) — 10 strán pravidiel
-- **Vizuálny náhľad všetkých assetov** — [`brand/preview.html`](./brand/preview.html)
-- **Plná dokumentácia v slovenčine** — [`brand/BRAND.md`](./brand/BRAND.md)
-- **Favicon set** pre web a PWA (`favicon/*`) — vyrenderovaný z `SportUp-icon-light`
-
-Web v koreni repa používa `sportup-logo.svg` (= `SportUp-dark.svg`) v hlavičke navy panela.
-
-## Lokálne spustenie prezentačného webu
-
-Web je čisto statický — stačí otvoriť `index.html` v prehliadači. Pre lokálny development server:
-
-```bash
-python3 -m http.server 8000
-# alebo
-npx serve .
+```
+.
+├── README.md                  ← ste tu
+├── CONTRIBUTING.md            ← ako prispieť
+├── CODE_OF_CONDUCT.md         ← pravidlá komunity
+├── LICENSE                    ← licencia (MIT pre kód, CC-BY-4.0 pre dokumentáciu)
+├── docs/                      ← kompletná dokumentácia
+│   ├── 00-overview.md         ← prehľad systému
+│   ├── 01-glossary.md         ← slovník pojmov
+│   ├── architecture/          ← architektonické rozhodnutia
+│   ├── domain/                ← doménový model, entity, eventy
+│   ├── catalogs/              ← centrálne číselníky
+│   ├── api/                   ← REST API špecifikácia
+│   ├── mcp/                   ← MCP servery a tools
+│   ├── gdpr/                  ← Purpose Catalogue a právne základy
+│   ├── scenarios/             ← reálne príklady použitia
+│   ├── integration/           ← napojenie na RFO, RPO, ÚPVS
+│   └── operations/            ← prevádzka, monitoring, security
+├── website/                   ← statická prezentačná stránka (sportup.sk)
+└── ROADMAP.md                 ← plán implementácie
 ```
 
-Potom otvorte `http://localhost:8000`.
+## Začnite tu
 
-## Prispievanie
+| Som… | Začnem v… |
+|---|---|
+| **Nový prispievateľ** | [`docs/00-overview.md`](docs/00-overview.md) → [`docs/01-glossary.md`](docs/01-glossary.md) |
+| **Architekt / tech lead** | [`docs/architecture/README.md`](docs/architecture/README.md) |
+| **Backend vývojár** | [`docs/domain/README.md`](docs/domain/README.md) → [`docs/api/README.md`](docs/api/README.md) |
+| **API klient (zväz, klub)** | [`docs/api/README.md`](docs/api/README.md) → [`docs/scenarios/`](docs/scenarios/) |
+| **MCP integrácia** | [`docs/mcp/README.md`](docs/mcp/README.md) |
+| **Compliance / DPO** | [`docs/gdpr/README.md`](docs/gdpr/README.md) |
+| **Pre štátnu správu** | [`docs/integration/state-registers.md`](docs/integration/state-registers.md) |
 
-Projekt je otvorený konštruktívnym pripomienkam a spolupráci.
+## Princípy projektu
 
-- **Issues** — konkrétne technické návrhy, chyby v dokumentácii
-- **Discussions** — strategické a koncepčné témy
-- **Pull requests** — priame návrhy zmien v dokumentácii alebo kóde
+1. **API-first a headless** — register sám nie je aplikácia, je to infraštruktúra
+2. **Identita oddelená od role** — jeden človek = jeden záznam, viacero súbežných rolí
+3. **Event-sourced jadro** — každá zmena je nemenná udalosť, history je úplná a auditovateľná
+4. **Referenčné dáta zo štátu** — RFO/RPO sú master pre identitu, šport. register pre športové dáta
+5. **GDPR v jadre** — Purpose Catalogue, consent management a policy engine sú prvotriedne entity
+6. **Zero-trust prístup** — každé volanie je autentifikované, autorizované a auditované
 
-Uvítame spätnú väzbu najmä od:
-- národných športových zväzov
-- klubov a športových akadémií
-- územnej samosprávy (obce, mestá, VÚC)
-- orgánov verejnej správy
-- odbornej a výskumnej komunity
-- športovcov, trénerov a dobrovoľníkov
+## Stav
 
-## Kontakt
+**Verzia 0.1 — koncepčný návrh.** Aktuálne v repozitári je úplná dokumentácia architektúry, doménového modelu, číselníkov, GDPR Purpose Catalogue a integračných scenárov. Implementácia samotného systému ešte nebola začatá — repo slúži ako východiskový bod pre tím, ktorý ju zrealizuje.
 
-**Autor:** Ján Letko  
-**E-mail:** [sportup@ltk.solutions](mailto:sportup@ltk.solutions)  
-**Repozitár:** [github.com/ltksolutions/sportup.sk](https://github.com/ltksolutions/sportup.sk)
+Stack pre samotnú implementáciu (návrh): **Next.js + Node.js + MongoDB**, policy engine **OPA**, cache **Redis**, eventy **MongoDB change streams** alebo **Kafka**.
 
 ## Licencia
 
-Tento projekt je pod otvorenou licenciou. Presné podmienky budú doplnené v súbore `LICENSE` pred prvým verejným release.
+- **Zdrojové kódy** — [MIT License](LICENSE)
+- **Dokumentácia, číselníky, schémy** — [CC-BY-4.0](LICENSE-DOCS)
 
----
+## Autor a kontakt
 
-*SportUp · koncepčný dokument · verzia 0.1 · 2026*
+**Autor návrhu:** Ján Letko
+**E-mail:** sportup@ltk.solutions
+**Web:** [sportup.sk](https://sportup.sk) (koncepčná prezentácia)
+**Repo:** [github.com/ltksolutions/sportup.sk](https://github.com/ltksolutions/sportup.sk)
+
+Komunikácia s autorom prebieha v **slovenčine**. Issues a PR môžu byť písané po slovensky aj po anglicky.
+
+## Ako prispieť
+
+Pozrite si [CONTRIBUTING.md](CONTRIBUTING.md). V skratke:
+
+1. **Návrhy a otázky** → otvorte [Issue](https://github.com/ltksolutions/sportup.sk/issues)
+2. **Konkrétne zmeny** → otvorte [Pull Request](https://github.com/ltksolutions/sportup.sk/pulls) z feature branche
+3. **Bezpečnostné incidenty** → e-mail na sportup@ltk.solutions, nie cez verejné Issues

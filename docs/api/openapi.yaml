@@ -1,0 +1,28 @@
+# OpenAPI 3.1 specifikácia SportUp.sk
+# Stub — bude doplnené priebežne počas implementácie API.
+# Aktuálne ako referenčné dokumenty slúžia jednotlivé súbory v endpoints/.
+
+openapi: 3.1.0
+info:
+  title: SportUp.sk REST API
+  version: 0.1.0-draft
+  description: |
+    Toto je placeholder. Plná OpenAPI špecifikácia sa bude generovať
+    z kódu v Fáze 1+ (typický nástroj: tsoa, NestJS Swagger, alebo manuálny).
+  contact:
+    name: Ján Letko
+    email: sportup@ltk.solutions
+    url: https://github.com/ltksolutions/sportup.sk
+  license:
+    name: MIT
+    url: https://github.com/ltksolutions/sportup.sk/blob/main/LICENSE
+
+servers:
+  - url: https://api.sportup.sk/v1
+    description: Production (po nasadení)
+  - url: https://sandbox.api.sportup.sk/v1
+    description: Sandbox (po nasadení)
+
+# Paths, components, schemas — bude doplnené.
+paths: {}
+components: {}
