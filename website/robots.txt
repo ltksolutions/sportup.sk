@@ -1,0 +1,7 @@
+# SportUp.sk — robots.txt
+# Otvorený projekt, dokumentácia je verejne dostupná pre indexovanie.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://sportup.sk/sitemap.xml
