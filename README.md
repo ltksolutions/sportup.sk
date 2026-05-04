@@ -28,7 +28,12 @@ SportUp.sk je koncepčný návrh nového informačného systému športu pre Slo
 ├── README.md                  ← ste tu
 ├── CONTRIBUTING.md            ← ako prispieť
 ├── CODE_OF_CONDUCT.md         ← pravidlá komunity
-├── LICENSE                    ← licencia (MIT pre kód, CC-BY-4.0 pre dokumentáciu)
+├── SECURITY.md                ← bezpečnostná politika
+├── CHANGELOG.md               ← história zmien
+├── ROADMAP.md                 ← plán implementácie
+├── LICENSE                    ← MIT (zdrojové kódy)
+├── LICENSE-DOCS               ← CC-BY-4.0 (dokumentácia)
+├── vercel.json                ← konfigurácia Vercel deploymentu
 ├── docs/                      ← kompletná dokumentácia
 │   ├── 00-overview.md         ← prehľad systému
 │   ├── 01-glossary.md         ← slovník pojmov
@@ -41,8 +46,11 @@ SportUp.sk je koncepčný návrh nového informačného systému športu pre Slo
 │   ├── scenarios/             ← reálne príklady použitia
 │   ├── integration/           ← napojenie na RFO, RPO, ÚPVS
 │   └── operations/            ← prevádzka, monitoring, security
-├── website/                   ← statická prezentačná stránka (sportup.sk)
-└── ROADMAP.md                 ← plán implementácie
+└── website/                   ← statická prezentačná stránka (sportup.sk)
+    ├── index.html, *.html     ← jednotlivé stránky
+    ├── styles.css, script.js  ← štýly a skripty
+    ├── brand/                 ← logá, design manuál (PDF)
+    └── favicon/               ← ikony
 ```
 
 ## Začnite tu
