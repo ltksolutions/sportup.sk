@@ -1,0 +1,56 @@
+# REUSE 3.3 specification — https://reuse.software/spec
+# Centralizovaná licenčná metadata pre celý SportUp.sk repozitár.
+# Validuj cez: python3 -m reuse lint
+
+version = 1
+
+# ─── 1. Repo metadata: README, CHANGELOG, licenčné súbory, repo-meta ───
+[[annotations]]
+path = [
+    "README.md",
+    "CHANGELOG.md",
+    "ROADMAP.md",
+    "CONTRIBUTING.md",
+    "CODE_OF_CONDUCT.md",
+    "SECURITY.md",
+    "CITATION.cff",
+    "LICENSE",
+    "LICENSE-DOCS",
+    ".gitignore",
+    ".gitattributes",
+    "vercel.json",
+    "REUSE.toml",
+]
+SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# ─── 2. Dokumentácia (docs/) — všetko CC-BY-4.0 ───
+[[annotations]]
+path = "docs/**"
+SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# ─── 3. Marketingový web (website/) — content + assety pod CC-BY-4.0 ───
+# Sem patrí HTML, CSS, JS, OG image, manifest, brand assety, favicon.
+# Keď príde reálny zdrojový kód aplikácie, pôjde do iného path-u
+# pod EUPL-1.2 (napr. apps/, packages/).
+[[annotations]]
+path = "website/**"
+SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# ─── 4. GitHub Community files (.github/) ───
+[[annotations]]
+path = ".github/**"
+SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+# ─── 5. Tretie strany — Helvetica Neue Black Italic font ───
+# Komerčný font od Linotype/Monotype. Nie je súčasťou repa
+# (používa sa len lokálne pre OG image rendering), takže táto
+# anotácia je preventívna — pre prípad budúceho rozšírenia.
+# [[annotations]]
+# path = "website/brand/fonts/HelveticaNeue-BlackItalic.ttf"
+# precedence = "aggregate"
+# SPDX-FileCopyrightText = "© Linotype GmbH"
+# SPDX-License-Identifier = "LicenseRef-Helvetica-Commercial"

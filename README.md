@@ -5,6 +5,7 @@
 > Jednotný národný register osôb, organizácií a aktivít s verejným registrom športovísk a vzdelávacími a rozvojovými službami postavený na otvorenej architektúre s otvorenými zdrojovými kódmi.
 
 [![License: EUPL-1.2](https://img.shields.io/badge/License-EUPL--1.2-blue.svg)](LICENSE)
+[![REUSE status](https://api.reuse.software/badge/github.com/ltksolutions/sportup.sk)](https://api.reuse.software/info/github.com/ltksolutions/sportup.sk)
 [![Status: Concept](https://img.shields.io/badge/Status-Concept_v0.1-orange.svg)]()
 [![Slovak](https://img.shields.io/badge/Lang-Slovak-blue.svg)]()
 
@@ -34,6 +35,10 @@ SportUp.sk je koncepčný návrh nového informačného systému športu pre Slo
 ├── LICENSE                    ← EUPL-1.2 (zdrojové kódy)
 ├── LICENSE-DOCS               ← CC-BY-4.0 (dokumentácia)
 ├── vercel.json                ← konfigurácia Vercel deploymentu
+├── REUSE.toml                 ← centrálne licenčné mapovanie (REUSE 3.3)
+├── LICENSES/                  ← plné texty používaných licencií
+│   ├── EUPL-1.2.txt           ← pre zdrojové kódy (rezervované pre src/)
+│   └── CC-BY-4.0.txt          ← pre dokumentáciu a web
 ├── docs/                      ← kompletná dokumentácia
 │   ├── 00-overview.md         ← prehľad systému
 │   ├── 01-glossary.md         ← slovník pojmov
@@ -87,6 +92,18 @@ Stack pre samotnú implementáciu (návrh): **Next.js + Node.js + MongoDB**, pol
 
 EUPL je open-source licencia vytvorená Európskou komisiou, **právne ekvivalentná v 23 jazykoch EÚ** vrátane slovenčiny.
 Plne kompatibilné znenia všetkých jazykových verzií sú dostupné na [joinup.ec.europa.eu](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12).
+
+### REUSE Compliance
+
+Projekt je v plnom súlade s [**REUSE Specification 3.3**](https://reuse.software/spec/) — každý súbor v repozitári má jednoznačnú licenčnú a copyright metadata. Centrálne licenčné mapovanie je v [`REUSE.toml`](REUSE.toml), plné texty licencií v [`LICENSES/`](LICENSES/).
+
+Validácia lokálne:
+```bash
+pipx install reuse  # alebo: pip install --user reuse
+reuse lint
+```
+
+Compliance je automaticky kontrolovaná pri každom push a pull request — pozri [`.github/workflows/reuse.yml`](.github/workflows/reuse.yml). REUSE je odporúčaný prístup EÚ Joinup pre softvér verejného sektora.
 
 ## Autor a kontakt
 

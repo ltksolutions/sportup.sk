@@ -4,6 +4,11 @@ Tento súbor sleduje významné zmeny v projekte. Formát je založený na [Keep
 
 ## [Unreleased]
 
+### Added
+
+- **[REUSE Specification 3.3](https://reuse.software/spec/) compliance** — každý súbor v repozitári (161/161) má jednoznačnú copyright a license metadata. Centrálne licenčné mapovanie cez `REUSE.toml`, plné texty licencií v `LICENSES/` (EUPL-1.2, CC-BY-4.0). Compliance je automaticky validovaná pri každom PR cez GitHub Actions workflow `.github/workflows/reuse.yml` (FSFE reuse-action). REUSE je odporúčaný prístup EÚ Joinup pre softvér verejného sektora.
+- Adresár `src/` rezervovaný pre budúcu implementáciu (Next.js + MongoDB) s plánovanou štruktúrou monorepa (`apps/`, `packages/`).
+
 ### Changed
 
 - **Licencia zdrojových kódov zmenená z MIT na [EUPL-1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)** — European Union Public Licence v1.2.
