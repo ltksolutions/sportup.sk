@@ -1045,12 +1045,6 @@ footer {
   letter-spacing: 0.01em;
 }
 
-.footer-tagline {
-  font-style: italic;
-  color: var(--blue);
-  font-size: 0.82rem;
-  margin-top: 0.35rem;
-}
 
 /* Utilities */
 .text-center { text-align: center; }
