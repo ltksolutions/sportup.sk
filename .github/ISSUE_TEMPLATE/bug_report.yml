@@ -1,0 +1,55 @@
+name: 🐛 Hlásenie chyby
+description: Niečo nefunguje tak, ako by malo (web, dokumentácia, odkazy)
+title: "[bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vďaka za nahlásenie problému. Pred odoslaním si, prosím, prejdite [existujúce issues](https://github.com/ltksolutions/sportup.sk/issues), či už nebol problém nahlásený.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Popis problému
+      description: Čo nefunguje? Čo ste očakávali a čo sa skutočne stalo?
+      placeholder: "Pri otvorení stránky X sa nezobrazí..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Kroky na reprodukciu
+      description: Ako sa k chybe dostať?
+      placeholder: |
+        1. Otvor https://sportup.sk/...
+        2. Klikni na...
+        3. Pozri sa na...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Oblasť projektu
+      multiple: false
+      options:
+        - Marketingová stránka (sportup.sk)
+        - Dokumentácia (docs/)
+        - Brand a vizuálna identita
+        - Iné
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: Prehliadač / OS
+      placeholder: "Safari 18 / macOS 15, Chrome 130 / Windows 11..."
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Doplňujúce informácie
+      description: Screenshot, odkaz, console log, čokoľvek čo by mohlo pomôcť.

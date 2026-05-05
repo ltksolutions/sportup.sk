@@ -1,0 +1,54 @@
+name: ✨ Návrh funkcie
+description: Návrh novej funkcionality, doménovej entity alebo procesu
+title: "[feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ďakujeme za návrh! Ak ide o niečo komplexnejšie, je lepšie najprv otvoriť diskusiu v [Discussions](https://github.com/ltksolutions/sportup.sk/discussions), aby sa rozprúdila širšia debata pred technickým návrhom.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Aký problém riešite?
+      description: Komu a v akej situácii táto funkcia pomôže? Aký reálny use case je za tým?
+      placeholder: "Tréner potrebuje vidieť všetkých svojich aktívnych zverencov v jednom kluboch v jednom roku..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Návrh riešenia
+      description: Ako si predstavujete, že by to malo fungovať?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Oblasť projektu
+      multiple: true
+      options:
+        - Doménový model (entity, vzťahy)
+        - Číselníky (športy, organizácie, aktivity, účely)
+        - API / MCP rozhranie
+        - GDPR a Purpose Catalogue
+        - Integrácie (RFO, RPO, ÚPVS, eID)
+        - Marketingová stránka
+        - Iné
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatívy, ktoré ste zvažovali
+      description: Aké iné prístupy by mohli problém riešiť? Prečo ste sa rozhodli pre tento?
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Doplňujúce kontext
+      description: Linky, referencie na podobné systémy, citácie zákona, odkaz na ÚPVS dokumentáciu, atď.

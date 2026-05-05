@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Otázka alebo diskusia
+    url: https://github.com/ltksolutions/sportup.sk/discussions
+    about: Pre otázky o projekte, architektonické rozhodnutia alebo otvorenú diskusiu použite GitHub Discussions.
+  - name: 🔒 Bezpečnostná zraniteľnosť
+    url: https://github.com/ltksolutions/sportup.sk/blob/main/SECURITY.md
+    about: Bezpečnostné chyby, prosím, nehláste verejne — postup je v SECURITY.md.
+  - name: ✉️ Priamy kontakt
+    url: mailto:sportup@ltk.solutions
+    about: Pre súkromné záležitosti alebo partnerstvá píšte priamo Jánovi Letkovi.

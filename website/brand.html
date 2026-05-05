@@ -14,162 +14,51 @@
 <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#1A2D47">
+<!-- Canonical -->
+<link rel="canonical" href="https://sportup.sk/brand.html">
+
+<!-- Open Graph -->
 <meta property="og:title" content="Brand a vizuálna identita — SportUp.sk">
 <meta property="og:description" content="Logo, farby, typografia a pravidlá používania značky SportUp.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="sk_SK">
 <meta property="og:site_name" content="SportUp.sk">
-<meta name="twitter:card" content="summary">
-<style>
-  /* Brand page specific styles */
-  .logo-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    margin: 1.5rem 0 2.5rem;
-  }
-  @media (max-width: 900px) { .logo-grid { grid-template-columns: repeat(2, 1fr); } }
+<meta property="og:url" content="https://sportup.sk/brand.html">
+<meta property="og:image" content="https://sportup.sk/og-image.png">
+<meta property="og:image:secure_url" content="https://sportup.sk/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SportUp.sk — Vizuálna identita">
 
-  .logo-card {
-    border-radius: var(--radius-lg);
-    padding: 1.75rem 1.25rem 1.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    border: 1px solid var(--border);
-    min-height: 180px;
-  }
-  .logo-card.bg-light  { background: var(--white); }
-  .logo-card.bg-dark   { background: var(--navy); border-color: var(--navy); }
-  .logo-card.bg-blue   { background: var(--blue); border-color: var(--blue); }
-  .logo-card.bg-paper  { background: #f0ece5; }
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brand a vizuálna identita — SportUp.sk">
+<meta name="twitter:description" content="Logo, farby, typografia a pravidlá používania značky SportUp.">
+<meta name="twitter:image" content="https://sportup.sk/og-image.png">
+<meta name="twitter:image:alt" content="SportUp.sk — Vizuálna identita">
 
-  .logo-card img { width: 100%; max-width: 180px; height: auto; align-self: center; }
-  .logo-card-meta { width: 100%; }
-  .logo-card-label {
-    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em;
-    text-transform: uppercase; margin-bottom: 0.2rem;
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "SportUp.sk",
+  "alternateName": "Good Idea Sport Slovakia",
+  "url": "https://sportup.sk/",
+  "logo": "https://sportup.sk/sportup-logo.svg",
+  "description": "Otvorené riešenie pre slovenský šport a podporu cestovného ruchu — jednotný národný register osôb, organizácií, aktivít a športovísk.",
+  "sameAs": [
+    "https://github.com/ltksolutions/sportup.sk"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "sportup@ltk.solutions",
+    "contactType": "customer support",
+    "availableLanguage": ["sk", "en"]
   }
-  .logo-card-file {
-    font-family: var(--font-mono); font-size: 0.7rem;
-  }
-  .bg-light .logo-card-label { color: var(--text-muted); }
-  .bg-light .logo-card-file  { color: var(--text-muted); }
-  .bg-dark .logo-card-label  { color: rgba(255,255,255,0.5); }
-  .bg-dark .logo-card-file   { color: rgba(255,255,255,0.35); }
-  .bg-blue .logo-card-label  { color: rgba(255,255,255,0.7); }
-  .bg-blue .logo-card-file   { color: rgba(255,255,255,0.5); }
-  .bg-paper .logo-card-label { color: var(--text-muted); }
-  .bg-paper .logo-card-file  { color: var(--text-muted); }
-
-  /* Color palette */
-  .color-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    margin: 1.5rem 0 2.5rem;
-  }
-  @media (max-width: 800px) { .color-grid { grid-template-columns: repeat(2, 1fr); } }
-
-  .color-swatch {
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-  .color-block { height: 90px; }
-  .color-meta { padding: 0.75rem; background: var(--white); }
-  .color-name { font-weight: 600; font-size: 0.92rem; color: var(--navy); }
-  .color-hex {
-    font-family: var(--font-mono); font-size: 0.78rem;
-    color: var(--text-muted); margin-top: 0.15rem;
-  }
-
-  /* Typography sample */
-  .type-sample {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.75rem;
-    margin: 1rem 0 2rem;
-  }
-  .type-sample-label {
-    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
-    color: var(--blue); text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-  .type-sample-display {
-    font-family: 'Poppins', sans-serif; font-weight: 700;
-    font-size: 2.4rem; line-height: 1.1; color: var(--navy);
-    margin-bottom: 0.4rem;
-  }
-  .type-sample-display.italic { font-style: italic; color: var(--blue); }
-  .type-sample-display.mono {
-    font-family: 'JetBrains Mono', monospace; font-weight: 500;
-    font-size: 1.5rem;
-  }
-  .type-sample-info {
-    font-size: 0.85rem; color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  /* Download CTA */
-  .cta-download {
-    display: flex; flex-wrap: wrap; gap: 1rem;
-    background: var(--navy);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    margin: 1.5rem 0 2.5rem;
-    color: var(--white);
-    align-items: center;
-    justify-content: space-between;
-  }
-  .cta-text { flex: 1; min-width: 280px; }
-  .cta-text h3 { color: var(--white); margin: 0 0 0.4rem; }
-  .cta-text p { color: rgba(255,255,255,0.65); margin: 0; font-size: 0.92rem; }
-  .cta-buttons { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-  .btn-cta {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    padding: 0.7rem 1.1rem;
-    border-radius: var(--radius-md);
-    font-size: 0.88rem; font-weight: 600;
-    text-decoration: none;
-    transition: transform 0.15s, background 0.15s;
-  }
-  .btn-cta-primary {
-    background: var(--blue); color: var(--white);
-  }
-  .btn-cta-primary:hover {
-    background: #4a9fd1; transform: translateY(-1px); text-decoration: none;
-  }
-  .btn-cta-secondary {
-    background: rgba(255,255,255,0.1); color: var(--white);
-    border: 1px solid rgba(255,255,255,0.2);
-  }
-  .btn-cta-secondary:hover {
-    background: rgba(255,255,255,0.15); text-decoration: none;
-  }
-
-  /* Rules grid */
-  .rules-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin: 1rem 0 2rem;
-  }
-  @media (max-width: 800px) { .rules-grid { grid-template-columns: 1fr; } }
-  .rule-block { padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border); }
-  .rule-block.do  { background: #f0f9f4; border-color: #c8e6d3; }
-  .rule-block.dont { background: #fdf2f2; border-color: #f5cdc6; }
-  .rule-block-title {
-    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
-    text-transform: uppercase; margin-bottom: 0.6rem;
-  }
-  .rule-block.do .rule-block-title  { color: #2d7a4a; }
-  .rule-block.dont .rule-block-title { color: #c0392b; }
-  .rule-block ul { margin: 0; padding-left: 1.1rem; }
-  .rule-block li { font-size: 0.9rem; color: var(--navy); margin-bottom: 0.35rem; }
-</style>
+}
+</script>
 </head>
 <body>
 

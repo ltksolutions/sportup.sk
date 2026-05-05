@@ -1,0 +1,8 @@
+# SportUp.sk — RFC 9116 security.txt
+# Standardizovaný kontakt pre nahlásenie bezpečnostných zraniteľností.
+
+Contact: mailto:sportup@ltk.solutions
+Expires: 2027-05-04T00:00:00.000Z
+Preferred-Languages: sk, en
+Canonical: https://sportup.sk/.well-known/security.txt
+Policy: https://github.com/ltksolutions/sportup.sk/blob/main/SECURITY.md

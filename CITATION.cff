@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "Ak používate SportUp.sk vo svojej práci, prosím citujte ho takto:"
+title: "SportUp.sk — Otvorené riešenie pre slovenský šport a podporu cestovného ruchu"
+abstract: >-
+  Národný informačný systém pre slovenský šport. Jednotný register
+  fyzických osôb, právnických osôb, aktivít a športovísk postavený
+  na otvorenej architektúre s otvorenými zdrojovými kódmi. Plná
+  náhrada existujúceho ISŠ a registrov RPOS/RFOS s napojením na
+  štátne registre RFO a RPO cez ÚPVS.
+type: software
+authors:
+  - family-names: Letko
+    given-names: Ján
+    email: sportup@ltk.solutions
+    affiliation: LTK Solutions
+repository-code: "https://github.com/ltksolutions/sportup.sk"
+url: "https://sportup.sk"
+license: MIT
+license-url: "https://github.com/ltksolutions/sportup.sk/blob/main/LICENSE"
+keywords:
+  - šport
+  - sport
+  - slovakia
+  - národný register
+  - national register
+  - open source
+  - open data
+  - sports information system
+  - cestovný ruch
+  - tourism
+  - public sector
+  - GDPR
+  - event sourcing
+date-released: 2026-05-04
