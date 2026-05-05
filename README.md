@@ -4,7 +4,7 @@
 >
 > Jednotný národný register osôb, organizácií a aktivít s verejným registrom športovísk a vzdelávacími a rozvojovými službami postavený na otvorenej architektúre s otvorenými zdrojovými kódmi.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: EUPL-1.2](https://img.shields.io/badge/License-EUPL--1.2-blue.svg)](LICENSE)
 [![Status: Concept](https://img.shields.io/badge/Status-Concept_v0.1-orange.svg)]()
 [![Slovak](https://img.shields.io/badge/Lang-Slovak-blue.svg)]()
 
@@ -31,7 +31,7 @@ SportUp.sk je koncepčný návrh nového informačného systému športu pre Slo
 ├── SECURITY.md                ← bezpečnostná politika
 ├── CHANGELOG.md               ← história zmien
 ├── ROADMAP.md                 ← plán implementácie
-├── LICENSE                    ← MIT (zdrojové kódy)
+├── LICENSE                    ← EUPL-1.2 (zdrojové kódy)
 ├── LICENSE-DOCS               ← CC-BY-4.0 (dokumentácia)
 ├── vercel.json                ← konfigurácia Vercel deploymentu
 ├── docs/                      ← kompletná dokumentácia
@@ -82,8 +82,11 @@ Stack pre samotnú implementáciu (návrh): **Next.js + Node.js + MongoDB**, pol
 
 ## Licencia
 
-- **Zdrojové kódy** — [MIT License](LICENSE)
+- **Zdrojové kódy** — [European Union Public Licence v1.2 (EUPL-1.2)](LICENSE)
 - **Dokumentácia, číselníky, schémy** — [CC-BY-4.0](LICENSE-DOCS)
+
+EUPL je open-source licencia vytvorená Európskou komisiou, **právne ekvivalentná v 23 jazykoch EÚ** vrátane slovenčiny.
+Plne kompatibilné znenia všetkých jazykových verzií sú dostupné na [joinup.ec.europa.eu](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12).
 
 ## Autor a kontakt
 

@@ -14,8 +14,9 @@ info:
     email: sportup@ltk.solutions
     url: https://github.com/ltksolutions/sportup.sk
   license:
-    name: MIT
-    url: https://github.com/ltksolutions/sportup.sk/blob/main/LICENSE
+    name: EUPL-1.2
+    identifier: EUPL-1.2
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
 
 servers:
   - url: https://api.sportup.sk/v1

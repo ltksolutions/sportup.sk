@@ -2,6 +2,13 @@
 
 Tento súbor sleduje významné zmeny v projekte. Formát je založený na [Keep a Changelog](https://keepachangelog.com/), pravidlá verzionovania na [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+
+- **Licencia zdrojových kódov zmenená z MIT na [EUPL-1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)** — European Union Public Licence v1.2.
+  Dôvodom je lepšie zladenie s charakterom národného informačného systému pre verejný sektor: EUPL je open-source licencia vytvorená Európskou komisiou, právne ekvivalentná v 23 jazykoch EÚ, OSI-certifikovaná a odporučená EÚ Joinup pre public sector software. Weak copyleft chráni IP štátu pri zachovaní komerčnej použiteľnosti. Licencia dokumentácie (CC-BY-4.0) zostala bez zmeny.
+
 ## [0.1.0] — 2026-04-30
 
 ### Added
