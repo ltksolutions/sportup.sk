@@ -327,6 +327,31 @@
   .su-grid-3, .su-grid-3c { grid-template-columns: 1fr; }
   .su-widget { padding: 1.1rem; }
   .su-aftereffects { grid-template-columns: 1fr; gap: 1rem; }
+
+  /* ── Responzivita: zabrániť pretekaţ okraje na mobile ── */
+  /* Flex/grid deti sa smú zmenšiť pod šírku svojho obsahu */
+  .su-widget, .su-widget * { min-width: 0; }
+
+  /* Surový JSON v technickom detaile: vlastný horizontálny scroll v bloku,
+     aby netlačil celú stránku; menšie písmo pre lepšiu čitateľnosť. */
+  .su-tech-body pre {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+  }
+  .su-tech-body pre code { font-size: 0.68rem; }
+
+  /* Dlhé inline <code> reťazce (napr. infrastructure_demand_index) nech sa
+     zalomia namiesto pretekať okraj bunky. */
+  .su-widget code,
+  .su-aftereffects code,
+  .su-ae-item code {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* Kartičky schémy a hodnoty: nech sa dlhé hodnoty zalomia, nie orezané */
+  .su-field-card .su-fc-val { white-space: normal; overflow-wrap: anywhere; }
 }
 
 @media (prefers-reduced-motion: reduce) {
