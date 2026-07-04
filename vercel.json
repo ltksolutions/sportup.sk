@@ -1,4 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "outputDirectory": "website"
+  "outputDirectory": "website",
+  "redirects": [
+    {
+      "source": "/objavuj.html",
+      "destination": "/portal.html",
+      "permanent": true
+    },
+    {
+      "source": "/objavuj",
+      "destination": "/portal.html",
+      "permanent": true
+    }
+  ]
 }

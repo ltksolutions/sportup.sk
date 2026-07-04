@@ -143,7 +143,7 @@ tile servera a produkčného portálu si preberie senior developer v neskoršej 
 
 - [x] Koncept a funkcionality
 - [x] Ukážkové vzory dát ([`data-samples.md`](data-samples.md))
-- [x] Webová prezentácia + funkčný widget (`objavuj.html`)
+- [x] Webová prezentácia + funkčný widget (`portal.html`)
 - [ ] Discovery API kontrakt (OpenAPI) — neskoršia fáza
 - [ ] Produkčný portál — neskoršia fáza
 
