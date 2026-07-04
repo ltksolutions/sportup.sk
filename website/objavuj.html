@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Objavuj — SportUp.sk</title>
+<meta name="description" content="Verejný portál s mapovým podkladom. Nájdi športoviská, ubytovanie, trasy a lokálne podujatia v okolí — šport a cestovný ruch na jednom mieste.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/widgets.css">
+<!-- Favicon & PWA — SportUp Brand v2.0 -->
+<link rel="icon" href="favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="favicon/su-icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#1A2D47">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://sportup.sk/objavuj.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Objavuj — SportUp.sk">
+<meta property="og:description" content="Verejný portál s mapovým podkladom. Nájdi športoviská, ubytovanie, trasy a lokálne podujatia v okolí — šport a cestovný ruch na jednom mieste.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sk_SK">
+<meta property="og:site_name" content="SportUp.sk">
+<meta property="og:url" content="https://sportup.sk/objavuj.html">
+<meta property="og:image" content="https://sportup.sk/og-image.png">
+<meta property="og:image:secure_url" content="https://sportup.sk/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SportUp.sk — Objavuj">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Objavuj — SportUp.sk">
+<meta name="twitter:description" content="Verejný portál s mapovým podkladom. Nájdi športoviská, ubytovanie, trasy a lokálne podujatia v okolí.">
+<meta name="twitter:image" content="https://sportup.sk/og-image.png">
+<meta name="twitter:image:alt" content="SportUp.sk — Objavuj">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SportUp.sk — Objavuj",
+  "applicationCategory": "TravelApplication",
+  "operatingSystem": "Web",
+  "url": "https://sportup.sk/objavuj.html",
+  "description": "Verejný portál s mapovým podkladom pre šport a cestovný ruch — športoviská, ubytovanie, trasy a lokálne podujatia.",
+  "isPartOf": { "@type": "WebSite", "name": "SportUp.sk", "url": "https://sportup.sk/" }
+}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="SportUp — Good Idea Sport Slovakia">
+      <img src="sportup-logo.svg" alt="SportUp" width="140" height="58">
+    </a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="objavuj.html" class="active">Objavuj</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li class="nav-dropdown"><button class="nav-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown="docs">Dokumentácia <svg class="dd-chevron" width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1,3 5.5,8 10,3"/></svg></button><ul class="nav-dropdown-menu" role="menu"><li role="none"><a href="architektura.html" class="dd-item" role="menuitem"><span class="dd-name">Architektúra</span><span class="dd-desc">Vrstvy, event sourcing, zero-trust model</span></a></li><li role="none"><a href="domenovy-model.html" class="dd-item" role="menuitem"><span class="dd-name">Doménový model</span><span class="dd-desc">Entity, vzťahy a časová dimenzia</span></a></li><li role="none"><a href="ciselniky.html" class="dd-item" role="menuitem"><span class="dd-name">Číselníky</span><span class="dd-desc">90 športov, typy organizácií a aktivít</span></a></li><li role="none"><a href="integracie.html" class="dd-item" role="menuitem"><span class="dd-name">Integrácie</span><span class="dd-desc">API, MCP servery, štátne registre</span></a></li><li role="none"><a href="technologie.html" class="dd-item" role="menuitem"><span class="dd-name">Technológie</span><span class="dd-desc">Stack: Next.js, MongoDB, Node.js, OPA</span></a></li><li role="none"><a href="brand.html" class="dd-item" role="menuitem"><span class="dd-name">Brand</span><span class="dd-desc">Logo, farby, typografia a vizuálna identita</span></a></li><li role="none"><a href="brand/SportUp_Design_Manual.pdf" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">Design Manual ↗</span><span class="dd-desc">PDF — pravidlá používania značky v2.1</span></a></li></ul></li>
+      <li class="nav-dropdown"><button class="nav-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown="ecosystem">Ekosystém <svg class="dd-chevron" width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1,3 5.5,8 10,3"/></svg></button><ul class="nav-dropdown-menu" role="menu"><li role="none"><a href="ekosystem.html" class="dd-item" role="menuitem"><span class="dd-name">SportUp.sk</span><span class="dd-desc">Centrálny register osôb a organizácií</span></a></li><li role="none"><a href="https://activity.sportup.sk" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">Activity.SportUp.sk ↗</span><span class="dd-desc">Podujatia, aktivity a pohybové programy</span></a></li><li role="none"><a href="https://clubup.sk" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">ClubUp.sk ↗</span><span class="dd-desc">Správa klubov a oddielov</span></a></li></ul></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="https://github.com/ltksolutions/sportup.sk" class="nav-github" aria-label="GitHub repozitár" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Verejný portál · Discovery</div>
+    <h1>Objav, čo je <em>okolo teba</em></h1>
+    <p class="lead">Prídeš do mesta na víkend a chceš vedieť, aké máš možnosti? Verejný portál s mapovým podkladom spája <strong>športoviská, ubytovanie, trasy a lokálne podujatia</strong> na jednom mieste. Šport a cestovný ruch sú úzko prepojené — práve cez infraštruktúru a lokálne eventy. Presne túto väzbu portál zviditeľňuje.</p>
+    <div class="hero-meta">
+      <div>Zdroj dát<span>Centrálny register</span></div>
+      <div>Prístup<span>Verejný · bez osobných údajov</span></div>
+      <div>Postavené na<span>API-first architektúre</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<section>
+<p class="lead" style="font-size:1.05rem;color:var(--text-muted)">Nasledujúca ukážka nie je hotová aplikácia — je to <strong>funkčná demonštrácia</strong> toho, čo verejný portál dokáže. Vyskúšaj si scenár: <em>„Prišiel som na víkend do Novej Bane a hľadám, čo tu môžem robiť."</em> Zapni filtre podľa toho, čo ťa zaujíma, a sleduj, ako sa mapa a ponuka menia.</p>
+</section>
+
+<!-- ══════════ FUNKČNÝ WIDGET — Discovery ══════════ -->
+<div class="su-widget" data-su-widget="discovery">
+<div class="su-w-head">
+<span class="su-w-tag">Ukážka · Objavuj okolie</span>
+<span class="su-w-sub">Víkend v Novej Bani — nájdi športoviská, ubytovanie, trasy a podujatia</span>
+</div>
+<div class="su-w-intro">Zaškrtni, čo hľadáš. Mapa aj zoznam sa prispôsobia. Ak zapneš <b>e-bike</b>, portál ti navyše zloží hotový <b>víkendový balíček</b> — ubytovanie, okruh aj podujatie v jednom. Klikni na ktorýkoľvek bod a uvidíš, aké verejné dáta o mieste portál dostane cez API.</div>
+
+<div class="su-disc-filters">
+<span class="su-disc-filters-label">Hľadám:</span>
+<span data-filters style="display:contents"></span>
+</div>
+
+<div class="su-disc-layout">
+<div>
+<div class="su-map" data-map><span class="su-map-note">schematická ukážka · MapLibre + OSM v produkcii</span></div>
+<div class="su-api" data-api></div>
+</div>
+<div class="su-disc-list" data-list></div>
+</div>
+
+<div class="su-package" data-package></div>
+
+<div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)">
+<div style="font-weight:700;font-size:0.95rem;color:var(--navy);margin-bottom:0.3rem">Kalendár podujatí v okolí</div>
+<div class="su-w-intro" style="margin-bottom:0.8rem">Jeden verejný kalendár zjednocuje podujatia od <b>zväzov, klubov, miest, obcí aj komerčných subjektov</b>. Amatérsky a lokálny šport je často aj <b>kultúrno-spoločenská udalosť</b> — dedinský zápas, seniorský turnaj, mestský beh. Prepni na „komunitné" a uvidíš práve tie.</div>
+<div class="su-toggle">
+<button type="button" data-cal-all class="is-active">Všetky podujatia</button>
+<button type="button" data-cal-community>Komunitné / kultúrne</button>
+</div>
+<div class="su-cal" data-calendar></div>
+</div>
+
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Ako to funguje</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Portál číta cez <code>/v1/public/venues</code> a <code>/v1/public/events</code></div>
+<div class="su-ae-item">Kalendár zjednocuje podujatia od zväzov, klubov, miest, obcí aj komerčných subjektov</div>
+<div class="su-ae-item">Komunitný/kultúrny rozmer je atribút podujatia, nie samostatná doména</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> GDPR hranica</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Von idú len miesta, podujatia a agregáty</div>
+<div class="su-ae-item">Žiadne mená, kontakty ani zoznamy účastníkov</div>
+<div class="su-ae-item">Žiadosť o <code>/v1/persons</code> → <code>403</code> (verejný scope)</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ══════════ /WIDGET ══════════ -->
+
+<h2>Prečo je to viac než mapa</h2>
+
+<p>Bežná mapa ti ukáže bod. Portál <em>Objavuj</em> ide ďalej — spája veci, ktoré k sebe patria, ale bývajú roztrúsené po desiatich weboch. Hľadáš e-bike víkend? Namiesto samostatného hľadania ubytovania, trasy a podujatia dostaneš <strong>jednu ponuku</strong>, ktorá ich spája podľa regiónu a času.</p>
+
+<div class="grid cols-3">
+<div class="card">
+<span class="card-number">01</span>
+<h3>Objavovanie okolia</h3>
+<p>„Čo je do 15 km od tejto obce?" Jeden geodotaz vráti športoviská, ubytovanie, trasy aj podujatia — zoradené podľa vzdialenosti.</p>
+</div>
+<div class="card">
+<span class="card-number">02</span>
+<h3>Filtre podľa vybavenia</h3>
+<p>Bazén, tenisový kurt, SPA, požičovňa e-bikov, bezbariérovosť. Nájdi presne to, čo hľadáš — aj kombináciu naraz.</p>
+</div>
+<div class="card">
+<span class="card-number">03</span>
+<h3>Víkendový balíček</h3>
+<p>Hlavný rozdiel oproti bežnej mape: ubytovanie + aktivita + podujatie zložené do jednej ponuky pre región a čas.</p>
+</div>
+</div>
+
+<h2>Amatérsky šport je aj kultúra</h2>
+
+<p>Dedinský futbalový zápas, seniorský tenisový turnaj či mestský beh nie sú len súťaž — sú to <strong>komunitné a kultúrno-spoločenské udalosti</strong>, na ktoré sa chodí aj „len tak". Z pohľadu turistu a občana je hranica medzi „športom" a „kultúrou" v praxi rozmazaná — a práve to je hodnota. Otázka <em>„čo sa deje tento víkend v okolí"</em> má zmysel odpovedať naprieč oboma.</p>
+
+<p>Portál preto ku každému podujatiu vie pridať príznak jeho <strong>komunitného rozmeru</strong> — nie ako samostatnú doménu „kultúra" (SportUp ostáva systémom o športe), ale ako atribút. Dedinský zápas ho má, liga profesionálov spravidla nie. Vďaka tomu vie kalendár zobraziť „komunitné podujatia v okolí" bez toho, aby systém musel spravovať divadlá a koncerty.</p>
+
+<div class="callout">
+<h4>Jeden kalendár, viaceré zdroje</h4>
+<p>Podujatia zapisujú rôzne oficiálne zdroje — národné zväzy (liga, majstrovstvá), kluby (turnaje, nábory), mestá a obce (behy, hody), VÚC (krajské hry) aj komerčné subjekty (firemné olympiády, preteky). Každý cez svoju certifikovanú aplikáciu. Discovery ich číta ako jednu verejnú vrstvu — bez osobných údajov účastníkov.</p>
+</div>
+
+<h2>Pre koho je portál</h2>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Kto</th><th>Čo hľadá</th><th>Príklad</th></tr></thead>
+<tbody>
+<tr><td><strong>Turista / návštevník</strong></td><td>čo robiť v destinácii, ubytovanie s vybavením</td><td>víkend v Novej Bani</td></tr>
+<tr><td><strong>Občan / rezident</strong></td><td>najbližšie športovisko, kam s deťmi</td><td>bazén v okolí</td></tr>
+<tr><td><strong>Aktívny športovec</strong></td><td>trasy, terén, požičovne, náročnosť</td><td>e-bike okruh, trail</td></tr>
+<tr><td><strong>Organizátor podujatia</strong></td><td>dostupné miesta, kapacita</td><td>dejisko turnaja</td></tr>
+<tr><td><strong>Komerčný subjekt</strong></td><td>napojenie ponuky na lokalitu a eventy</td><td>hotel pri hale</td></tr>
+<tr><td><strong>Samospráva / VÚC</strong></td><td>prehľad infraštruktúry v území</td><td>podklad pre investície</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Kľúčový princíp — konzument, nie zdroj</h2>
+
+<p>Portál <strong>nevlastní žiadne dáta</strong>. Nič nezapisuje do centrálneho registra. Je to <strong>certifikovaná read-aplikácia</strong>, ktorá číta výhradne verejnú, anonymizovanú podmnožinu dát cez štandardizované API. Dáta doň zapisujú oficiálne zdroje — zväzy, kluby, mestá, obce, VÚC a komerčné subjekty — každý cez svoju certifikovanú aplikáciu.</p>
+
+<div class="callout">
+<h4>Šport a cestovný ruch — jedna evidencia</h4>
+<p>Rovnaké dáta o mieste slúžia obom svetom naraz: športovému zväzu na výber dejiska majstrovstiev, klubu na rezerváciu, samospráve na plánovanie investícií a turistovi na odporúčanie v destinácii. To je jadro hodnoty celého riešenia SportUp.</p>
+</div>
+
+<div class="callout success">
+<h4>Ochrana údajov je vynútená serverom</h4>
+<p>Verejný a turistický scope nikdy nedáva prístup k osobám. Ak by aplikácia požiadala o osobné údaje, systém odpovie zamietnutím. Von idú len miesta, verejné podujatia a agregátne štatistiky — nikdy nie mená, kontakty ani zoznamy účastníkov.</p>
+</div>
+
+<h2>Ako to bude postavené</h2>
+
+<p>Mapový podklad postavíme na <strong>open-source stacku MapLibre GL + OpenStreetMap</strong> — bez licenčných poplatkov, s plnou dátovou suverenitou, čo je pre národný verejný systém kľúčové. Geodáta kombinujeme z troch vrstiev: naše autoritatívne dáta z registra (A), kontext z OpenStreetMap ako cyklotrasy a terén (B) a obohatenie z externých API ako dostupnosť ubytovania (C). Kanonická identita miesta je vždy v našom systéme — externé zdroje sa len pripájajú.</p>
+
+<p class="text-muted">Táto stránka je <strong>analytická a prezentačná ukážka</strong>. Kompletný koncept, ukážkové vzory dát a GDPR hranicu nájdeš v repozitári v module <code>docs/discovery/</code>. Vývoj produkčného portálu a API si preberie vývojový tím v ďalšej fáze.</p>
+
+<div class="divider-ornament">§</div>
+
+<section>
+<p class="text-muted">Chceš vidieť, ako to vyzerá na úrovni dát a scenárov? Pozri <a href="priklady.html">Príklady</a> — vrátane scenára registrácie športoviska a dát pre cestovný ruch. Alebo <a href="ekosystem.html">Ekosystém</a> — ako do seba zapadajú tri platformy SportUp.</p>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand"><em>Sport</em>UP<span class="footer-tld">.sk</span></div>
+<div class="footer-slogan">Good Idea Sport Slovakia</div>
+<div>Otvorené riešenie pre šport a cestovný ruch · verzia 0.1</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="objavuj.html">Objavuj</a> · <a href="kontakt.html">Kontakt</a></div>
+<div>Ján Letko · <a href="mailto:sportup@ltk.solutions">sportup@ltk.solutions</a></div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+<script src="assets/widgets.js"></script>
+</body>
+</html>

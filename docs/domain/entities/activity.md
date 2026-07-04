@@ -80,11 +80,50 @@ Voľnočasová aktivita bez organizátora. **Eviduje sa len agregátne, nie pers
 | `is_public` | Boolean | Verejne prístupné podujatie |
 | `tourism_relevance` | Enum | `none` / `local` / `regional` / `national` / `international` (pre cestovný ruch) |
 
-## Vzťah k Affiliation a EventParticipation
+## Komunitný / kultúrny rozmer podujatia
 
-- **Aktivity oficiálne organizované** → účastníci majú aktívnu Affiliation v príslušnom športe
-- **Aktivity neoficiálne organizované** → účastníci sú evidovaní ako EventParticipation, môžu mať len rolu `volnocasovy_sportovec`
-- **Hobby aktivity** → bez personálnej evidencie, len agregátne počty
+**Amatérske a lokálne športové podujatie je fakticky aj kultúrno-spoločenská udalosť.** Dedinský futbalový zápas, seniorský tenisový turnaj alebo mestský beh nie sú len súťaž — sú to komunitné podujatia, na ktoré sa chodí aj „len tak". Z pohľadu občana a turistu (Discovery vrstva) je hranica medzi „športovým" a „kultúrnym" eventom rozmazaná a práve to je hodnota: otázka *„čo sa deje tento víkend v okolí"* má zmysel odpovedať naprieč oboma.
+
+Toto **nezavádzame ako samostatnú doménu** (SportUp ostáva systémom o športe, nie o divadlách a koncertoch), ale ako **atribút** podujatia — príznak, že dané športové podujatie má aj komunitno-kultúrny charakter. Dedinský zápas ho má, liga profesionálov spravidla nie.
+
+| Pole | Typ | Popis |
+|---|---|---|
+| `community_dimension` | Enum | `none` / `local_community` / `regional_cultural` / `heritage` — miera komunitno-kultúrneho charakteru |
+| `community_tags` | Array<String> | napr. `hody`, `obecna_slavnost`, `seniori`, `rodinne`, `charita`, `tradicia` |
+
+```json
+{
+  "activity_id": "...",
+  "activity_type": "neoficialne_organizovana_sutaz",
+  "name": "Hodový futbalový zápas — Terchová",
+  "is_organized": true,
+  "is_official": false,
+  "organizer_org_id": "obec-terchova-uuid",
+  "sport_code": "SK-FTB",
+  "is_public": true,
+  "tourism_relevance": "local",
+  "community_dimension": "local_community",
+  "community_tags": ["hody", "obecna_slavnost", "rodinne"]
+}
+```
+
+**Prečo atribút a nie doména:** drží fokus systému na šport, no Discovery vrstva z toho ťaží okamžite — vie zobraziť „komunitné/kultúrne podujatia v okolí" bez toho, aby systém musel spravovať nešportovú kultúru. Ak by neskôr prišlo zadanie prepojiť sa s reálnym kultúrnym systémom (napr. rezortný kalendár kultúry), spraví sa to cez integráciu/federáciu, nie duplikáciou dát.
+
+## Vrstva podujatí — viaceré oficiálne zdroje
+
+Podujatia do systému zapisujú **rôzne oficiálne zdroje**, každý cez svoju certifikovanú aplikáciu. `Activity` je preto vrstva, ktorá zjednocuje podujatia naprieč celým športovým ekosystémom:
+
+| Zdroj | Typický druh podujatia | `is_official` |
+|---|---|---|
+| **Národný zväz** (a podzväzy) | liga, pohár, majstrovstvá SR | `true` |
+| **Klub** | prípravný zápas, klubový turnaj, nábor | `false` |
+| **Mesto / obec** | mestský beh, hodový turnaj, MDD športom | `false` |
+| **VÚC** | krajské hry, župná olympiáda | `false` |
+| **Škola / CVČ** | školská liga, športový deň | `false` |
+| **Komerčný subjekt** (hotel, penzión, areál) | firemná olympiáda, komerčný pretek, e-bike maratón | `false` |
+
+Bez ohľadu na zdroj sa každé **verejné** podujatie (`is_public = true`) objaví vo verejnom kalendári Discovery vrstvy — bez osobných údajov účastníkov. Účasť konkrétnych osôb (rozhodca, delegát, dobrovoľník, lekár, technický vedúci, hráč) sa eviduje cez [`event-participation.md`](event-participation.md), nikdy nie vo verejnej vrstve.
+
 
 ## Referencie
 

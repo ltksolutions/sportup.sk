@@ -676,7 +676,263 @@
     render('valid');
   }
 
+  // ──────────────────────────────────────────────────────────────
+  // Discovery — verejný portál (mapa okolia + filtre + balíček)
+  // Scenár: návštevník prišiel na víkend do Novej Bane
+  // ──────────────────────────────────────────────────────────────
+  function initDiscovery(root) {
+    // Body v okolí Novej Bane. x/y sú % pozície v schematickej mape
+    // (nie geografická projekcia — ukážka bez externého tile servera).
+    const CENTER = { name: 'Nová Baňa', x: 50, y: 52 };
+    const POINTS = [
+      { id: 'hall', kind: 'venue', name: 'Mestská športová hala', cat: 'sport',
+        x: 46, y: 45, dist: 0.4, icon: '◆', color: '#388FC3',
+        amen: ['parking', 'wifi'], sports: 'volejbal · basketbal · florbal',
+        note: 'Indoor hala, 3 športy, bezbariérová.' },
+      { id: 'pension', kind: 'venue', name: 'Penzión Zlatý potok', cat: 'stay',
+        x: 58, y: 60, dist: 1.2, icon: '⬢', color: '#2E7D5B',
+        amen: ['pool', 'tennis', 'spa', 'ebike', 'parking'], sports: 'bazén · tenis · SPA',
+        note: 'Ubytovanie s bazénom, SPA a požičovňou e-bikov.' },
+      { id: 'trail', kind: 'venue', name: 'Tajch — okruh pre bicykle', cat: 'activity',
+        x: 66, y: 38, dist: 2.1, icon: '▲', color: '#B8860B',
+        amen: ['ebike', 'bike_trail'], sports: 'cyklo · e-bike · 12 km',
+        note: 'Okruh 12 km, náročnosť stredná — vhodné na e-bike.' },
+      { id: 'pool', kind: 'venue', name: 'Krytá plaváreň', cat: 'sport',
+        x: 38, y: 62, dist: 1.8, icon: '◆', color: '#388FC3',
+        amen: ['pool', 'parking'], sports: 'plávanie · 25 m',
+        note: '25-metrový bazén, verejné plávanie cez víkend.' },
+      { id: 'event', kind: 'event', name: 'Pohronský e-bike maratón', cat: 'event',
+        x: 46, y: 45, dist: 0.4, icon: '★', color: '#C8453C',
+        amen: ['ebike'], sports: 'sobota 11. 7. · 09:00',
+        note: 'Verejné podujatie — dá sa prísť aj len fandiť.' }
+    ];
+    const AMEN_LABELS = {
+      pool: 'bazén', tennis: 'tenisový kurt', spa: 'SPA', ebike: 'e-bike / požičovňa',
+      parking: 'parkovanie', wifi: 'wifi', bike_trail: 'cyklookruh'
+    };
+    // Filtre, ktoré vie používateľ zapnúť
+    const FILTERS = [
+      { key: 'pool', label: 'bazén' },
+      { key: 'tennis', label: 'tenis' },
+      { key: 'spa', label: 'SPA' },
+      { key: 'ebike', label: 'e-bike' }
+    ];
+    const active = new Set();
+
+    // Kalendár podujatí — viaceré oficiálne zdroje + komunitný/kultúrny rozmer
+    const EVENTS = [
+      { name: 'Fortuna liga — MŠK Žilina : Slovan', sport: 'Futbal', src: 'národný zväz', srcType: 'zvaz',
+        when: 'so 11. 7. · 17:00', official: true, community: 'none', tags: [] },
+      { name: 'Mestský beh Novou Baňou', sport: 'Atletika', src: 'mesto', srcType: 'mesto',
+        when: 'so 11. 7. · 10:00', official: false, community: 'local_community', tags: ['rodinne', 'charita'] },
+      { name: 'Pohronský e-bike maratón', sport: 'Cyklistika', src: 'komerčný subjekt', srcType: 'komercny',
+        when: 'so 11. 7. · 09:00', official: false, community: 'none', tags: [] },
+      { name: 'Hodový futbalový zápas', sport: 'Futbal', src: 'obec', srcType: 'obec',
+        when: 'ne 12. 7. · 15:00', official: false, community: 'local_community', tags: ['hody', 'obecna_slavnost'] },
+      { name: 'Seniorský tenisový turnaj', sport: 'Tenis', src: 'klub', srcType: 'klub',
+        when: 'ne 12. 7. · 13:00', official: false, community: 'local_community', tags: ['seniori', 'rodinne'] }
+    ];
+    const SRC_COLORS = {
+      zvaz: '#388FC3', mesto: '#2E7D5B', obec: '#B8860B', klub: '#8250C4', komercny: '#5E6B7D'
+    };
+    let calMode = 'all'; // 'all' | 'community'
+
+    const map = root.querySelector('[data-map]');
+    const filterBox = root.querySelector('[data-filters]');
+    const listBox = root.querySelector('[data-list]');
+    const pkgBox = root.querySelector('[data-package]');
+    const apiBox = root.querySelector('[data-api]');
+    const calBox = root.querySelector('[data-calendar]');
+    const calTabAll = root.querySelector('[data-cal-all]');
+    const calTabCommunity = root.querySelector('[data-cal-community]');
+
+    function matches(p) {
+      if (active.size === 0) return true;
+      return [...active].every((a) => p.amen.includes(a));
+    }
+
+    function buildMap() {
+      map.innerHTML = '';
+      const c = document.createElement('div');
+      c.className = 'su-map-center';
+      c.style.left = CENTER.x + '%';
+      c.style.top = CENTER.y + '%';
+      c.innerHTML = '<span class="su-map-center-dot"></span><span class="su-map-center-label">' + esc(CENTER.name) + '</span>';
+      map.appendChild(c);
+      const ring = document.createElement('div');
+      ring.className = 'su-map-ring';
+      ring.style.left = CENTER.x + '%';
+      ring.style.top = CENTER.y + '%';
+      map.appendChild(ring);
+
+      POINTS.forEach((p) => {
+        const on = matches(p);
+        const pin = document.createElement('button');
+        pin.type = 'button';
+        pin.className = 'su-map-pin' + (on ? '' : ' is-dim');
+        pin.style.left = p.x + '%';
+        pin.style.top = p.y + '%';
+        pin.style.setProperty('--pin', p.color);
+        pin.setAttribute('aria-label', p.name);
+        pin.innerHTML = '<span class="su-pin-ico">' + p.icon + '</span>';
+        pin.addEventListener('click', () => showPoint(p));
+        map.appendChild(pin);
+      });
+    }
+
+    function amenChips(p) {
+      return p.amen.filter((a) => AMEN_LABELS[a]).map((a) => {
+        const hot = active.has(a);
+        return '<span class="su-chip' + (hot ? ' is-hot' : '') + '">' + esc(AMEN_LABELS[a]) + '</span>';
+      }).join('');
+    }
+
+    function buildList() {
+      const shown = POINTS.filter(matches);
+      listBox.innerHTML = '';
+      if (shown.length === 0) {
+        listBox.innerHTML = '<div class="su-disc-empty">Žiadne miesto nespĺňa všetky zvolené filtre. Skús ubrať jeden.</div>';
+        return;
+      }
+      shown.sort((a, b) => a.dist - b.dist).forEach((p) => {
+        const row = document.createElement('button');
+        row.type = 'button';
+        row.className = 'su-disc-item';
+        row.style.borderLeftColor = p.color;
+        row.innerHTML =
+          '<div class="su-disc-item-head">' +
+            '<span class="su-disc-ico" style="color:' + p.color + '">' + p.icon + '</span>' +
+            '<span class="su-disc-name">' + esc(p.name) + '</span>' +
+            '<span class="su-disc-dist">' + p.dist.toFixed(1) + ' km</span>' +
+          '</div>' +
+          '<div class="su-disc-sub">' + esc(p.sports) + '</div>' +
+          '<div class="su-disc-chips">' + amenChips(p) + '</div>';
+        row.addEventListener('click', () => showPoint(p));
+        listBox.appendChild(row);
+      });
+    }
+
+    function showPoint(p) {
+      apiBox.innerHTML =
+        '<div class="su-api-head">GET /v1/public/venues/' + esc(p.id) + '</div>' +
+        '<div class="su-api-body">' +
+          '<div class="su-api-line"><span class="su-api-k">name_sk</span><span class="su-api-v">"' + esc(p.name) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">distance_km</span><span class="su-api-v su-api-num">' + p.dist.toFixed(1) + '</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">' + (p.kind === 'event' ? 'tourism_relevance' : 'amenities') + '</span><span class="su-api-v">' + (p.kind === 'event' ? '"regional"' : '[' + p.amen.map((a) => '"' + a + '"').join(', ') + ']') + '</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">data_form</span><span class="su-api-v">"public_no_pii"</span></div>' +
+        '</div>' +
+        '<div class="su-api-note">' + esc(p.note) + '</div>';
+    }
+
+    function buildPackage() {
+      const stay = POINTS.find((p) => p.cat === 'stay' && matches(p));
+      const act = POINTS.find((p) => p.cat === 'activity');
+      const ev = POINTS.find((p) => p.cat === 'event');
+      const wantsEbike = active.has('ebike');
+
+      if (!wantsEbike && active.size === 0) {
+        pkgBox.innerHTML = '<div class="su-pkg-hint">Zapni filter <b>e-bike</b> a systém ti zloží hotový víkendový balíček — ubytovanie + okruh + podujatie v jednom.</div>';
+        return;
+      }
+      if (!stay) {
+        pkgBox.innerHTML = '<div class="su-pkg-hint">Pre tieto filtre nevieme zložiť ubytovaciu časť balíčka. Skús kombináciu bazén + SPA + e-bike.</div>';
+        return;
+      }
+      pkgBox.innerHTML =
+        '<div class="su-pkg-title"><span class="su-pkg-badge">Víkendový balíček</span> E-bike víkend v Novej Bani</div>' +
+        '<div class="su-pkg-flow">' +
+          pkgCard('Ubytovanie', stay.name, 'bazén · SPA · požičiavajú e-biky', '#2E7D5B') +
+          pkgArrow() +
+          pkgCard('Aktivita', act.name, 'okruh 12 km, vhodné na e-bike', '#B8860B') +
+          pkgArrow() +
+          pkgCard('Podujatie', ev.name, 'sobota ráno, verejné', '#C8453C') +
+        '</div>' +
+        '<div class="su-pkg-src">Zložené za behu z <b>verejných</b> dát: miesta z registra (vrstva A) · trasa z OpenStreetMap (B) · dostupnosť z externého API (C). Žiadne osobné údaje.</div>';
+    }
+    function pkgCard(role, name, note, color) {
+      return '<div class="su-pkg-card" style="border-top-color:' + color + '">' +
+        '<div class="su-pkg-role">' + esc(role) + '</div>' +
+        '<div class="su-pkg-name">' + esc(name) + '</div>' +
+        '<div class="su-pkg-note">' + esc(note) + '</div></div>';
+    }
+    function pkgArrow() { return '<div class="su-pkg-arrow">+</div>'; }
+
+    function buildFilters() {
+      filterBox.innerHTML = '';
+      FILTERS.forEach((f) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'su-disc-filter';
+        b.textContent = f.label;
+        b.addEventListener('click', () => {
+          if (active.has(f.key)) { active.delete(f.key); b.classList.remove('is-on'); }
+          else { active.add(f.key); b.classList.add('is-on'); }
+          rerender();
+        });
+        filterBox.appendChild(b);
+      });
+    }
+
+    // ── Kalendár podujatí (viaceré zdroje + komunitný rozmer) ──
+    const TAG_LABELS = {
+      hody: 'hody', obecna_slavnost: 'obecná slávnosť', seniori: 'seniori',
+      rodinne: 'rodinné', charita: 'charita', tradicia: 'tradicia'
+    };
+    function buildCalendar() {
+      if (!calBox) return;
+      const rows = calMode === 'community'
+        ? EVENTS.filter((e) => e.community !== 'none')
+        : EVENTS;
+      calBox.innerHTML = '';
+      rows.forEach((e) => {
+        const col = SRC_COLORS[e.srcType] || '#5E6B7D';
+        const isCommunity = e.community !== 'none';
+        const row = document.createElement('div');
+        row.className = 'su-cal-item';
+        row.style.borderLeftColor = col;
+        row.innerHTML =
+          '<div class="su-cal-when">' + esc(e.when) + '</div>' +
+          '<div class="su-cal-main">' +
+            '<div class="su-cal-name">' + esc(e.name) + '</div>' +
+            '<div class="su-cal-meta">' +
+              '<span class="su-cal-src" style="color:' + col + '">' + esc(e.src) + '</span>' +
+              '<span class="su-cal-sport">' + esc(e.sport) + '</span>' +
+              (e.official
+                ? '<span class="su-cal-badge su-cal-official">oficiálne</span>'
+                : '') +
+              (isCommunity
+                ? '<span class="su-cal-badge su-cal-community">komunitné / kultúrne</span>'
+                : '') +
+            '</div>' +
+            (isCommunity && e.tags.length
+              ? '<div class="su-cal-tags">' + e.tags.map((t) => '<span class="su-chip is-hot">' + esc(TAG_LABELS[t] || t) + '</span>').join('') + '</div>'
+              : '') +
+          '</div>';
+        calBox.appendChild(row);
+      });
+      if (rows.length === 0) {
+        calBox.innerHTML = '<div class="su-disc-empty">V tomto filtri nie sú žiadne podujatia.</div>';
+      }
+    }
+    function setCalMode(m) {
+      calMode = m;
+      if (calTabAll) calTabAll.classList.toggle('is-active', m === 'all');
+      if (calTabCommunity) calTabCommunity.classList.toggle('is-active', m === 'community');
+      buildCalendar();
+    }
+    if (calTabAll) calTabAll.addEventListener('click', () => setCalMode('all'));
+    if (calTabCommunity) calTabCommunity.addEventListener('click', () => setCalMode('community'));
+
+    function rerender() { buildMap(); buildList(); buildPackage(); }
+
+    buildFilters();
+    rerender();
+    setCalMode('all');
+    apiBox.innerHTML = '<div class="su-api-idle">Klikni na bod na mape alebo v zozname — uvidíš, aké verejné dáta portál o mieste dostane cez API. Žiadne osobné údaje.</div>';
+  }
+
   const inits = {
+    discovery: initDiscovery,
     reg: initReg,
     transfer: initTransfer,
     multirole: initMultirole,

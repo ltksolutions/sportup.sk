@@ -497,3 +497,389 @@
 @media (prefers-reduced-motion: reduce) {
   .su-layer-btn, .su-ex-btn { transition: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   objavuj.html — Discovery portál (mapa okolia + filtre + balíček)
+   ═══════════════════════════════════════════════════════════ */
+
+.su-disc-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 14px;
+  align-items: start;
+}
+
+/* ── Filtre (chip toggle) ── */
+.su-disc-filters {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+  align-items: center;
+}
+.su-disc-filters-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  margin-right: 0.2rem;
+}
+.su-disc-filter {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid var(--border-strong);
+  border-radius: 99px;
+  padding: 0.35rem 0.85rem;
+  background: var(--white);
+  color: var(--text-muted);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.su-disc-filter:hover { border-color: var(--blue); }
+.su-disc-filter.is-on {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── Schematická mapa ── */
+.su-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: linear-gradient(135deg, #EAF1F6 0%, #F4F8FB 100%);
+  overflow: hidden;
+}
+.su-map::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(56,143,195,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56,143,195,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+.su-map-note {
+  position: absolute;
+  right: 8px; bottom: 6px;
+  font-size: 0.62rem;
+  color: var(--text-soft);
+  font-family: var(--font-mono);
+  background: rgba(255,255,255,0.7);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  pointer-events: none;
+}
+.su-map-ring {
+  position: absolute;
+  width: 62%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1.5px dashed rgba(26,45,71,0.22);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.su-map-center {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  z-index: 2;
+  pointer-events: none;
+}
+.su-map-center-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+.su-map-center-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--navy);
+  background: rgba(255,255,255,0.85);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.su-map-pin {
+  position: absolute;
+  width: 30px; height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--pin, var(--blue));
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, opacity 0.2s;
+  z-index: 3;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.su-map-pin .su-pin-ico {
+  transform: rotate(45deg);
+  color: #fff;
+  font-size: 0.7rem;
+  line-height: 1;
+}
+.su-map-pin:hover { transform: translate(-50%, -50%) rotate(-45deg) scale(1.15); }
+.su-map-pin.is-dim { opacity: 0.22; }
+
+/* ── Zoznam výsledkov ── */
+.su-disc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+.su-disc-item {
+  text-align: left;
+  cursor: pointer;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font-family: var(--font-sans);
+  width: 100%;
+  transition: border-color 0.15s, transform 0.12s;
+}
+.su-disc-item:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.su-disc-item-head { display: flex; align-items: center; gap: 7px; }
+.su-disc-ico { font-size: 0.8rem; flex-shrink: 0; }
+.su-disc-name { font-weight: 700; font-size: 0.84rem; color: var(--navy); }
+.su-disc-dist {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  flex-shrink: 0;
+}
+.su-disc-sub { font-size: 0.75rem; color: var(--text-muted); margin: 0.2rem 0 0.35rem; }
+.su-disc-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.su-chip {
+  font-size: 0.66rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 99px;
+  background: var(--bg-alt);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.su-chip.is-hot {
+  background: var(--blue-light);
+  color: var(--blue-dark);
+  border-color: var(--blue);
+  font-weight: 600;
+}
+.su-disc-empty {
+  font-size: 0.82rem;
+  color: var(--text-soft);
+  padding: 1rem;
+  text-align: center;
+  background: var(--bg-alt);
+  border-radius: 8px;
+}
+
+/* ── API panel (čo portál dostane) ── */
+.su-api {
+  background: var(--code-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 0.9rem;
+}
+.su-api-idle {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  padding: 1.1rem 1.2rem;
+}
+.su-api-head {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--code-string);
+  background: var(--navy-dark);
+  padding: 0.6rem 1rem;
+  letter-spacing: 0.03em;
+}
+.su-api-body { padding: 0.8rem 1rem 0.5rem; }
+.su-api-line {
+  display: flex;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.9;
+  flex-wrap: wrap;
+}
+.su-api-k { color: var(--code-key); }
+.su-api-v { color: var(--code-string); }
+.su-api-num { color: var(--code-number); }
+.su-api-note {
+  font-size: 0.76rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.5;
+  padding: 0.3rem 1rem 0.9rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 0.3rem;
+}
+
+/* ── Víkendový balíček ── */
+.su-package {
+  margin-top: 1.1rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+}
+.su-pkg-hint { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; }
+.su-pkg-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.su-pkg-badge {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--blue);
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  font-weight: 500;
+}
+.su-pkg-flow { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; }
+.su-pkg-card {
+  flex: 1;
+  min-width: 130px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--blue);
+  border-radius: 9px;
+  padding: 0.7rem 0.75rem;
+}
+.su-pkg-role {
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.su-pkg-name {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--navy);
+  line-height: 1.3;
+  margin-bottom: 0.25rem;
+}
+.su-pkg-note { font-size: 0.72rem; color: var(--text-muted); line-height: 1.45; }
+.su-pkg-arrow {
+  align-self: center;
+  color: var(--blue);
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.su-pkg-src {
+  font-size: 0.72rem;
+  color: var(--text-soft);
+  line-height: 1.5;
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--border);
+}
+
+@media (max-width: 640px) {
+  .su-disc-layout { grid-template-columns: 1fr; }
+  .su-pkg-flow { flex-direction: column; }
+  .su-pkg-arrow { align-self: flex-start; transform: rotate(90deg); margin-left: 0.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .su-map-pin, .su-disc-item, .su-disc-filter { transition: none; }
+}
+
+/* ── Kalendár podujatí (viaceré zdroje + komunitný rozmer) ── */
+.su-cal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.su-cal-item {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 12px;
+  align-items: start;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  padding: 0.65rem 0.8rem;
+}
+.su-cal-when {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding-top: 0.1rem;
+}
+.su-cal-name {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--navy);
+  margin-bottom: 0.25rem;
+}
+.su-cal-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.su-cal-src { font-size: 0.74rem; font-weight: 600; }
+.su-cal-sport {
+  font-size: 0.72rem;
+  color: var(--text-soft);
+  padding-left: 8px;
+  border-left: 1px solid var(--border);
+}
+.su-cal-badge {
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.12rem 0.5rem;
+  border-radius: 99px;
+}
+.su-cal-official {
+  background: var(--blue-light);
+  color: var(--blue-dark);
+}
+.su-cal-community {
+  background: #FBF3E0;
+  color: #8A6D1A;
+}
+.su-cal-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 640px) {
+  .su-cal-item { grid-template-columns: 1fr; gap: 4px; }
+  .su-cal-when { padding-top: 0; }
+}
