@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/priklady-widgets.css">
 <!-- Favicon & PWA — SportUp Brand v2.0 -->
 <link rel="icon" href="favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="favicon/su-icon.svg">
@@ -116,6 +117,36 @@
 
 <p>Klub <strong>ŠK Tatran Spišská Nová Ves</strong> registruje 12-ročného Tomáša Hudáka ako hráča žiackej kategórie v basketbale. Keďže je maloletý, súhlasy udeľuje jeho zákonný zástupca — otec Peter.</p>
 
+<div class="su-widget" data-su-widget="reg">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 01 · REG</span>
+<span class="su-w-sub">ŠK Tatran Spišská Nová Ves registruje 12-ročného Tomáša (basketbal, U13)</span>
+</div>
+<div class="su-dots" data-dots></div>
+<div class="su-grid-3" style="margin-bottom:1rem">
+<div class="su-panel" style="display:flex;flex-direction:column;gap:0.5rem">
+<div class="su-panel-label">Zdroj zápisu</div>
+<div style="display:flex;align-items:center;gap:9px">
+<div style="width:38px;height:38px;border-radius:9px;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.95rem;flex-shrink:0">K</div>
+<div><div style="font-weight:700;font-size:0.85rem">Klubový portál</div><div style="font-size:0.72rem;color:var(--text-muted)">certifikovaná aplikácia</div></div>
+</div>
+<div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5">Klub je jeden z oficiálnych zdrojov. Zapisovať smie, lebo je certifikovaný prevádzkovateľom.</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:112px">
+<div class="su-gate"><div class="su-gate-ico">⇄</div><div class="su-gate-label">API · MCP</div><div class="su-gate-hint">Identity<br>Broker</div></div>
+</div>
+<div class="su-panel-dark" data-panel style="display:flex;flex-direction:column;justify-content:center"></div>
+</div>
+<div class="su-controls">
+<button type="button" class="su-btn su-btn-ghost" data-prev>← Späť</button>
+<button type="button" class="su-btn" data-next>Ďalší krok →</button>
+<span class="su-status" data-status></span>
+</div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API volania pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
 <div class="scenario-step">
 <span class="step-num">1</span>
 <h4>Overenie/založenie osoby cez Identity Broker</h4>
@@ -208,6 +239,10 @@
 
 </div>
 </div>
+</details>
+
+</div>
+</div>
 
 <div class="scenario" id="scenar-2">
 <div class="scenario-header">
@@ -216,8 +251,29 @@
 </div>
 <div class="scenario-body">
 
-<p>Profesionálny hokejista <strong>Juraj Kováč</strong> prestupuje z klubu <strong>HC 05 Banská Bystrica</strong> do klubu <strong>HK Nitra</strong>. Prestup sa realizuje k 1. júlu 2026 a modeluje sa ako saga s troma eventmi prepojenými cez <code>correlation_id</code>.</p>
+<p>Profesionálny hokejista <strong>Juraj Kováč</strong> prestupuje z klubu <strong>HC 05 Banská Bystrica</strong> do klubu <strong>HK Nitra</strong>. Prestup sa realizuje k 1. júlu 2026 a modeluje sa ako <strong>reťaz udalostí</strong> — troch udalostí prepojených spoločným <code>correlation_id</code>.</p>
 
+<div class="su-widget" data-su-widget="transfer">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 02 · Reťaz udalostí</span>
+<span class="su-w-sub">Hokejista Juraj Kováč: HC 05 Banská Bystrica → HK Nitra</span>
+</div>
+<div class="su-w-intro">Jedna biznis operácia (prestup) sa rozloží na reťaz samostatných udalostí spojených spoločným <code>correlation_id</code>. Vďaka tomu sa celý prestup dá spätne zrekonštruovať ako jeden príbeh — pre audit či disciplinárne účely.</div>
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0.75rem 0 1rem;font-family:var(--font-mono);font-size:0.72rem">
+<span style="color:var(--text-soft)">correlation_id spája celú reťaz:</span>
+<span style="color:var(--blue-dark);background:var(--blue-light);padding:0.2rem 0.5rem;border-radius:5px;font-weight:500">txn_transfer_c4f8…</span>
+</div>
+<div data-timeline style="display:flex;flex-direction:column;gap:0"></div>
+<div class="su-controls">
+<button type="button" class="su-btn" data-play>▷ Prehrať reťaz</button>
+<button type="button" class="su-btn su-btn-danger" data-fail>⚠ Simuluj zlyhanie 2. kroku</button>
+<button type="button" class="su-btn su-btn-ghost" data-reset>↻ Reset</button>
+</div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API volania a eventy (technicky: saga pattern)<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
 <div class="callout">
 <h4>Čo je saga</h4>
 <p>Vzor z distribuovaných systémov. Jedna biznis operácia, ktorá sa dotýka viacerých nezávislých entít, sa rozloží na sekvenciu samostatných krokov prepojených spoločným <code>correlation_id</code>. Vďaka tomu zostáva zachované pravidlo "jeden event mení práve jeden agregát" — a zároveň sa dá celý proces spätne zrekonštruovať ako jeden príbeh. Podrobnosti sú v kapitole <a href="domenovy-model.html#eventy">Doménový model</a>.</p>
@@ -281,6 +337,8 @@
 <h4>Spätný dotaz</h4>
 <p>Dotaz "ukáž mi všetky eventy prestupu <code>txn_transfer_c4f8</code>" vráti všetky tri eventy v časovej postupnosti, nezávisle od toho, v ktorom agregáte sú uložené. Týmto sa rekonštruuje príbeh prestupu pre audit alebo disciplinárne účely.</p>
 </div>
+</div>
+</details>
 
 </div>
 </div>
@@ -292,8 +350,42 @@
 </div>
 <div class="scenario-body">
 
-<p><strong>Martina Kučerová</strong>, 34 rokov, je v systéme jediný záznam — jedno <code>person_id</code>. Má však štyri súbežné afiliácie naprieč tromi rôznymi športmi a rôznymi organizáciami.</p>
+<p><strong>Martina Kučerová</strong>, 34 rokov, je v systéme jediný záznam — jedno <code>person_id</code>. Má však štyri súbežné afiliácie naprieč tromi rôznymi športmi a rôznymi organizáciami — nielen ako športovkyňa, ale aj trénerka, rozhodkyňa a dobrovoľníčka.</p>
 
+<div class="su-widget" data-su-widget="multirole">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 03 · Multi-role</span>
+<span class="su-w-sub">Martina Kučerová · jedno <code>person_id</code> · 4 aktívne role</span>
+</div>
+<div style="font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-soft);margin-bottom:0.5rem">Klikni na rolu — uvidíš, čo systém o nej vie</div>
+<div class="su-roles" data-roles style="margin-bottom:0.85rem"></div>
+<div class="su-grid-3" style="margin-bottom:1rem">
+<div class="su-panel" style="display:flex;flex-direction:column;gap:0.5rem">
+<div class="su-panel-label">Identita</div>
+<div style="display:flex;align-items:center;gap:10px">
+<div class="su-ident">MK</div>
+<div><div style="font-weight:700;font-size:0.92rem">Martina Kučerová</div><div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">prs_martina_…</div></div>
+</div>
+<div style="font-size:0.8rem;color:var(--text-muted);line-height:1.5">Jedna osoba, nie štyri. Zmena mena či úmrtie sa zapíše raz — všetky role to „vidia“.</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:118px">
+<div class="su-gate" style="width:100%"><div class="su-gate-ico">⇄</div><div class="su-gate-label">API · MCP<br>brána</div><div class="su-gate-hint">len certifikované<br>aplikácie</div></div>
+</div>
+<div class="su-panel" style="display:flex;flex-direction:column;gap:0.5rem">
+<div class="su-panel-label">Agendy nad dátami</div>
+<div style="font-size:0.82rem;color:var(--navy);line-height:1.6">
+<div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:0.4rem"><span style="color:var(--blue);font-weight:700">·</span> Konflikt záujmov — rozhodca vs. tréner na tom istom zápase</div>
+<div style="display:flex;gap:7px;align-items:flex-start;margin-bottom:0.4rem"><span style="color:var(--blue);font-weight:700">·</span> Demografia — „koľko osôb má viac než 1 rolu?“</div>
+<div style="display:flex;gap:7px;align-items:flex-start"><span style="color:var(--blue);font-weight:700">·</span> Výskum nad projekciou <code>current_affiliations</code></div>
+</div>
+</div>
+</div>
+<div class="su-detail" data-detail><div class="su-detail-empty">↑ Vyber jednu zo štyroch rolí a zobrazí sa jej afiliácia — organizácia, šport, odvetvie a platnosť.</div></div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API odpoveď pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
 <div class="code-header">GET /v1/persons/{person_id}/affiliations?status=active</div>
 <pre><code>{
   <span class="code-key">"person_id"</span>: <span class="code-string">"prs_martina_..."</span>,
@@ -342,6 +434,8 @@
 <li>Na štatistické účely sa vie opýtať: "koľko osôb má v športe viac ako jednu aktívnu rolu?" — dotaz nad projekciou <code>current_affiliations</code>.</li>
 </ul>
 </div>
+</div>
+</details>
 
 </div>
 </div>
@@ -355,6 +449,32 @@
 
 <p>Hotel <strong>Grand Jasná</strong> ponúka zľavu 20 % pre registrovaných športovcov. Pri rezervácii chce overiť, či osoba má platnú športovú registráciu — ale <strong>nepotrebuje vedieť kto to je, v akom športe ani v akom klube</strong>. Stačí mu odpoveď áno/nie.</p>
 
+<div class="su-widget" data-su-widget="verify">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 04 · KOM</span>
+<span class="su-w-sub">Hotel Grand Jasná: zľava 20 % pre registrovaných športovcov</span>
+</div>
+<div class="su-w-intro">Hotel je komerčný subjekt v športe — certifikovaný len pre scope <code>verification:athlete_discount</code>. Prepni pohľad a uvidíš rozdiel medzi tým, čo systém o osobe vie, a čo hotel reálne dostane.</div>
+<div class="su-toggle">
+<button type="button" data-tab-known class="is-active">Čo systém vie</button>
+<button type="button" data-tab-gets>Čo hotel dostane</button>
+</div>
+<div class="su-grid-3c">
+<div class="su-panel">
+<div class="su-panel-label" data-src-label>Údaje osoby v systéme</div>
+<div data-fields style="display:flex;flex-direction:column;gap:0.5rem"></div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;min-width:100px">
+<div class="su-gate" style="width:100%"><div class="su-gate-ico">⇄</div><div class="su-gate-label">API · MCP</div><div class="su-gate-hint">minimalizácia<br>dát</div></div>
+</div>
+<div data-out style="border-radius:12px;padding:1.1rem;transition:all 0.3s"></div>
+</div>
+<div style="font-size:0.74rem;color:var(--text-soft);margin-top:0.85rem;line-height:1.5">Každé overenie sa zapíše do auditu — osoba si vie pozrieť, kto sa jej dát dotýkal. Hotel je oficiálny zdroj/spotrebiteľ, ale bez prístupu k identite.</div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API volania pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
 <div class="scenario-step">
 <span class="step-num">1</span>
 <h4>Osoba vyvolá overenie zo svojej aplikácie</h4>
@@ -390,6 +510,8 @@
 <h4>Čo hotel nevie</h4>
 <p>Hotel <strong>nevidí meno, dátum narodenia, klub, šport, úroveň</strong> — nič. Dostal iba "áno, toto je registrovaný športovec". To je dôsledok princípu minimalizácie dát. Každé takéto overenie je zapísané v audite, aby si osoba mohla pozrieť, kto sa jej dát dotýkal.</p>
 </div>
+</div>
+</details>
 
 </div>
 </div>
@@ -403,6 +525,34 @@
 
 <p>Dlhoročný funkcionár a rozhodca <strong>Pavol Zámečník</strong> zomiera. Informácia prichádza automaticky z RFO cez CSRÚ notifikáciu.</p>
 
+<div class="su-widget" data-su-widget="death">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 05 · RFO notifikácia</span>
+<span class="su-w-sub">Funkcionár a rozhodca Pavol Zámečník — úmrtie z RFO cez CSRÚ</span>
+</div>
+<div class="su-w-intro">Informácia prichádza automaticky zo štátneho registra. Systém sám ukončí všetky role naprieč zdrojmi — bez ručného zásahu klubov či zväzov.</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start">
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+<div class="su-gate" style="width:130px"><div class="su-gate-label">CSRÚ / RFO</div><div class="su-gate-hint">štátny register<br>notifikácia</div></div>
+<div style="color:var(--border-strong);font-size:1.1rem" data-arrow>↓</div>
+<div style="background:var(--code-bg);border-radius:10px;padding:0.7rem 0.6rem;text-align:center;width:130px"><div style="color:var(--code-string);font-family:var(--font-mono);font-size:0.64rem;line-height:1.4">PersonDeath<br>Recorded</div></div>
+</div>
+<div>
+<div class="su-panel-label">Aktívne afiliácie osoby — automaticky ukončené</div>
+<div data-affs style="display:flex;flex-direction:column;gap:0.5rem"></div>
+</div>
+</div>
+<div class="su-controls">
+<button type="button" class="su-btn" data-run>▷ Spusti notifikáciu</button>
+<button type="button" class="su-btn su-btn-ghost" data-reset>↻ Reset</button>
+<span class="su-status" data-status></span>
+</div>
+<div style="font-size:0.74rem;color:var(--text-soft);margin-top:0.85rem;line-height:1.5;opacity:0;transition:opacity 0.4s" data-note>Základné údaje sa zachovávajú pre historickú a štatistickú hodnotu (napr. zoznam majstrov SR za 50 rokov). Prístup k citlivým údajom sa automaticky obmedzí.</div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — eventy pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
 <div class="scenario-step">
 <span class="step-num">1</span>
 <h4>Notifikácia z CSRÚ do Identity Brokera</h4>
@@ -443,6 +593,8 @@
 <h4>Ochrana citlivých údajov</h4>
 <p>GDPR sa po úmrtí neuplatňuje v plnom rozsahu, ale systém automaticky obmedzí prístup k citlivým údajom. Základné údaje sa zachovávajú pre historickú a štatistickú hodnotu — inak by sa rozbili dlhé časové rady (napr. zoznam majstrov SR za posledných 50 rokov).</p>
 </div>
+</div>
+</details>
 
 </div>
 </div>
@@ -456,6 +608,33 @@
 
 <p>Mesto <strong>Žilina</strong> dokončilo výstavbu novej multifunkčnej športovej haly a zapisuje ju do centrálneho katalógu. Zápis súčasne vytvára hodnotu pre šport (rezervačný systém, súťaže) aj pre cestovný ruch (verejná mapa, ubytovanie v okolí).</p>
 
+<div class="su-widget" data-su-widget="facility">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 06 · Športoviská</span>
+<span class="su-w-sub">Mesto Žilina zapisuje novú multifunkčnú halu</span>
+</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-bottom:1.1rem">
+<div class="su-panel" style="width:150px">
+<div class="su-panel-label" style="margin-bottom:0.4rem">Zdroj zápisu</div>
+<div style="font-weight:700;font-size:0.85rem">Mesto Žilina</div>
+<div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.15rem">org. typu <code>mesto</code> · RPO</div>
+</div>
+<div class="su-panel-dark">
+<div style="font-weight:700;font-size:0.88rem;color:#fff;margin-bottom:0.2rem">Mestská športová hala Žilina-Vlčince</div>
+<div style="font-size:0.76rem;color:var(--code-string);font-family:var(--font-mono)">status: operational · 4 športy · 1 800 divákov</div>
+</div>
+</div>
+<div class="su-w-intro">Jeden zápis, dvojaká hodnota. Prepni pohľad a uvidíš, ktorí oficiálni spotrebitelia čerpajú dáta cez otvorené API — pre šport aj pre cestovný ruch.</div>
+<div class="su-toggle">
+<button type="button" data-tab-sport class="is-active">◆ Hodnota pre šport</button>
+<button type="button" data-tab-tour>◈ Cestovný ruch</button>
+</div>
+<div class="su-cards" data-consumers></div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API volania pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
 <div class="scenario-step">
 <span class="step-num">1</span>
 <h4>Registrácia vlastníka a prevádzkovateľa</h4>
@@ -522,6 +701,8 @@
 <li>Mestský magistrát môže vypisovať verejné obstarávanie na údržbu s presným popisom objektu.</li>
 </ul>
 </div>
+</div>
+</details>
 
 </div>
 </div>
@@ -550,5 +731,6 @@
 </footer>
 
 <script src="script.js"></script>
+<script src="assets/priklady-widgets.js"></script>
 </body>
 </html>

@@ -12,3 +12,6 @@ build/
 *.log
 coverage/
 .nyc_output/
+
+# Interné podklady (neverejné, obchodné údaje) – nezverejňovať
+interne/
