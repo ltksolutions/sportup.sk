@@ -689,22 +689,43 @@
         x: 46, y: 45, lat: 48.4260, lng: 18.6350, dist: 0.4, icon: '◆', color: '#388FC3',
         amen: ['parking', 'wifi'], sports: 'volejbal · basketbal · florbal',
         note: 'Indoor hala, 3 športy, bezbariérová.' },
+      { id: 'ferrata', kind: 'venue', name: 'Via ferrata Zvonička', cat: 'activity',
+        x: 44, y: 40, lat: 48.4270, lng: 18.6410, dist: 1.5, icon: '▲', color: '#B8860B',
+        amen: ['parking'], sports: 'lezenie · via ferrata · rodiny',
+        url: 'https://zvonickanb.sk/ferrata/',
+        note: 'Detský via ferratový areál — 285 m ferratových ciest v 3 sektoroch, vhodné pre začiatočníkov a rodiny.' },
+      { id: 'eden-hotel', kind: 'venue', name: 'Tekovský EDEN — hotel & aquapark', cat: 'stay',
+        x: 56, y: 30, lat: 48.4662, lng: 18.6372, dist: 4.6, icon: '⬢', color: '#2E7D5B',
+        amen: ['pool', 'spa', 'parking', 'wifi'], sports: 'ubytovanie · aquapark · bazén',
+        url: 'https://www.tekovskyeden.sk',
+        note: 'Rodinný rezort na Rekreačnej ceste — hotel, kúpalisko a aquapark.' },
+      { id: 'eden-park', kind: 'venue', name: 'Tekovský EDEN — rodinný park', cat: 'sport',
+        x: 60, y: 33, lat: 48.4658, lng: 18.6378, dist: 4.7, icon: '◆', color: '#388FC3',
+        amen: ['parking'], sports: 'rodinný park · 25+ atrakcií',
+        url: 'https://www.tekovskyeden-rodinnypark.sk',
+        note: 'Moderný detský park s 25+ certifikovanými atrakciami (lezecké siete, trampolína, lanovka).' },
+      { id: 'tajch', kind: 'venue', name: 'Jazero Tajch', cat: 'sport',
+        x: 40, y: 58, lat: 48.4558, lng: 18.6364, dist: 2.4, icon: '◆', color: '#388FC3',
+        amen: ['parking'], sports: 'kúpanie · plávanie · pláž. volejbal',
+        url: 'https://www.kamnavylet.sk/sk/atrakcia/tajch-nova-bana',
+        note: 'Historická vodná nádrž (1792–94) s rekreačným areálom — kúpanie, volejbal, badminton, plážový volejbal.' },
+      { id: 'tktajch', kind: 'venue', name: 'TK Tajch — tenisové kurty', cat: 'sport',
+        x: 43, y: 61, lat: 48.4560, lng: 18.6372, dist: 2.5, icon: '◆', color: '#388FC3',
+        amen: ['parking'], sports: 'tenis · klub · rezervácie',
+        url: 'https://www.tktajchnovabana.sk/',
+        note: 'Tenisový klub na Tajchu — kurty pre verejnosť s online rezerváciou, mládežnícka príprava.' },
       { id: 'pension', kind: 'venue', name: 'Penzión Zlatý potok', cat: 'stay',
         x: 58, y: 60, lat: 48.4200, lng: 18.6480, dist: 1.2, icon: '⬢', color: '#2E7D5B',
         amen: ['pool', 'tennis', 'spa', 'ebike', 'parking'], sports: 'bazén · tenis · SPA',
-        note: 'Ubytovanie s bazénom, SPA a požičovňou e-bikov.' },
+        note: 'Ubytovanie s bazénom, SPA a požičovňou e-bikov. (ukážkový bod)' },
       { id: 'trail', kind: 'venue', name: 'Tajch — okruh pre bicykle', cat: 'activity',
-        x: 66, y: 38, lat: 48.4330, lng: 18.6560, dist: 2.1, icon: '▲', color: '#B8860B',
+        x: 66, y: 50, lat: 48.4500, lng: 18.6420, dist: 2.1, icon: '▲', color: '#B8860B',
         amen: ['ebike', 'bike_trail'], sports: 'cyklo · e-bike · 12 km',
-        note: 'Okruh 12 km, náročnosť stredná — vhodné na e-bike.' },
-      { id: 'pool', kind: 'venue', name: 'Krytá plaváreň', cat: 'sport',
-        x: 38, y: 62, lat: 48.4190, lng: 18.6300, dist: 1.8, icon: '◆', color: '#388FC3',
-        amen: ['pool', 'parking'], sports: 'plávanie · 25 m',
-        note: '25-metrový bazén, verejné plávanie cez víkend.' },
+        note: 'Okruh 12 km, náročnosť stredná — vhodné na e-bike. (ukážkový bod)' },
       { id: 'event', kind: 'event', name: 'Pohronský e-bike maratón', cat: 'event',
-        x: 46, y: 45, lat: 48.4265, lng: 18.6410, dist: 0.4, icon: '★', color: '#C8453C',
+        x: 46, y: 45, lat: 48.4265, lng: 18.6390, dist: 0.4, icon: '★', color: '#C8453C',
         amen: ['ebike'], sports: 'sobota 11. 7. · 09:00',
-        note: 'Verejné podujatie — dá sa prísť aj len fandiť.' }
+        note: 'Verejné podujatie — dá sa prísť aj len fandiť. (ukážkový bod)' }
     ];
     const AMEN_LABELS = {
       pool: 'bazén', tennis: 'tenisový kurt', spa: 'SPA', ebike: 'e-bike / požičovňa',
@@ -880,22 +901,32 @@
             '<span class="su-disc-dist">' + p.dist.toFixed(1) + ' km</span>' +
           '</div>' +
           '<div class="su-disc-sub">' + esc(p.sports) + '</div>' +
-          '<div class="su-disc-chips">' + amenChips(p) + '</div>';
-        row.addEventListener('click', () => showPoint(p));
+          '<div class="su-disc-chips">' + amenChips(p) +
+            (p.url ? '<a class="su-disc-web" href="' + esc(p.url) + '" target="_blank" rel="noopener" title="Otvoriť web miesta">web ↗</a>' : '') +
+          '</div>';
+        row.addEventListener('click', (e) => {
+          if (e.target.classList.contains('su-disc-web')) return; // klik na odkaz nespúšťa detail
+          showPoint(p);
+        });
         listBox.appendChild(row);
       });
     }
 
     function showPoint(p) {
+      const src = p.url
+        ? '<div class="su-api-note"><a href="' + esc(p.url) + '" target="_blank" rel="noopener">Zdroj: ' + esc(p.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')) + ' ↗</a> · reálne miesto v Novej Bani</div>'
+        : '';
       apiBox.innerHTML =
         '<div class="su-api-head">GET /v1/public/venues/' + esc(p.id) + '</div>' +
         '<div class="su-api-body">' +
           '<div class="su-api-line"><span class="su-api-k">name_sk</span><span class="su-api-v">"' + esc(p.name) + '"</span></div>' +
           '<div class="su-api-line"><span class="su-api-k">distance_km</span><span class="su-api-v su-api-num">' + p.dist.toFixed(1) + '</span></div>' +
           '<div class="su-api-line"><span class="su-api-k">' + (p.kind === 'event' ? 'tourism_relevance' : 'amenities') + '</span><span class="su-api-v">' + (p.kind === 'event' ? '"regional"' : '[' + p.amen.map((a) => '"' + a + '"').join(', ') + ']') + '</span></div>' +
+          (p.url ? '<div class="su-api-line"><span class="su-api-k">source_url</span><span class="su-api-v">"' + esc(p.url) + '"</span></div>' : '') +
           '<div class="su-api-line"><span class="su-api-k">data_form</span><span class="su-api-v">"public_no_pii"</span></div>' +
         '</div>' +
-        '<div class="su-api-note">' + esc(p.note) + '</div>';
+        '<div class="su-api-note">' + esc(p.note) + '</div>' +
+        src;
     }
 
     function buildPackage() {

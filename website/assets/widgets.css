@@ -675,7 +675,20 @@
   flex-shrink: 0;
 }
 .su-disc-sub { font-size: 0.75rem; color: var(--text-muted); margin: 0.2rem 0 0.35rem; }
-.su-disc-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.su-disc-chips { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+.su-disc-web {
+  font-size: 0.66rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  background: var(--blue-light);
+  border: 1px solid var(--blue);
+  border-radius: 99px;
+  padding: 0.1rem 0.5rem;
+  text-decoration: none;
+  margin-left: auto;
+  white-space: nowrap;
+}
+.su-disc-web:hover { background: var(--blue); color: #fff; }
 .su-chip {
   font-size: 0.66rem;
   padding: 0.1rem 0.45rem;
