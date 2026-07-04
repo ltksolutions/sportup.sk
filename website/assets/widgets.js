@@ -323,13 +323,173 @@
   // ─────────────────────────────────────────────────────────────
   // Router
   // ─────────────────────────────────────────────────────────────
+  function initSchema(root) {
+    var fieldDocs = {
+      purpose_code: { t: 'Kód účelu', d: 'Jednoznačný identifikátor účelu. Prefix (REG, MKT, ZDR…) určuje kategóriu a governance doménu.' },
+      inheritance_level: { t: 'Úroveň vrstvy', d: '0 = univerzálny (všetky športy), 1 = kategóriový, 2 = špecifický, 3 = disciplinárny. Vďaka vrstveniu sa katalóg neškáluje lineárne s 90 športmi.' },
+      applicable_scope: { t: 'Rozsah pôsobnosti', d: 'Na ktoré športy, odvetvia a role sa účel vzťahuje. Role pokrývajú všetky typy osôb — nielen športovcov, ale aj trénerov, rozhodcov, dobrovoľníkov.' },
+      label_sk: { t: 'Názov (SK)', d: 'Krátky zrozumiteľný názov v slovenčine. Zobrazuje sa dotknutej osobe pri správe jej súhlasov.' },
+      description_sk: { t: 'Opis (SK)', d: 'Plný opis účelu. Záznam slúži ako GDPR dokument pre dotknutú osobu — musí byť zrozumiteľný laikovi.' },
+      legal_basis: { t: 'Právny základ', d: 'Podľa čl. 6 GDPR: contract, consent, legal_obligation, public_task, legitimate_interest, vital_interests. Určuje, či je súhlas odvolateľný.' },
+      legal_reference: { t: 'Právny odkaz', d: 'Konkrétne ustanovenie zákona — napr. § 79 zákona č. 440/2015 Z.z. o športe.' },
+      required_data_scopes: { t: 'Potrebné dátové rozsahy', d: 'Ktoré kategórie údajov účel vyžaduje. Princíp minimalizácie — len nevyhnutné.' },
+      special_category: { t: 'Osobitná kategória', d: 'Či ide o citlivé údaje podľa čl. 9 GDPR (zdravie, biometria…). Ak áno, samotný súhlas nestačí.' },
+      withdrawal_allowed: { t: 'Možnosť odvolania', d: 'Či môže osoba súhlas odvolať. Pri contract/legal_obligation zvyčajne false, pri consent vždy true.' },
+      retention_period_days: { t: 'Retenčná doba', d: 'Koľko dní sa údaje uchovávajú. 1825 = 5 rokov. Po uplynutí sa dáta archivujú alebo mažú.' },
+      retention_trigger: { t: 'Spúšťač retencie', d: 'Udalosť, od ktorej sa počíta retenčná doba — napr. affiliation_termination, event_end, immediate.' },
+      applies_to_minors: { t: 'Platnosť pre maloletých', d: 'with_guardian_consent (súhlas zákonného zástupcu), with_assent (+ asent dieťaťa od 13 r.), not_applicable.' },
+      transfer_to_third_country: { t: 'Prenos do tretej krajiny', d: 'Či sa údaje prenášajú mimo EÚ. Pri anti-dopingu (WADA/ADAMS) áno — vyžaduje osobitné záruky.' },
+      automated_decision_making: { t: 'Automatizované rozhodovanie', d: 'Či účel zahŕňa profilovanie s právnym účinkom (čl. 22 GDPR). Väčšinou false.' },
+      status: { t: 'Stav účelu', d: 'Životný cyklus: draft → active → deprecated → terminated. Nové súhlasy len pri active.' },
+      valid_from: { t: 'Platný od', d: 'Dátum vstupu verzie účelu do platnosti. Existujúce súhlasy odkazujú na konkrétnu verziu.' }
+    };
+    var examples = [
+      { id: 'reg', label: 'Registrácia športovca', person: 'športovec', color: '#388FC3', data: {
+        purpose_code: '"REG-SPORTOVEC-001"', version: '"1.0"', inheritance_level: '0',
+        applicable_scope: '{ sports: "all", roles: ["amatersky_sportovec", "profesionalny_sportovec"] }',
+        label_sk: '"Registrácia športovca v zväze a klube"',
+        description_sk: '"Evidencia športovca v centrálnom registri, klube a zväze…"',
+        legal_basis: '"contract + public_task"', legal_reference: '"§ 79 zák. 440/2015 Z.z."',
+        required_data_scopes: '["core_identity", "contact", "photo"]', special_category: '"none"',
+        withdrawal_allowed: 'false', retention_period_days: '1825', retention_trigger: '"affiliation_termination"',
+        applies_to_minors: '"with_guardian_consent"', transfer_to_third_country: 'false',
+        automated_decision_making: 'false', status: '"active"', valid_from: '"2026-09-01"'
+      } },
+      { id: 'trener', label: 'Registrácia trénera', person: 'tréner', color: '#2E7D5B', data: {
+        purpose_code: '"REG-TRENER-001"', version: '"1.0"', inheritance_level: '0',
+        applicable_scope: '{ sports: "all", roles: ["trener"] }',
+        label_sk: '"Registrácia trénera"',
+        description_sk: '"Evidencia trénera vrátane jeho licencií a kvalifikácií…"',
+        legal_basis: '"contract"', legal_reference: '"§ 6 zák. 440/2015 Z.z."',
+        required_data_scopes: '["core_identity", "contact", "qualifications"]', special_category: '"none"',
+        withdrawal_allowed: 'false', retention_period_days: '3650', retention_trigger: '"affiliation_termination"',
+        applies_to_minors: '"not_applicable"', transfer_to_third_country: 'false',
+        automated_decision_making: 'false', status: '"active"', valid_from: '"2026-09-01"'
+      } },
+      { id: 'foto', label: 'Foto maloletého (marketing)', person: 'maloletý', color: '#B8860B', data: {
+        purpose_code: '"MKT-FOTO-001-MALOLETY"', version: '"1.0"', inheritance_level: '1',
+        applicable_scope: '{ sports: "all", roles: ["amatersky_sportovec"] }',
+        label_sk: '"Foto/video maloletého na propagáciu"',
+        description_sk: '"Zverejnenie fotografií maloletého športovca na propagačné účely…"',
+        legal_basis: '"consent"', legal_reference: '"čl. 6(1)(a) + čl. 8 GDPR"',
+        required_data_scopes: '["photo", "core_identity"]', special_category: '"none"',
+        withdrawal_allowed: 'true', retention_period_days: '730', retention_trigger: '"consent_withdrawal"',
+        applies_to_minors: '"with_guardian_consent + assent"', transfer_to_third_country: 'false',
+        automated_decision_making: 'false', status: '"active"', valid_from: '"2026-09-01"'
+      } },
+      { id: 'doping', label: 'Anti-doping test', person: 'športovec', color: '#C8453C', data: {
+        purpose_code: '"ZDR-ANTIDOPING-001"', version: '"1.0"', inheritance_level: '2',
+        applicable_scope: '{ sports: "all", roles: ["profesionalny_sportovec"] }',
+        label_sk: '"Anti-doping testovanie (ADAMS)"',
+        description_sk: '"Spracovanie výsledkov dopingových kontrol vrátane prenosu do WADA…"',
+        legal_basis: '"legal_obligation + WADA Code"', legal_reference: '"čl. 9(2)(g) GDPR"',
+        required_data_scopes: '["core_identity", "health", "test_results"]', special_category: '"health (čl. 9)"',
+        withdrawal_allowed: 'false', retention_period_days: '3650', retention_trigger: '"immediate"',
+        applies_to_minors: '"with_guardian_consent"', transfer_to_third_country: 'true',
+        automated_decision_making: 'false', status: '"active"', valid_from: '"2026-09-01"'
+      } }
+    ];
+    var exWrap = root.querySelector('[data-examples]');
+    var jsonBox = root.querySelector('[data-json]');
+    var explain = root.querySelector('[data-explain]');
+    var activeEx = examples[0], activeField = null, activeBtn = null;
+    examples.forEach(function (ex) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'su-ex-btn'; b.style.borderLeft = '3px solid ' + ex.color;
+      b.innerHTML = esc(ex.label) + ' <span style="color:var(--text-soft);font-size:0.9em">· ' + esc(ex.person) + '</span>';
+      b.addEventListener('click', function () {
+        if (activeBtn) activeBtn.classList.remove('is-active');
+        activeBtn = b; b.classList.add('is-active');
+        activeEx = ex; activeField = null; renderJson(); resetExplain();
+      });
+      exWrap.appendChild(b);
+    });
+    function valColor(val) {
+      if (/^(true|false)$/.test(val)) return 'var(--code-number)';
+      if (/^\d/.test(val)) return 'var(--code-number)';
+      if (val[0] === '"') return 'var(--code-string)';
+      return '#C8DCEC';
+    }
+    function renderJson() {
+      var d = activeEx.data;
+      var html = '<div style="color:var(--code-comment)">{</div>';
+      Object.keys(d).forEach(function (k) {
+        var attr = fieldDocs[k] ? ' data-field="' + k + '"' : '';
+        var cursor = fieldDocs[k] ? '' : 'cursor:default;';
+        html += '<div style="padding-left:1rem"><span class="su-key"' + attr + ' style="' + cursor + '">"' + k + '"</span><span style="color:var(--code-comment)">: </span><span style="color:' + valColor(d[k]) + '">' + esc(d[k]) + '</span><span style="color:var(--code-comment)">,</span></div>';
+      });
+      html += '<div style="color:var(--code-comment)">}</div>';
+      jsonBox.innerHTML = html;
+      jsonBox.querySelectorAll('.su-key[data-field]').forEach(function (el) {
+        el.addEventListener('mouseenter', function () { if (activeField !== el.dataset.field) el.style.background = 'rgba(155,211,240,0.15)'; });
+        el.addEventListener('mouseleave', function () { if (activeField !== el.dataset.field) el.style.background = 'transparent'; });
+        el.addEventListener('click', function () { selectField(el.dataset.field, el); });
+      });
+    }
+    function selectField(k, el) {
+      jsonBox.querySelectorAll('.su-key[data-field]').forEach(function (e) { e.style.background = 'transparent'; });
+      activeField = k; el.style.background = 'rgba(56,143,195,0.35)';
+      var doc = fieldDocs[k], val = activeEx.data[k];
+      explain.innerHTML =
+        '<div class="su-explain-code">"' + esc(k) + '"</div>' +
+        '<div style="font-weight:700;font-size:0.95rem;margin-bottom:0.4rem">' + esc(doc.t) + '</div>' +
+        '<div style="font-size:0.83rem;color:var(--text-muted);line-height:1.55;margin-bottom:0.85rem">' + esc(doc.d) + '</div>' +
+        '<div style="border-top:1px dashed var(--border);padding-top:0.7rem"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-soft);margin-bottom:0.25rem">Hodnota pri tomto účele</div>' +
+        '<div class="su-explain-val">' + esc(val) + '</div></div>';
+    }
+    function resetExplain() {
+      explain.innerHTML = '<div style="color:var(--text-soft);font-size:0.85rem;line-height:1.55"><div style="font-weight:700;color:var(--navy);margin-bottom:0.4rem">' + esc(activeEx.label) + '</div>Klikni na ktorékoľvek pole vľavo (modré názvy) a zobrazí sa jeho význam a hodnota pri tomto účele.</div>';
+    }
+    activeBtn = exWrap.firstChild; activeBtn.classList.add('is-active');
+    renderJson(); resetExplain();
+  }
+
+  function initLayers(root) {
+    var layers = [
+      { n: 0, w: 100, color: '#388FC3', title: 'Univerzálne', scope: 'Pre všetky športy a organizácie', count: '~50',
+        ex: ['Registrácia osoby, športovca, trénera, rozhodcu', 'Prestupy a účasť na súťažiach', 'Štatistika a demografia', 'Dotácie a členské'],
+        note: 'Pokrýva ~90 % prevádzky. Platí rovnako pre športovca, trénera, rozhodcu, delegáta, dobrovoľníka aj lekára.' },
+      { n: 1, w: 80, color: '#2E7D5B', title: 'Kategóriové', scope: 'Podľa typu športu alebo subjektu', count: '~15–20',
+        ex: ['Pre-match medical clearance pre úpolové športy', 'Rezervácie športovísk pre hotely a kluby', 'Akreditácie pre organizátorov'],
+        note: 'Pridáva sa podľa charakteru športu alebo typu oficiálneho zdroja (zväz, klub, mesto, komerčný subjekt).' },
+      { n: 2, w: 60, color: '#B8860B', title: 'Špecifické', scope: 'Pridávajú národné zväzy alebo rezort', count: '~40–60',
+        ex: ['Evidencia zbraní (streľba)', 'Biologický pas (cyklistika, atletika)', 'Turistické štatistiky športovísk'],
+        note: 'Tu sa prejaví rozmanitosť 90 športov a ich odvetví — napr. Futbal má odvetvia Futbal, Futsal, Plážový futbal.' },
+      { n: 3, w: 40, color: '#8250C4', title: 'Disciplinárne', scope: 'Veľmi výnimočné', count: 'jednotky',
+        ex: ['Špecifické poistenie pre plážový futbal', 'Ojedinelé regulačné požiadavky odvetvia'],
+        note: 'Najužšia vrstva — pár účelov pre veľmi špecifické situácie jednotlivých odvetví.' }
+    ];
+    var pyr = root.querySelector('[data-pyramid]');
+    var detail = root.querySelector('[data-layer-detail]');
+    var activeEl = null;
+    layers.forEach(function (L) {
+      var row = document.createElement('button');
+      row.type = 'button'; row.className = 'su-layer-btn'; row.style.width = L.w + '%'; row.style.background = L.color;
+      row.innerHTML = '<div style="font-weight:700;font-size:0.85rem">Vrstva ' + L.n + ' · ' + esc(L.title) + '</div><div style="font-size:0.68rem;opacity:0.85;font-family:var(--font-mono);margin-top:0.15rem">' + esc(L.count) + ' účelov</div>';
+      row.addEventListener('click', function () {
+        if (activeEl) { activeEl.style.transform = 'none'; activeEl.style.opacity = '0.92'; activeEl.style.outline = 'none'; }
+        activeEl = row; row.style.transform = 'scale(1.02)'; row.style.opacity = '1'; row.style.outline = '2px solid var(--navy)'; row.style.outlineOffset = '2px';
+        detail.innerHTML =
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:0.7rem"><span style="width:24px;height:24px;border-radius:6px;background:' + L.color + ';color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:700;font-size:0.8rem">' + L.n + '</span><span style="font-weight:700;font-size:0.98rem">' + esc(L.title) + '</span><span style="margin-left:auto;font-family:var(--font-mono);font-size:0.72rem;color:' + L.color + ';font-weight:600">' + esc(L.count) + '</span></div>' +
+          '<div style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.75rem">' + esc(L.scope) + '</div>' +
+          '<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-soft);margin-bottom:0.4rem">Príklady</div>' +
+          '<ul style="margin:0 0 0.85rem;padding-left:1.1rem;font-size:0.81rem;color:var(--navy);line-height:1.6">' + L.ex.map(function (e) { return '<li style="margin-bottom:0.2rem">' + esc(e) + '</li>'; }).join('') + '</ul>' +
+          '<div style="font-size:0.78rem;color:var(--text-muted);line-height:1.55;background:var(--white);border-left:3px solid ' + L.color + ';padding:0.6rem 0.75rem;border-radius:0 6px 6px 0">' + esc(L.note) + '</div>';
+      });
+      pyr.appendChild(row);
+    });
+    detail.innerHTML = '<div style="color:var(--text-soft);font-size:0.85rem;line-height:1.55"><div style="font-weight:700;color:var(--navy);margin-bottom:0.4rem">Vrstvená pyramída</div>Klikni na vrstvu vľavo — čím vyššie číslo, tým užší a špecifickejší rozsah. Základ (vrstva 0) je najširší a pokrýva väčšinu.</div>';
+  }
+
   const inits = {
     reg: initReg,
     transfer: initTransfer,
     multirole: initMultirole,
     verify: initVerify,
     death: initDeath,
-    facility: initFacility
+    facility: initFacility,
+    schema: initSchema,
+    layers: initLayers
   };
 
   document.addEventListener('DOMContentLoaded', () => {

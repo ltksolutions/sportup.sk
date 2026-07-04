@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/widgets.css">
 <!-- Favicon & PWA — SportUp Brand v2.0 -->
 <link rel="icon" href="favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="favicon/su-icon.svg">
@@ -134,6 +135,22 @@
 </div>
 
 <p>Reálne sa v systéme pohybuje <strong>okolo 110 – 130 aktívnych účelov</strong>. To je zvládnuteľné pre správu aj pre dotknutú osobu, ktorá si môže potrebovať preskúmať svoje súhlasy.</p>
+
+<div class="su-widget" data-su-widget="layers">
+<div class="su-w-head">
+<span class="su-w-tag">Vrstvený katalóg</span>
+<span class="su-w-sub">Prečo 90 športov nezmnoží katalóg 90×</span>
+</div>
+<div class="su-w-intro">Keby mal každý zo 90 športov vlastný katalóg, vznikli by desiatky paralelných kópií. Vrstvenie to rieši: univerzálna vrstva pokrýva väčšinu, špecifiká pridávajú len vyššie vrstvy. Klikni na vrstvu.</div>
+<div class="su-pyramid-layout">
+<div class="su-pyramid" data-pyramid></div>
+<div class="su-layer-detail" data-layer-detail></div>
+</div>
+<div class="su-layer-total">
+<div style="font-size:0.8rem;color:var(--text-muted)">Reálne aktívnych účelov v systéme:</div>
+<div style="font-family:var(--font-mono);font-weight:600;color:var(--navy)"><span style="color:var(--blue)">110 – 130</span> — zvládnuteľné pre správu aj pre dotknutú osobu</div>
+</div>
+</div>
 </section>
 
 <section id="schema">
@@ -141,6 +158,22 @@
 <h2>Štruktúra záznamu</h2>
 <p>Každý účel má rovnakú štruktúru bez ohľadu na vrstvu. Záznam zároveň slúži ako dokument pre dotknutú osobu — musí mať zrozumiteľný opis v slovenčine.</p>
 
+<div class="su-widget" data-su-widget="schema">
+<div class="su-w-head">
+<span class="su-w-tag">Purpose · schéma</span>
+<span class="su-w-sub">Každý účel má rovnakú štruktúru — mení sa len obsah polí</span>
+</div>
+<div class="su-w-intro">Vyber príklad účelu (naprieč typmi osôb — nielen športovec) a klikni na ktorékoľvek pole. Ukáže sa, čo pole znamená a akú hodnotu má pri danom účele.</div>
+<div class="su-ex-btns" data-examples></div>
+<div class="su-schema-layout">
+<div class="su-json-box" data-json></div>
+<div class="su-explain" data-explain></div>
+</div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — plná JSON schéma pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
 <div class="code-header">Purpose · schéma</div>
 <pre><code>{
   <span class="code-key">"purpose_code"</span>: <span class="code-string">"REG-SPORTOVEC-001"</span>,
@@ -170,6 +203,8 @@
   <span class="code-key">"status"</span>: <span class="code-string">"active"</span>,
   <span class="code-key">"valid_from"</span>: <span class="code-string">"2026-09-01"</span>
 }</code></pre>
+</div>
+</details>
 </section>
 
 <section id="kategorie">
@@ -466,5 +501,6 @@
 </footer>
 
 <script src="script.js"></script>
+<script src="assets/widgets.js"></script>
 </body>
 </html>

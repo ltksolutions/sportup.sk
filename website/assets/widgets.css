@@ -279,3 +279,108 @@
 @media (prefers-reduced-motion: reduce) {
   .su-tl-dot, .su-tl-line, .su-seg, .su-detail, .su-role-btn { transition: none; }
 }
+
+/* ═════════════════════════════════════════════════════════
+   ucely.html — Purpose Catalogue widgety
+   ═════════════════════════════════════════════════════════ */
+
+/* ── Widget 1: Štruktúra záznamu účelu ── */
+.su-ex-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+.su-ex-btn {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+  background: var(--white);
+  color: var(--navy);
+  transition: background 0.15s, border-color 0.15s;
+}
+.su-ex-btn:hover { border-color: var(--border-strong); }
+.su-ex-btn.is-active { background: var(--blue-light); }
+
+.su-schema-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 14px;
+  align-items: start;
+}
+.su-json-box {
+  background: var(--code-bg);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  line-height: 1.85;
+  overflow-x: auto;
+}
+.su-json-box .su-key { color: var(--code-key); border-radius: 3px; padding: 0 2px; }
+.su-json-box .su-key[data-field] { cursor: pointer; }
+.su-explain {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem;
+  min-height: 200px;
+  position: sticky;
+  top: 1rem;
+}
+.su-explain-code { font-family: var(--font-mono); font-size: 0.72rem; color: var(--blue); margin-bottom: 0.5rem; }
+.su-explain-val {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--navy);
+  background: var(--blue-light);
+  padding: 0.4rem 0.55rem;
+  border-radius: 5px;
+  word-break: break-word;
+}
+
+/* ── Widget 2: Vrstvený katalóg (pyramída) ── */
+.su-pyramid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.su-pyramid { display: flex; flex-direction: column; gap: 6px; align-items: center; padding-top: 0.5rem; }
+.su-layer-btn {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 0.5rem;
+  color: var(--white);
+  transition: transform 0.15s, opacity 0.15s;
+  text-align: center;
+  opacity: 0.92;
+}
+.su-layer-btn:hover { transform: scale(1.02); opacity: 1; }
+.su-layer-detail {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem;
+  min-height: 220px;
+}
+.su-layer-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 700px) {
+  .su-schema-layout, .su-pyramid-layout { grid-template-columns: 1fr; }
+  .su-explain { position: static; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .su-layer-btn, .su-ex-btn { transition: none; }
+}
