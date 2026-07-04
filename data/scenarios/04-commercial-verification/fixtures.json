@@ -1,0 +1,45 @@
+{
+  "$comment": "Vstupný stav pre scenár 04 — Komerčné overenie pre hotel. Osoba s aktívnou športovou afiliáciou + hotel ako certifikovaná aplikácia s obmedzeným scope. Minimalizácia dát.",
+  "persons": [
+    {
+      "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "given_name": "Martina",
+      "family_name": "Nováková",
+      "rfo_verified": true
+    }
+  ],
+  "organizations": [
+    {
+      "organization_id": "h0000000-4444-4000-8000-000000000001",
+      "name": "Hotel Grand Jasná",
+      "organization_type": "komercny_subjekt_cestovny_ruch",
+      "ico": "36000111"
+    }
+  ],
+  "affiliations": [
+    {
+      "affiliation_id": "b2d5f9c3-0000-4000-8000-00000000a001",
+      "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000001",
+      "role_code": "profesionalny_sportovec",
+      "sport_code": "SK-ATH",
+      "status": "active",
+      "valid_from": "2018-01-01"
+    }
+  ],
+  "certified_apps": [
+    {
+      "app_id": "app-grandjasna-recepcia",
+      "organization_id": "h0000000-4444-4000-8000-000000000001",
+      "scopes": ["verification:athlete_discount"],
+      "allowed_attributes": ["has_active_athlete_affiliation", "category_tier"]
+    }
+  ],
+  "consents": [
+    {
+      "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "purpose_codes": ["KOM-BENEFIT-001"],
+      "status": "granted"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "$comment": "Očakávaný výsledok pre scenár 10 — Výmaz dát. Transparentný výsledok: čo zmazané, čo anonymizované, čo zachované (a prečo). Právo na výmaz nie je absolútne.",
+  "erasure_result": {
+    "request_id": "erasure-2026-07-04-xyz",
+    "status": "completed_partial"
+  },
+  "erased": [
+    "Kontaktné údaje",
+    "Fotografie",
+    "Marketingové súhlasy",
+    "Dobrovoľnícka evidencia"
+  ],
+  "anonymized": [
+    { "what": "Historické rozhodcovské výkony", "method": "participant_code", "reason": "verejný historický záznam — kontinuita časových radov" }
+  ],
+  "retained": [
+    { "what": "Účasť v disciplinárnom konaní", "why": "Prebiehajúce konanie (čl. 17 ods. 3 písm. e)" },
+    { "what": "Vyplatené dotácie", "why": "Zákonná archivačná lehota 10 rokov (čl. 17 ods. 3 písm. b)" }
+  ],
+  "event_store": {
+    "method": "crypto_shredding",
+    "$comment": "Eventy zostávajú (nemenná história), osobné dáta šifrované per-person kľúčom sú po zničení kľúča nečitateľné"
+  },
+  "edge_case_antidoping": {
+    "$comment": "Pri anti-dopingovom zázname (ZDR-ANTIDOPING-001) platí retencia podľa WADA Code — výmaz sa odmietne pre medzinárodný právny záväzok"
+  }
+}

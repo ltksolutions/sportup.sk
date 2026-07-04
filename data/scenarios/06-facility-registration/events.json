@@ -1,0 +1,26 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 06 — Registrácia športoviska. FacilityRegistered + FacilityActivated. Vlastník (mesto) a prevádzkovateľ (p.o.) sú rôzne organizácie.",
+  "events": [
+    {
+      "event_type": "FacilityRegistered",
+      "aggregate": "Facility",
+      "aggregate_id": "fac-za00-6666-4000-8000-0000000000c1",
+      "occurred_at": "2026-04-15T09:00:00Z",
+      "data": {
+        "name_sk": "Mestská športová hala Žilina-Vlčince",
+        "facility_type": "ruznopouzitelna_hala",
+        "supported_sports": ["SK-VLB", "SK-BAS", "SK-HDB", "SK-FLB"],
+        "owner_organization_id": "mesto-za-6666-4000-8000-000000000001",
+        "operator_organization_id": "msh-za00-6666-4000-8000-000000000002",
+        "has_tourism_data": true
+      }
+    },
+    {
+      "event_type": "FacilityActivated",
+      "aggregate": "Facility",
+      "aggregate_id": "fac-za00-6666-4000-8000-0000000000c1",
+      "occurred_at": "2026-04-15T09:00:05Z",
+      "data": { "status": "operational", "public": true }
+    }
+  ]
+}

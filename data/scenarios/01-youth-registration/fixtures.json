@@ -1,0 +1,29 @@
+{
+  "$comment": "Vstupný stav pre scenár 01 — Mládežnícka registrácia. Otec (zákonný zástupca) už existuje v systéme; maloletá Petra ešte nie. Ilustruje guardian consent a RFO match pre maloletého.",
+  "persons": [
+    {
+      "person_id": "d4f1a8c0-1111-4000-8000-000000000010",
+      "given_name": "Marek",
+      "family_name": "Hájek",
+      "date_of_birth": "1982-04-11",
+      "rfo_verified": true,
+      "is_minor": false,
+      "core_identity": {
+        "national_id_hash": "sha256:1a2b...",
+        "citizenship": "SK"
+      }
+    }
+  ],
+  "organizations": [
+    {
+      "organization_id": "e5a2b9d1-1111-4000-8000-000000000020",
+      "name": "VK Slávia EU Bratislava",
+      "organization_type": "sportovy_klub",
+      "sport_code": "SK-VLB",
+      "ico": "31789012",
+      "parent_federation": "SVF"
+    }
+  ],
+  "affiliations": [],
+  "guardian_relationships": []
+}

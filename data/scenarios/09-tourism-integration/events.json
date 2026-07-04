@@ -1,0 +1,30 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 09 — Turizmus TIC. Read-only scenár: žiadne write eventy. Len audit prístupu certifikovaných turistických aplikácií.",
+  "events": [
+    {
+      "event_type": "PublicDataAccessed",
+      "aggregate": "AuditLog",
+      "occurred_at": "2026-06-01T10:00:00Z",
+      "data": {
+        "app_id": "app-visittatry",
+        "organization_id": "tic-tat-9999-4000-8000-000000000001",
+        "endpoint": "/v1/public/facilities",
+        "scope": "read:public_facilities",
+        "data_form": "public_no_pii"
+      }
+    },
+    {
+      "event_type": "PublicDataAccessed",
+      "aggregate": "AuditLog",
+      "occurred_at": "2026-06-01T10:00:05Z",
+      "data": {
+        "app_id": "app-visittatry",
+        "organization_id": "tic-tat-9999-4000-8000-000000000001",
+        "endpoint": "/v1/public/events",
+        "scope": "read:public_events",
+        "data_form": "public_no_participant_pii"
+      }
+    }
+  ],
+  "$comment_write": "Žiadne write eventy — TIC/OOCR majú len read scope. Zápis robia oficiálne zdroje (mestá, zväzy, organizátori)."
+}

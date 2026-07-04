@@ -1,0 +1,34 @@
+{
+  "$comment": "Očakávaný výstup pre scenár 11 — Dobrovoľník safeguarding. Prípad A (platný certifikát): afiliácia aktívna. Prípad B (chýbajúci): pending_safeguarding, neaktivuje sa. Ochrana maloletých vynútená serverom.",
+  "case_a_valid_safeguarding": {
+    "affiliation_id": "aff-vol-bbbb-4000-8000-0000000000v1",
+    "status": "active",
+    "works_with_minors": true,
+    "safeguarding_verified": true
+  },
+  "case_b_missing_safeguarding": {
+    "status": "pending_safeguarding",
+    "error_code": "safeguarding_required_for_minors",
+    "activated": false,
+    "$comment": "Bez platného certifikátu KVL-SAFEGUARDING-001 sa afiliácia s prístupom k maloletým neaktivuje"
+  },
+  "current_affiliations": {
+    "person_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+    "count": 1,
+    "roles": ["dobrovolnik"],
+    "organization_id": "mesto-tt-bbbb-4000-8000-000000000001"
+  },
+  "safeguarding_register": {
+    "person_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+    "qualification_id": "qual-sg0-bbbb-4000-8000-0000000000q1",
+    "activity_id": "act-tt00-bbbb-4000-8000-0000000000e1"
+  },
+  "mcp_activity_staffing": {
+    "activity_id": "act-tt00-bbbb-4000-8000-0000000000e1",
+    "volunteers_safeguarding_valid": 12,
+    "data_form": "aggregate_no_pii"
+  },
+  "continuity_note": {
+    "$comment": "Tá istá person_id ako scenár 10 — Zuzana sa tu prihlasuje (2024), v scenári 10 neskôr žiada výmaz"
+  }
+}

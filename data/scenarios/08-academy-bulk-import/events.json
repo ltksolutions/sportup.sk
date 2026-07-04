@@ -1,0 +1,62 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 08 — Akadémia bulk import. Per-row eventy s correlation_id. Row 1 (maloletý) + guardian consent; row 2 match existing; row 4 rejected (chýba national_id).",
+  "correlation_id": "bulk-fa-za-2026-07-abc",
+  "events": [
+    {
+      "event_type": "PersonRegistered",
+      "aggregate": "Person",
+      "row_ref": "1",
+      "correlation_id": "bulk-fa-za-2026-07-abc",
+      "data": { "given_name": "Adam", "family_name": "Horváth", "is_minor": true }
+    },
+    {
+      "event_type": "GuardianRelationshipEstablished",
+      "aggregate": "Person",
+      "row_ref": "1",
+      "correlation_id": "bulk-fa-za-2026-07-abc",
+      "data": { "relation": "father" }
+    },
+    {
+      "event_type": "ConsentGranted",
+      "aggregate": "Consent",
+      "row_ref": "1",
+      "correlation_id": "bulk-fa-za-2026-07-abc",
+      "data": { "granted_by_role": "guardian", "purpose_codes": ["REG-SPORTOVEC-001"] }
+    },
+    {
+      "event_type": "AffiliationRegistered",
+      "aggregate": "Affiliation",
+      "row_ref": "1",
+      "correlation_id": "bulk-fa-za-2026-07-abc",
+      "data": { "role_code": "amatersky_sportovec", "discipline_code": "SK-FBL-FUTBAL" }
+    },
+    {
+      "event_type": "PersonMatched",
+      "aggregate": "Person",
+      "row_ref": "2",
+      "correlation_id": "bulk-fa-za-2026-07-abc",
+      "data": { "person_id": "marek-ex-8888-4000-8000-000000000010", "match": "existing" }
+    },
+    {
+      "event_type": "AffiliationRegistered",
+      "aggregate": "Affiliation",
+      "row_ref": "2",
+      "correlation_id": "bulk-fa-za-2026-07-abc",
+      "data": { "role_code": "trener", "$comment": "Ďalšia afiliácia k jednej identite (multi-role)" }
+    },
+    {
+      "event_type": "PersonRegistered",
+      "aggregate": "Person",
+      "row_ref": "3",
+      "correlation_id": "bulk-fa-za-2026-07-abc",
+      "data": { "given_name": "Jana", "family_name": "Šimková", "role_code": "fyzioterapeut" }
+    },
+    {
+      "event_type": "BulkRowRejected",
+      "aggregate": "BulkImport",
+      "row_ref": "4",
+      "correlation_id": "bulk-fa-za-2026-07-abc",
+      "data": { "error_code": "missing_national_id" }
+    }
+  ]
+}

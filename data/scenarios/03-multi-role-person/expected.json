@@ -1,0 +1,28 @@
+{
+  "$comment": "Očakávaný stav projekcií po scenári 03. current_affiliations = 4 riadky s jedným person_id; multi_role_index označuje osobu; po PersonNameChanged všetky role vidia nové priezvisko.",
+  "current_affiliations": {
+    "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+    "count": 4,
+    "roles": ["profesionalny_sportovec", "trener", "dobrovolnik", "sportovy_rozhodca"],
+    "sports": ["SK-ATH", "SK-SCH"]
+  },
+  "multi_role_index": {
+    "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+    "active_role_count": 4,
+    "flagged_multi_role": true
+  },
+  "person_after_name_change": {
+    "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+    "family_name": "Nováková",
+    "affiliations_reflect_new_name": true
+  },
+  "conflict_check_detva_referee": {
+    "conflict": true,
+    "conflict_type": "referee_with_active_affiliation_to_participant"
+  },
+  "mcp_analytics_multi_role": {
+    "min_active_roles": 2,
+    "group_by": "sport_code",
+    "data_form": "aggregated_no_pii"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "$comment": "Očakávaný stav projekcií po scenári 07 — Hobby aktivita. Len agregátne štatistiky, žiadne person-related projekcie. MCP dopyt vracia agregát pre plánovanie infraštruktúry.",
+  "hobby_activity_catalog": {
+    "activity_id": "act-po00-7777-4000-8000-0000000000e1",
+    "activity_type": "hobby",
+    "personal_data_stored": false
+  },
+  "aggregate_participation_stats": {
+    "activity_id": "act-po00-7777-4000-8000-0000000000e1",
+    "sessions_reported": 1,
+    "data_form": "aggregate_only_no_pii"
+  },
+  "person_projections_touched": {
+    "current_affiliations": false,
+    "person_timeline": false,
+    "$comment": "Žiadna osoba nie je evidovaná — person projekcie sa nedotknú"
+  },
+  "mcp_infrastructure_demand": {
+    "region_code": "SK-PO",
+    "sport_code": "SK-ATH",
+    "infrastructure_recommendation": "high_demand_running_paths",
+    "data_form": "aggregate_only_no_pii"
+  },
+  "edge_case_volunteer_organizer": {
+    "$comment": "Dobrovoľník-organizátor je evidovaná osoba s rolou; bežci ostávajú anonymné agregáty. Systém eviduje osoby len tam, kde rola existuje."
+  }
+}

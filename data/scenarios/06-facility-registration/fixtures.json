@@ -1,0 +1,20 @@
+{
+  "$comment": "Vstupný stav pre scenár 06 — Registrácia športoviska. Mesto (samospráva) ako oficiálny zdroj + príspevková organizácia ako prevádzkovateľ. Prázdny facility catalog. Dvojhodnota šport/turizmus.",
+  "organizations": [
+    {
+      "organization_id": "mesto-za-6666-4000-8000-000000000001",
+      "name": "Mesto Žilina",
+      "organization_type": "mesto",
+      "ico": "00321796",
+      "rpo_verified": true
+    },
+    {
+      "organization_id": "msh-za00-6666-4000-8000-000000000002",
+      "name": "Mestská športová hala Žilina, p.o.",
+      "organization_type": "prispevkova_organizacia",
+      "ico": "00321797",
+      "rpo_verified": true
+    }
+  ],
+  "facilities": []
+}

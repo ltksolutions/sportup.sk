@@ -1,0 +1,27 @@
+{
+  "$comment": "Očakávaný výstup pre scenár 09 — Turizmus TIC. Verejné odpovede facilities/events bez PII. Dvojaký právny základ tej istej dátovej položky (šport vs. turizmus).",
+  "public_facilities_response": {
+    "facility_id": "fac-tat-9999-4000-8000-0000000000c1",
+    "purpose": "TUR-KATALOG-001",
+    "contains_pii": false
+  },
+  "public_events_response": {
+    "event_id": "evt-tat-9999-4000-8000-0000000000v1",
+    "purpose": "TUR-PODUJATIE-001",
+    "data_form": "public_no_participant_pii"
+  },
+  "mcp_build_active_holiday": {
+    "region_code": "SK-PO",
+    "interests": ["SK-ATH", "SK-CYK"],
+    "data_form": "public_no_pii"
+  },
+  "edge_case_person_endpoint_forbidden": {
+    "endpoint": "/v1/persons/...",
+    "status": 403,
+    "$comment": "Turistický scope nikdy nedáva prístup k osobám"
+  },
+  "commercial_followup": {
+    "purpose": "TUR-SLUZBA-001",
+    "$comment": "Hotely/penzióny môžu nadviazať na lokalitu — len verejné dáta, nie osoby"
+  }
+}

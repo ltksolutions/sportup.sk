@@ -1,0 +1,25 @@
+{
+  "$comment": "Očakávaný výsledok pre scenár 08 — Akadémia bulk import. Partial success: 3 úspešné (hráč, tréner, fyzioterapeut), 1 odmietnutý (technický vedúci bez national_id). Idempotencia + multi-role.",
+  "bulk_summary": {
+    "correlation_id": "bulk-fa-za-2026-07-abc",
+    "status": "completed_with_errors",
+    "total": 4,
+    "succeeded": 3,
+    "failed": 1
+  },
+  "results": [
+    { "row_ref": "1", "status": "created", "role": "amatersky_sportovec", "guardian_linked": true },
+    { "row_ref": "2", "status": "matched_existing", "role": "trener", "note": "pridaná ďalšia afiliácia k existujúcej identite" },
+    { "row_ref": "3", "status": "created", "role": "fyzioterapeut" },
+    { "row_ref": "4", "status": "rejected", "error_code": "missing_national_id" }
+  ],
+  "person_types_imported": ["amatersky_sportovec", "trener", "fyzioterapeut"],
+  "idempotency": {
+    "key": "fa-za-import-2026-07-batch-01",
+    "repeat_creates_duplicates": false
+  },
+  "guardian_relationships": {
+    "count": 1,
+    "$comment": "Maloletý Adam ↔ zákonný zástupca"
+  }
+}

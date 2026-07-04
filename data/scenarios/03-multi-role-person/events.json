@@ -1,0 +1,17 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 03. Zmena mena na Person aggregate sa premietne všetkým 4 afiliáciám bez ich úpravy.",
+  "events": [
+    {
+      "event_type": "PersonNameChanged",
+      "aggregate": "Person",
+      "aggregate_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "occurred_at": "2026-05-20T09:00:00Z",
+      "data": {
+        "old_family_name": "Kučerová",
+        "new_family_name": "Nováková",
+        "reason": "marriage",
+        "effective_date": "2026-05-20"
+      }
+    }
+  ]
+}

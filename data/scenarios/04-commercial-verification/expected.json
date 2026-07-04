@@ -1,0 +1,24 @@
+{
+  "$comment": "Očakávaný výstup pre scenár 04 — Komerčné overenie. Hotel dostane iba boolean + kategóriu, žiadne PII. Audit log dostupný osobe.",
+  "verification_response": {
+    "valid": true,
+    "has_active_athlete_affiliation": true,
+    "category_tier": "registered",
+    "data_form": "boolean_only_no_pii"
+  },
+  "disclosed_pii": {
+    "name": false,
+    "date_of_birth": false,
+    "club": false,
+    "sport": false
+  },
+  "person_verification_log": {
+    "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+    "entries": 1,
+    "last_verifier": "Hotel Grand Jasná"
+  },
+  "edge_case_coach_without_athlete_affiliation": {
+    "has_active_athlete_affiliation": false,
+    "$comment": "Tréner bez hráčskej afiliácie → hotel zľavu neposkytne. Systém pokrýva všetky typy osôb, benefit sa viaže na konkrétny atribút."
+  }
+}

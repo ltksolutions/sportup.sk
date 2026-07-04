@@ -1,0 +1,23 @@
+{
+  "$comment": "Očakávaný stav projekcií po scenári 05 — Úmrtie a kaskáda. Všetky 3 afiliácie terminované jednou kaskádou; historické záznamy zachované; citlivé údaje obmedzené.",
+  "current_affiliations": {
+    "person_id": "3f8a1c22-5555-4000-8000-000000000001",
+    "count": 0,
+    "$comment": "Všetky 3 afiliácie odstránené z aktívnych"
+  },
+  "cascade_via_correlation_id": {
+    "correlation_id": "death-cascade-2026-03-20-def456",
+    "terminated_affiliations": 3
+  },
+  "historical_records_retained": {
+    "person_id": "3f8a1c22-5555-4000-8000-000000000001",
+    "records_preserved": true,
+    "example": "rozhodca finále pohára 2019"
+  },
+  "data_access": {
+    "person_id": "3f8a1c22-5555-4000-8000-000000000001",
+    "mode": "deceased",
+    "restricted_scopes": ["contact", "health", "special_category"],
+    "retained_scopes": ["core_identity", "historical_records"]
+  }
+}

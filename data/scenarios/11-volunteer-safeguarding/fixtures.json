@@ -1,0 +1,40 @@
+{
+  "$comment": "Vstupný stav pre scenár 11 — Dobrovoľník safeguarding. Zuzana (tá istá osoba ako v scenári 10, tu v r. 2024) s platným safeguarding certifikátom. Mesto Trnava organizuje tábor pre deti. Ochrana maloletých.",
+  "persons": [
+    {
+      "person_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+      "given_name": "Zuzana",
+      "family_name": "Malíková",
+      "date_of_birth": "1996-02-14",
+      "rfo_verified": true
+    }
+  ],
+  "organizations": [
+    {
+      "organization_id": "mesto-tt-bbbb-4000-8000-000000000001",
+      "name": "Mesto Trnava",
+      "organization_type": "mesto",
+      "ico": "00313114",
+      "rpo_verified": true
+    }
+  ],
+  "activities": [
+    {
+      "activity_id": "act-tt00-bbbb-4000-8000-0000000000e1",
+      "name_sk": "Letný športový tábor Trnava 2024",
+      "organized_by": "mesto-tt-bbbb-4000-8000-000000000001",
+      "involves_minors": true,
+      "age_range": "6-14"
+    }
+  ],
+  "qualifications": [
+    {
+      "qualification_id": "qual-sg0-bbbb-4000-8000-0000000000q1",
+      "person_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+      "type": "KVL-SAFEGUARDING-001",
+      "valid_from": "2023-05-01",
+      "valid_to": "2026-05-01",
+      "status": "valid"
+    }
+  ]
+}

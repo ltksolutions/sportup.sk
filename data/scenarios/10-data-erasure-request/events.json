@@ -1,0 +1,47 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 10 — Výmaz dát. ErasureRequested + ErasureAssessed + PersonalDataErased (crypto-shredding) + PersonalDataAnonymized. Selektívny výmaz podľa účelov.",
+  "correlation_id": "erasure-2026-07-04-xyz",
+  "events": [
+    {
+      "event_type": "ErasureRequested",
+      "aggregate": "Person",
+      "aggregate_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+      "correlation_id": "erasure-2026-07-04-xyz",
+      "occurred_at": "2026-07-04T10:00:00Z",
+      "data": { "scope": "all_erasable", "reason": "no_longer_active_in_sport" }
+    },
+    {
+      "event_type": "ErasureAssessed",
+      "aggregate": "Person",
+      "aggregate_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+      "correlation_id": "erasure-2026-07-04-xyz",
+      "occurred_at": "2026-07-04T10:00:30Z",
+      "data": {
+        "erasable": ["MKT-FOTO-001", "MKT-NEWSLETTER-001", "REG-DOBROVOLNIK-001"],
+        "retained": ["DIS-KONANIE-001", "FIN-DOTACIA-001", "POD-VYSLEDKY-001"]
+      }
+    },
+    {
+      "event_type": "PersonalDataErased",
+      "aggregate": "Person",
+      "aggregate_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+      "correlation_id": "erasure-2026-07-04-xyz",
+      "occurred_at": "2026-07-04T10:01:00Z",
+      "data": {
+        "deleted_scopes": ["contact", "photo", "marketing_preferences"],
+        "method": "crypto_shredding"
+      }
+    },
+    {
+      "event_type": "PersonalDataAnonymized",
+      "aggregate": "Person",
+      "aggregate_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+      "correlation_id": "erasure-2026-07-04-xyz",
+      "occurred_at": "2026-07-04T10:01:05Z",
+      "data": {
+        "anonymized_scopes": ["historical_results"],
+        "method": "pseudonym_replaced_with_participant_code"
+      }
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 11 — Dobrovoľník safeguarding (Prípad A: platný certifikát). Overenie identity cez eID, kontrola safeguardingu, aktivácia dobrovoľníckej afiliácie.",
+  "events": [
+    {
+      "event_type": "PersonMatched",
+      "aggregate": "Person",
+      "aggregate_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+      "occurred_at": "2024-06-15T09:00:00Z",
+      "data": { "auth_method": "eid_slovensko_sk", "verification_status": "verified_by_rfo_eid" }
+    },
+    {
+      "event_type": "SafeguardingVerified",
+      "aggregate": "Affiliation",
+      "occurred_at": "2024-06-15T09:00:10Z",
+      "data": { "qualification_id": "qual-sg0-bbbb-4000-8000-0000000000q1", "status": "valid" }
+    },
+    {
+      "event_type": "AffiliationRegistered",
+      "aggregate": "Affiliation",
+      "aggregate_id": "aff-vol-bbbb-4000-8000-0000000000v1",
+      "occurred_at": "2024-06-15T09:00:15Z",
+      "data": {
+        "person_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+        "organization_id": "mesto-tt-bbbb-4000-8000-000000000001",
+        "role_code": "dobrovolnik",
+        "activity_id": "act-tt00-bbbb-4000-8000-0000000000e1",
+        "works_with_minors": true,
+        "safeguarding_qualification_id": "qual-sg0-bbbb-4000-8000-0000000000q1"
+      }
+    },
+    {
+      "event_type": "AffiliationActivated",
+      "aggregate": "Affiliation",
+      "aggregate_id": "aff-vol-bbbb-4000-8000-0000000000v1",
+      "occurred_at": "2024-06-15T09:00:20Z",
+      "data": { "status": "active" }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$comment": "Očakávaný stav projekcií po scenári 06 — Registrácia športoviska. Tá istá Facility slúži športu (facility_by_sport, POD-SPORTOVISKO-001) aj turizmu (public_facility_map, tourism_facilities, TUR-KATALOG-001).",
+  "facility_catalog": {
+    "facility_id": "fac-za00-6666-4000-8000-0000000000c1",
+    "status": "operational"
+  },
+  "public_facility_map": {
+    "facility_id": "fac-za00-6666-4000-8000-0000000000c1",
+    "visible": true,
+    "purpose": "TUR-KATALOG-001"
+  },
+  "facility_by_sport": {
+    "indexed_sports": ["SK-VLB", "SK-BAS", "SK-HDB", "SK-FLB"],
+    "purpose": "POD-SPORTOVISKO-001"
+  },
+  "tourism_facilities": {
+    "facility_id": "fac-za00-6666-4000-8000-0000000000c1",
+    "has_mobility_data": true
+  },
+  "dual_use": {
+    "sport_consumer": "zväz priraďuje halu k ligovému zápasu",
+    "tourism_consumer": "turistická platforma zobrazí halu na verejnej mape",
+    "$comment": "Rovnaká dátová položka, dvaja konzumenti, dva právne základy"
+  }
+}

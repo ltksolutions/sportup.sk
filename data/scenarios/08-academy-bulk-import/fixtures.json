@@ -1,0 +1,48 @@
+{
+  "$comment": "Vstupný stav pre scenár 08 — Akadémia bulk import. FA Žilina s prázdnym rosterom. Jedna osoba (tréner Marek) už existuje v inom klube — demonštruje match a multi-role. Rôzne typy osôb v dávke.",
+  "organizations": [
+    {
+      "organization_id": "fa-za000-8888-4000-8000-000000000001",
+      "name": "FA Žilina",
+      "organization_type": "sportova_akademia",
+      "sport_code": "SK-FBL",
+      "ico": "42000123"
+    },
+    {
+      "organization_id": "iny-klub-8888-4000-8000-000000000002",
+      "name": "MŠK Rimavská Sobota",
+      "organization_type": "sportovy_klub",
+      "sport_code": "SK-FBL"
+    }
+  ],
+  "persons": [
+    {
+      "person_id": "marek-ex-8888-4000-8000-000000000010",
+      "given_name": "Marek",
+      "family_name": "Kováč",
+      "date_of_birth": "1985-06-20",
+      "rfo_verified": true,
+      "$comment": "Už existuje — tréner v inom klube. Bulk import ho matchne, nevytvorí duplicitu."
+    }
+  ],
+  "affiliations": [
+    {
+      "affiliation_id": "aff-ex00-8888-4000-8000-0000000000t1",
+      "person_id": "marek-ex-8888-4000-8000-000000000010",
+      "organization_id": "iny-klub-8888-4000-8000-000000000002",
+      "role_code": "trener",
+      "sport_code": "SK-FBL",
+      "status": "active",
+      "valid_from": "2020-01-01"
+    }
+  ],
+  "import_batch": {
+    "idempotency_key": "fa-za-import-2026-07-batch-01",
+    "records": [
+      { "row_ref": "1", "given_name": "Adam", "family_name": "Horváth", "role_code": "amatersky_sportovec", "is_minor": true, "has_guardian": true },
+      { "row_ref": "2", "given_name": "Marek", "family_name": "Kováč", "role_code": "trener", "matches_existing": true },
+      { "row_ref": "3", "given_name": "Jana", "family_name": "Šimková", "role_code": "fyzioterapeut" },
+      { "row_ref": "4", "given_name": "Ivan", "family_name": "Baláž", "role_code": "technicky_veduci", "national_id": null }
+    ]
+  }
+}

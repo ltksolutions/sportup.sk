@@ -1,0 +1,21 @@
+{
+  "$comment": "Vstupný stav pre scenár 10 — Žiadosť o výmaz dát (GDPR čl. 17). Zuzana (dobrovoľník/rozhodca) s mixom účelov: časť mazateľná, časť zákonne viazaná. Selektívny výmaz.",
+  "persons": [
+    {
+      "person_id": "8d2f4a91-aaaa-4000-8000-000000000001",
+      "given_name": "Zuzana",
+      "family_name": "Malíková",
+      "date_of_birth": "1996-02-14",
+      "rfo_verified": true,
+      "status": "active"
+    }
+  ],
+  "person_data_by_purpose": [
+    { "purpose": "MKT-FOTO-001", "legal_basis": "consent", "erasable": true },
+    { "purpose": "MKT-NEWSLETTER-001", "legal_basis": "consent", "erasable": true },
+    { "purpose": "REG-DOBROVOLNIK-001", "legal_basis": "consent", "erasable": true },
+    { "purpose": "DIS-KONANIE-001", "legal_basis": "legitimate_interest", "erasable": false, "reason": "active_legal_proceeding" },
+    { "purpose": "FIN-DOTACIA-001", "legal_basis": "legal_obligation", "erasable": false, "reason": "legal_retention_10y" },
+    { "purpose": "POD-VYSLEDKY-001", "legal_basis": "legitimate_interest", "erasable": false, "reason": "historical_public_record", "action": "anonymize" }
+  ]
+}

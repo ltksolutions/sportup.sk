@@ -1,0 +1,30 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 07 — Hobby aktivita. HobbyActivityRegistered + AggregateCountReported. Žiadne osobné eventy — len agregáty bez PII.",
+  "events": [
+    {
+      "event_type": "HobbyActivityRegistered",
+      "aggregate": "Activity",
+      "aggregate_id": "act-po00-7777-4000-8000-0000000000e1",
+      "occurred_at": "2026-05-10T08:00:00Z",
+      "data": {
+        "activity_type": "hobby",
+        "organization_scope": "unorganized",
+        "sport_code": "SK-ATH",
+        "discipline_code": "SK-ATH-RECREATIONAL",
+        "participant_data": "aggregate_only"
+      }
+    },
+    {
+      "event_type": "AggregateCountReported",
+      "aggregate": "Activity",
+      "aggregate_id": "act-po00-7777-4000-8000-0000000000e1",
+      "occurred_at": "2026-05-17T11:00:00Z",
+      "data": {
+        "occurred_on": "2026-05-17",
+        "estimated_participants": 34,
+        "age_bands": { "under_18": 4, "18_39": 18, "40_59": 9, "60_plus": 3 },
+        "data_form": "aggregate_only_no_pii"
+      }
+    }
+  ]
+}

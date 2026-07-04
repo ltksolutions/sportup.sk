@@ -1,0 +1,46 @@
+{
+  "$comment": "Vstupný stav pre scenár 02 — Prestup hráča (saga). Juraj Kováč má aktívnu afiliáciu v HC 05 Banská Bystrica, prestupuje do HK Nitra. Saga pattern cez correlation_id.",
+  "persons": [
+    {
+      "person_id": "550e8400-e29b-41d4-a716-446655440000",
+      "given_name": "Juraj",
+      "family_name": "Kováč",
+      "date_of_birth": "1998-02-15",
+      "rfo_verified": true,
+      "core_identity": {
+        "national_id_hash": "sha256:7d8e...",
+        "citizenship": "SK"
+      }
+    }
+  ],
+  "organizations": [
+    {
+      "organization_id": "bb000000-2222-4000-8000-000000000001",
+      "name": "HC 05 Banská Bystrica",
+      "organization_type": "sportovy_klub",
+      "sport_code": "SK-HKJ",
+      "ico": "35123456",
+      "parent_federation": "SZĽH"
+    },
+    {
+      "organization_id": "ni000000-2222-4000-8000-000000000002",
+      "name": "HK Nitra",
+      "organization_type": "sportovy_klub",
+      "sport_code": "SK-HKJ",
+      "ico": "35123457",
+      "parent_federation": "SZĽH"
+    }
+  ],
+  "affiliations": [
+    {
+      "affiliation_id": "aff00000-2222-4000-8000-0000000000b1",
+      "person_id": "550e8400-e29b-41d4-a716-446655440000",
+      "organization_id": "bb000000-2222-4000-8000-000000000001",
+      "role_code": "profesionalny_sportovec",
+      "sport_code": "SK-HKJ",
+      "discipline_code": "SK-HKJ-MEN",
+      "status": "active",
+      "valid_from": "2021-07-01"
+    }
+  ]
+}

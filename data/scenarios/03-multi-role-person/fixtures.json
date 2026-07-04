@@ -1,0 +1,88 @@
+{
+  "$comment": "Vstupný stav pre scenár 03 — Multi-role osoba. Jedno person_id, štyri afiliácie naprieč 3 športmi a 4 organizáciami. Ilustruje princíp: identita oddelená od roly, všetky typy osôb (športovec, tréner, dobrovoľník, rozhodca).",
+  "persons": [
+    {
+      "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "given_name": "Martina",
+      "family_name": "Kučerová",
+      "date_of_birth": "1991-06-12",
+      "rfo_verified": true,
+      "core_identity": {
+        "national_id_hash": "sha256:9f2c...",
+        "citizenship": "SK"
+      }
+    }
+  ],
+  "organizations": [
+    {
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000001",
+      "name": "AC Košice",
+      "organization_type": "sportovy_klub",
+      "sport_code": "SK-ATH",
+      "ico": "31234567"
+    },
+    {
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000002",
+      "name": "ŠK Detva",
+      "organization_type": "sportovy_klub",
+      "sport_code": "SK-ATH",
+      "ico": "31234568"
+    },
+    {
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000003",
+      "name": "OV Tatry Ultra 2026",
+      "organization_type": "organizator_podujati",
+      "sport_code": "SK-ATH",
+      "ico": "31234569"
+    },
+    {
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000004",
+      "name": "ŠK Rapid",
+      "organization_type": "sportovy_klub",
+      "sport_code": "SK-SCH",
+      "ico": "31234570"
+    }
+  ],
+  "affiliations": [
+    {
+      "affiliation_id": "b2d5f9c3-0000-4000-8000-00000000a001",
+      "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000001",
+      "role_code": "profesionalny_sportovec",
+      "sport_code": "SK-ATH",
+      "discipline_code": "SK-ATH-TRAIL",
+      "status": "active",
+      "valid_from": "2018-01-01"
+    },
+    {
+      "affiliation_id": "b2d5f9c3-0000-4000-8000-00000000a002",
+      "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000002",
+      "role_code": "trener",
+      "sport_code": "SK-ATH",
+      "discipline_code": "SK-ATH-YOUTH",
+      "status": "active",
+      "valid_from": "2022-09-01"
+    },
+    {
+      "affiliation_id": "b2d5f9c3-0000-4000-8000-00000000a003",
+      "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000003",
+      "role_code": "dobrovolnik",
+      "sport_code": "SK-ATH",
+      "status": "active",
+      "valid_from": "2026-08-15",
+      "valid_to": "2026-09-05"
+    },
+    {
+      "affiliation_id": "b2d5f9c3-0000-4000-8000-00000000a004",
+      "person_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "organization_id": "a1c4e8b2-0000-4000-8000-000000000004",
+      "role_code": "sportovy_rozhodca",
+      "sport_code": "SK-SCH",
+      "discipline_code": "SK-SCH-RAPID",
+      "status": "active",
+      "valid_from": "2020-03-10"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 04 — Komerčné overenie. Audit záznam overenia prístupný dotknutej osobe. Žiadne PII neopúšťa systém.",
+  "events": [
+    {
+      "event_type": "VerificationTokenIssued",
+      "aggregate": "Person",
+      "aggregate_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "occurred_at": "2026-04-19T14:00:00Z",
+      "data": {
+        "purpose": "KOM-BENEFIT-001",
+        "valid_until": "2026-04-19T14:10:00Z"
+      }
+    },
+    {
+      "event_type": "VerificationPerformed",
+      "aggregate": "Person",
+      "aggregate_id": "7c9e6a1f-3b2d-4e5a-8f9c-1a2b3c4d5e6f",
+      "occurred_at": "2026-04-19T14:03:00Z",
+      "data": {
+        "purpose": "KOM-BENEFIT-001",
+        "verifier_organization_id": "h0000000-4444-4000-8000-000000000001",
+        "verifier_name": "Hotel Grand Jasná",
+        "attributes_disclosed": ["has_active_athlete_affiliation", "category_tier"],
+        "data_form": "boolean_only_no_pii"
+      }
+    }
+  ]
+}

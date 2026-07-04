@@ -1,0 +1,27 @@
+{
+  "$comment": "Očakávaný stav projekcií po scenári 02 — Prestup dokončený. Stará afiliácia v BB terminovaná, nová v Nitre aktívna. current_affiliations ukazuje len novú.",
+  "transfer_result": {
+    "correlation_id": "transfer-2026-07-01-abc123",
+    "status": "completed",
+    "old_affiliation_id": "aff00000-2222-4000-8000-0000000000b1",
+    "new_affiliation_id": "aff00000-2222-4000-8000-0000000000b2"
+  },
+  "current_affiliations": {
+    "person_id": "550e8400-e29b-41d4-a716-446655440000",
+    "count": 1,
+    "active_organization_id": "ni000000-2222-4000-8000-000000000002",
+    "terminated_organization_id": "bb000000-2222-4000-8000-000000000001"
+  },
+  "organization_roster_bb": {
+    "organization_id": "bb000000-2222-4000-8000-000000000001",
+    "contains_person": false
+  },
+  "organization_roster_nitra": {
+    "organization_id": "ni000000-2222-4000-8000-000000000002",
+    "contains_person": true
+  },
+  "person_timeline": {
+    "person_id": "550e8400-e29b-41d4-a716-446655440000",
+    "includes_events": ["AffiliationTerminated", "AffiliationRegistered", "AffiliationActivated"]
+  }
+}

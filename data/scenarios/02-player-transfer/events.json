@@ -1,0 +1,69 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 02 — Prestup hráča ako saga. Všetky eventy zdieľajú correlation_id. Terminácia starej afiliácie + vytvorenie a aktivácia novej.",
+  "correlation_id": "transfer-2026-07-01-abc123",
+  "events": [
+    {
+      "event_type": "TransferRequested",
+      "aggregate": "TransferProcess",
+      "aggregate_id": "tp000000-2222-4000-8000-0000000000f1",
+      "correlation_id": "transfer-2026-07-01-abc123",
+      "occurred_at": "2026-04-30T10:30:00Z",
+      "data": {
+        "person_id": "550e8400-e29b-41d4-a716-446655440000",
+        "from_organization_id": "bb000000-2222-4000-8000-000000000001",
+        "to_organization_id": "ni000000-2222-4000-8000-000000000002",
+        "effective_date": "2026-07-01"
+      }
+    },
+    {
+      "event_type": "TransferApproved",
+      "aggregate": "TransferProcess",
+      "aggregate_id": "tp000000-2222-4000-8000-0000000000f1",
+      "correlation_id": "transfer-2026-07-01-abc123",
+      "occurred_at": "2026-04-30T10:31:00Z",
+      "data": { "approved_by": "szlh-uuid" }
+    },
+    {
+      "event_type": "AffiliationTerminated",
+      "aggregate": "Affiliation",
+      "aggregate_id": "aff00000-2222-4000-8000-0000000000b1",
+      "correlation_id": "transfer-2026-07-01-abc123",
+      "occurred_at": "2026-04-30T10:31:30Z",
+      "data": { "reason": "transfer", "effective_date": "2026-06-30", "destination_organization_id": "ni000000-2222-4000-8000-000000000002" }
+    },
+    {
+      "event_type": "AffiliationRegistered",
+      "aggregate": "Affiliation",
+      "aggregate_id": "aff00000-2222-4000-8000-0000000000b2",
+      "correlation_id": "transfer-2026-07-01-abc123",
+      "occurred_at": "2026-04-30T10:31:45Z",
+      "data": {
+        "person_id": "550e8400-e29b-41d4-a716-446655440000",
+        "organization_id": "ni000000-2222-4000-8000-000000000002",
+        "role_code": "profesionalny_sportovec",
+        "sport_code": "SK-HKJ",
+        "discipline_code": "SK-HKJ-MEN",
+        "valid_from": "2026-07-01"
+      }
+    },
+    {
+      "event_type": "AffiliationActivated",
+      "aggregate": "Affiliation",
+      "aggregate_id": "aff00000-2222-4000-8000-0000000000b2",
+      "correlation_id": "transfer-2026-07-01-abc123",
+      "occurred_at": "2026-04-30T10:32:00Z",
+      "data": { "status": "active" }
+    },
+    {
+      "event_type": "TransferCompleted",
+      "aggregate": "TransferProcess",
+      "aggregate_id": "tp000000-2222-4000-8000-0000000000f1",
+      "correlation_id": "transfer-2026-07-01-abc123",
+      "occurred_at": "2026-04-30T10:32:14Z",
+      "data": {
+        "old_affiliation_id": "aff00000-2222-4000-8000-0000000000b1",
+        "new_affiliation_id": "aff00000-2222-4000-8000-0000000000b2"
+      }
+    }
+  ]
+}

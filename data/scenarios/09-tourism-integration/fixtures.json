@@ -1,0 +1,45 @@
+{
+  "$comment": "Vstupný stav pre scenár 09 — Turizmus TIC integrácia. Verejné športovisko + verejné podujatie + TIC/OOCR ako certifikované read-only aplikácie. Otvorené dáta bez PII účastníkov.",
+  "organizations": [
+    {
+      "organization_id": "tic-tat-9999-4000-8000-000000000001",
+      "name": "TIC Vysoké Tatry",
+      "organization_type": "turisticke_informacne_centrum",
+      "ico": "37000111"
+    },
+    {
+      "organization_id": "oocr-ta-9999-4000-8000-000000000002",
+      "name": "OOCR Región Vysoké Tatry",
+      "organization_type": "oblastna_organizacia_cestovny_ruch",
+      "ico": "37000112"
+    }
+  ],
+  "facilities": [
+    {
+      "facility_id": "fac-tat-9999-4000-8000-0000000000c1",
+      "name_sk": "Tatranský bežecký okruh Štrbské Pleso",
+      "facility_type": "bezecky_areal",
+      "supported_sports": ["SK-ATH", "SK-BTL"],
+      "public_access": "free",
+      "status": "operational",
+      "tourism": { "nearby_accommodation": true, "difficulty": "medium" }
+    }
+  ],
+  "events_public": [
+    {
+      "event_id": "evt-tat-9999-4000-8000-0000000000v1",
+      "name_sk": "Tatry Ultra Trail 2026",
+      "sport_code": "SK-ATH",
+      "discipline_code": "SK-ATH-TRAIL",
+      "public": true,
+      "facility_id": "fac-tat-9999-4000-8000-0000000000c1"
+    }
+  ],
+  "certified_apps": [
+    {
+      "app_id": "app-visittatry",
+      "organization_id": "tic-tat-9999-4000-8000-000000000001",
+      "scopes": ["read:public_facilities", "read:public_events"]
+    }
+  ]
+}

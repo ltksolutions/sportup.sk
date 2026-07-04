@@ -1,0 +1,50 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 05 — Úmrtie a kaskáda. PersonDeathRecorded z CSRÚ spustí kaskádu 3× AffiliationTerminated cez correlation_id + obmedzenie prístupu k citlivým údajom.",
+  "correlation_id": "death-cascade-2026-03-20-def456",
+  "events": [
+    {
+      "event_type": "PersonDeathRecorded",
+      "aggregate": "Person",
+      "aggregate_id": "3f8a1c22-5555-4000-8000-000000000001",
+      "correlation_id": "death-cascade-2026-03-20-def456",
+      "occurred_at": "2026-03-20T06:15:00Z",
+      "data": { "date_of_death": "2026-03-18", "source": "csru_notification" }
+    },
+    {
+      "event_type": "AffiliationTerminated",
+      "aggregate": "Affiliation",
+      "aggregate_id": "aff-sfz-5555-4000-8000-0000000000r1",
+      "correlation_id": "death-cascade-2026-03-20-def456",
+      "occurred_at": "2026-03-20T06:15:01Z",
+      "data": { "reason": "death", "effective_date": "2026-03-18" }
+    },
+    {
+      "event_type": "AffiliationTerminated",
+      "aggregate": "Affiliation",
+      "aggregate_id": "aff-fkl-5555-4000-8000-0000000000f1",
+      "correlation_id": "death-cascade-2026-03-20-def456",
+      "occurred_at": "2026-03-20T06:15:02Z",
+      "data": { "reason": "death", "effective_date": "2026-03-18" }
+    },
+    {
+      "event_type": "AffiliationTerminated",
+      "aggregate": "Affiliation",
+      "aggregate_id": "aff-obf-5555-4000-8000-0000000000d1",
+      "correlation_id": "death-cascade-2026-03-20-def456",
+      "occurred_at": "2026-03-20T06:15:03Z",
+      "data": { "reason": "death", "effective_date": "2026-03-18" }
+    },
+    {
+      "event_type": "PersonDataAccessRestricted",
+      "aggregate": "Person",
+      "aggregate_id": "3f8a1c22-5555-4000-8000-000000000001",
+      "correlation_id": "death-cascade-2026-03-20-def456",
+      "occurred_at": "2026-03-20T06:15:04Z",
+      "data": {
+        "restricted_scopes": ["contact", "health", "special_category"],
+        "retained_scopes": ["core_identity", "historical_records"],
+        "reason": "deceased"
+      }
+    }
+  ]
+}

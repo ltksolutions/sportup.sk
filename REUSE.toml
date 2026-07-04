@@ -45,7 +45,16 @@ path = ".github/**"
 SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
 SPDX-License-Identifier = "CC-BY-4.0"
 
-# ─── 5. Tretie strany — Helvetica Neue Black Italic font ───
+# ─── 5. Testovacie dáta scenárov (data/) ───
+# JSON fixtures pre scenáre (fixtures/expected/events). Sú to test
+# fixtures pre budúcu implementáciu — licencované rovnako ako zdrojový
+# kód (EUPL-1.2), nie ako dokumentácia.
+[[annotations]]
+path = "data/**"
+SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
+SPDX-License-Identifier = "EUPL-1.2"
+
+# ─── 6. Tretie strany — Helvetica Neue Black Italic font ───
 # Komerčný font od Linotype/Monotype. Nie je súčasťou repa
 # (používa sa len lokálne pre OG image rendering), takže táto
 # anotácia je preventívna — pre prípad budúceho rozšírenia.

@@ -1,0 +1,14 @@
+{
+  "$comment": "Vstupný stav pre scenár 07 — Hobby aktivita. Mesto Prešov eviduje neorganizovanú aktivitu. Žiadne osoby (účastníci) sa neevidujú — len agregáty. Prázdny hobby catalog.",
+  "organizations": [
+    {
+      "organization_id": "mesto-po-7777-4000-8000-000000000001",
+      "name": "Mesto Prešov",
+      "organization_type": "mesto",
+      "ico": "00327646"
+    }
+  ],
+  "activities": [],
+  "persons": [],
+  "$comment_persons": "Zámerne prázdne — pri hobby aktivite systém neeviduje žiadne osobné údaje účastníkov."
+}

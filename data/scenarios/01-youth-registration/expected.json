@@ -1,0 +1,27 @@
+{
+  "$comment": "Očakávaný stav projekcií po scenári 01 — Mládežnícka registrácia. Petra existuje ako maloletá osoba s aktívnou afiliáciou, väzbou na zákonného zástupcu a guardian consentom.",
+  "person_created": {
+    "person_id": "f6b3c0e2-1111-4000-8000-000000000011",
+    "given_name": "Petra",
+    "family_name": "Hájková",
+    "is_minor": true,
+    "verification_status": "verified_by_rfo"
+  },
+  "guardian_relationships": {
+    "minor_person_id": "f6b3c0e2-1111-4000-8000-000000000011",
+    "guardian_person_id": "d4f1a8c0-1111-4000-8000-000000000010",
+    "relation": "father"
+  },
+  "current_affiliations": {
+    "person_id": "f6b3c0e2-1111-4000-8000-000000000011",
+    "count": 1,
+    "roles": ["amatersky_sportovec"],
+    "sports": ["SK-VLB"],
+    "organization_id": "e5a2b9d1-1111-4000-8000-000000000020"
+  },
+  "consents": {
+    "person_id": "f6b3c0e2-1111-4000-8000-000000000011",
+    "granted_by_role": "guardian",
+    "purpose_codes": ["REG-SPORTOVEC-001"]
+  }
+}

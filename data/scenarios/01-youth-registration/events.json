@@ -1,0 +1,60 @@
+{
+  "$comment": "Očakávaná sekvencia eventov pre scenár 01 — Mládežnícka registrácia. Vytvorenie maloletej osoby, väzba na zákonného zástupcu, afiliácia v klube a guardian consent pre GDPR účely.",
+  "events": [
+    {
+      "event_type": "PersonRegistered",
+      "aggregate": "Person",
+      "aggregate_id": "f6b3c0e2-1111-4000-8000-000000000011",
+      "occurred_at": "2026-04-15T10:00:00Z",
+      "data": {
+        "given_name": "Petra",
+        "family_name": "Hájková",
+        "date_of_birth": "2014-03-22",
+        "is_minor": true,
+        "verification_status": "verified_by_rfo"
+      }
+    },
+    {
+      "event_type": "GuardianRelationshipEstablished",
+      "aggregate": "Person",
+      "aggregate_id": "f6b3c0e2-1111-4000-8000-000000000011",
+      "occurred_at": "2026-04-15T10:00:01Z",
+      "data": {
+        "guardian_person_id": "d4f1a8c0-1111-4000-8000-000000000010",
+        "relation": "father"
+      }
+    },
+    {
+      "event_type": "ConsentGranted",
+      "aggregate": "Consent",
+      "aggregate_id": "c0e2f6b3-1111-4000-8000-0000000000c1",
+      "occurred_at": "2026-04-15T10:00:02Z",
+      "data": {
+        "person_id": "f6b3c0e2-1111-4000-8000-000000000011",
+        "granted_by": "d4f1a8c0-1111-4000-8000-000000000010",
+        "granted_by_role": "guardian",
+        "purpose_codes": ["REG-SPORTOVEC-001"]
+      }
+    },
+    {
+      "event_type": "AffiliationRegistered",
+      "aggregate": "Affiliation",
+      "aggregate_id": "a7c4d1f3-1111-4000-8000-0000000000a1",
+      "occurred_at": "2026-04-15T10:00:03Z",
+      "data": {
+        "person_id": "f6b3c0e2-1111-4000-8000-000000000011",
+        "organization_id": "e5a2b9d1-1111-4000-8000-000000000020",
+        "role_code": "amatersky_sportovec",
+        "sport_code": "SK-VLB",
+        "valid_from": "2026-04-15"
+      }
+    },
+    {
+      "event_type": "AffiliationActivated",
+      "aggregate": "Affiliation",
+      "aggregate_id": "a7c4d1f3-1111-4000-8000-0000000000a1",
+      "occurred_at": "2026-04-15T10:00:04Z",
+      "data": { "status": "active" }
+    }
+  ]
+}
