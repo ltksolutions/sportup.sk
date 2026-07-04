@@ -16,6 +16,7 @@
 | 08 | [Akadémia nahrávajúca dáta](08-academy-bulk-import.md) | Bulk import, idempotency, validation |
 | 09 | [Dáta pre cestovný ruch (TIC)](09-tourism-integration.md) | TUR-* purposes, OOCR, verejný katalóg |
 | 10 | [Žiadosť o výmaz dát](10-data-erasure-request.md) | GDPR čl. 17, čo sa zmaže, čo zostáva |
+| 11 | [Dobrovoľník — safeguarding](11-volunteer-safeguarding.md) | Dobrovoľník k maloletým, KVL-SAFEGUARDING-001, mesto ako zdroj |
 
 ## Princípy formátu
 
