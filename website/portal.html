@@ -10,6 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="assets/widgets.css">
+<!-- MapLibre GL (verejný portál — reálna mapa nad OSM) -->
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js" defer></script>
 <!-- Favicon & PWA — SportUp Brand v2.0 -->
 <link rel="icon" href="favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="favicon/su-icon.svg">
@@ -111,13 +114,14 @@
 <span data-filters style="display:contents"></span>
 </div>
 
-<div class="su-disc-layout">
-<div>
-<div class="su-map" data-map><span class="su-map-note">schematická ukážka · MapLibre + OSM v produkcii</span></div>
+<div class="su-map" data-map><span class="su-map-note">načítavam mapu…</span></div>
+
+<details class="su-tech">
+<summary>Technický detail — čo portál dostane cez API</summary>
 <div class="su-api" data-api></div>
-</div>
+</details>
+
 <div class="su-disc-list" data-list></div>
-</div>
 
 <div class="su-package" data-package></div>
 

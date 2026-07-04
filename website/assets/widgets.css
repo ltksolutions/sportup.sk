@@ -545,17 +545,18 @@
   font-weight: 600;
 }
 
-/* ── Schematická mapa ── */
+/* ── Mapa (reálna MapLibre + OSM; fallback = schematické pozadie) ── */
 .su-map {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 380px;
   border-radius: 12px;
   border: 1px solid var(--border);
   background: linear-gradient(135deg, #EAF1F6 0%, #F4F8FB 100%);
   overflow: hidden;
 }
-.su-map::before {
+/* Grid pozadie len pre schematický fallback */
+.su-map--schematic::before {
   content: '';
   position: absolute; inset: 0;
   background-image:
@@ -564,6 +565,8 @@
   background-size: 32px 32px;
   pointer-events: none;
 }
+/* MapLibre kontajner musí vyplniť blok */
+.su-map .maplibregl-map { position: absolute; inset: 0; border-radius: 12px; }
 .su-map-note {
   position: absolute;
   right: 8px; bottom: 6px;
@@ -574,6 +577,7 @@
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
   pointer-events: none;
+  z-index: 1;
 }
 .su-map-ring {
   position: absolute;
@@ -611,7 +615,6 @@
   white-space: nowrap;
 }
 .su-map-pin {
-  position: absolute;
   width: 30px; height: 30px;
   border-radius: 50% 50% 50% 0;
   background: var(--pin, var(--blue));
@@ -622,8 +625,7 @@
   align-items: center;
   justify-content: center;
   transition: transform 0.15s, opacity 0.2s;
-  z-index: 3;
-  transform: translate(-50%, -50%) rotate(-45deg);
+  transform: rotate(-45deg);
 }
 .su-map-pin .su-pin-ico {
   transform: rotate(45deg);
@@ -631,16 +633,23 @@
   font-size: 0.7rem;
   line-height: 1;
 }
-.su-map-pin:hover { transform: translate(-50%, -50%) rotate(-45deg) scale(1.15); }
-.su-map-pin.is-dim { opacity: 0.22; }
+.su-map-pin:hover { transform: rotate(-45deg) scale(1.15); }
+.su-map-pin.is-dim { opacity: 0.28; }
+/* V schematickom fallbacku sa pin pozicuje absolútne cez %; na reálnej
+   mape ho pozicuje MapLibre marker wrapper. */
+.su-map--schematic .su-map-pin {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.su-map--schematic .su-map-pin:hover { transform: translate(-50%, -50%) rotate(-45deg) scale(1.15); }
+.su-map--schematic .su-map-center { position: absolute; }
 
-/* ── Zoznam výsledkov ── */
+/* ── Zoznam výsledkov (pod mapou, na plnú šírku) ── */
 .su-disc-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-height: 320px;
-  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.6rem;
+  margin-top: 1rem;
 }
 .su-disc-item {
   text-align: left;
@@ -695,7 +704,6 @@
   background: var(--code-bg);
   border-radius: 12px;
   overflow: hidden;
-  margin-top: 0.9rem;
 }
 .su-api-idle {
   color: rgba(255,255,255,0.55);

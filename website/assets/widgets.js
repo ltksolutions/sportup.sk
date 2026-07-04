@@ -681,28 +681,28 @@
   // Scenár: návštevník prišiel na víkend do Novej Bane
   // ──────────────────────────────────────────────────────────────
   function initDiscovery(root) {
-    // Body v okolí Novej Bane. x/y sú % pozície v schematickej mape
-    // (nie geografická projekcia — ukážka bez externého tile servera).
-    const CENTER = { name: 'Nová Baňa', x: 50, y: 52 };
+    // Body v okolí Novej Bane — reálne geo-súradnice pre MapLibre + OSM.
+    // x/y (%) sú fallback pre schematické pozadie, ak sa mapa nenačíta.
+    const CENTER = { name: 'Nová Baňa', x: 50, y: 52, lat: 48.4245, lng: 18.6390 };
     const POINTS = [
       { id: 'hall', kind: 'venue', name: 'Mestská športová hala', cat: 'sport',
-        x: 46, y: 45, dist: 0.4, icon: '◆', color: '#388FC3',
+        x: 46, y: 45, lat: 48.4260, lng: 18.6350, dist: 0.4, icon: '◆', color: '#388FC3',
         amen: ['parking', 'wifi'], sports: 'volejbal · basketbal · florbal',
         note: 'Indoor hala, 3 športy, bezbariérová.' },
       { id: 'pension', kind: 'venue', name: 'Penzión Zlatý potok', cat: 'stay',
-        x: 58, y: 60, dist: 1.2, icon: '⬢', color: '#2E7D5B',
+        x: 58, y: 60, lat: 48.4200, lng: 18.6480, dist: 1.2, icon: '⬢', color: '#2E7D5B',
         amen: ['pool', 'tennis', 'spa', 'ebike', 'parking'], sports: 'bazén · tenis · SPA',
         note: 'Ubytovanie s bazénom, SPA a požičovňou e-bikov.' },
       { id: 'trail', kind: 'venue', name: 'Tajch — okruh pre bicykle', cat: 'activity',
-        x: 66, y: 38, dist: 2.1, icon: '▲', color: '#B8860B',
+        x: 66, y: 38, lat: 48.4330, lng: 18.6560, dist: 2.1, icon: '▲', color: '#B8860B',
         amen: ['ebike', 'bike_trail'], sports: 'cyklo · e-bike · 12 km',
         note: 'Okruh 12 km, náročnosť stredná — vhodné na e-bike.' },
       { id: 'pool', kind: 'venue', name: 'Krytá plaváreň', cat: 'sport',
-        x: 38, y: 62, dist: 1.8, icon: '◆', color: '#388FC3',
+        x: 38, y: 62, lat: 48.4190, lng: 18.6300, dist: 1.8, icon: '◆', color: '#388FC3',
         amen: ['pool', 'parking'], sports: 'plávanie · 25 m',
         note: '25-metrový bazén, verejné plávanie cez víkend.' },
       { id: 'event', kind: 'event', name: 'Pohronský e-bike maratón', cat: 'event',
-        x: 46, y: 45, dist: 0.4, icon: '★', color: '#C8453C',
+        x: 46, y: 45, lat: 48.4265, lng: 18.6410, dist: 0.4, icon: '★', color: '#C8453C',
         amen: ['ebike'], sports: 'sobota 11. 7. · 09:00',
         note: 'Verejné podujatie — dá sa prísť aj len fandiť.' }
     ];
@@ -751,33 +751,107 @@
       return [...active].every((a) => p.amen.includes(a));
     }
 
-    function buildMap() {
-      map.innerHTML = '';
+    // ── Reálna mapa (MapLibre GL + OSM) s fallbackom na schematické pozadie ──
+    let mapObj = null;
+    let markerObjs = [];
+    let mapReady = false;
+    let mapTried = false;
+
+    function pinEl(p, on) {
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'su-map-pin' + (on ? '' : ' is-dim');
+      el.style.setProperty('--pin', p.color);
+      el.setAttribute('aria-label', p.name);
+      el.innerHTML = '<span class="su-pin-ico">' + p.icon + '</span>';
+      return el;
+    }
+
+    function initRealMap() {
+      mapTried = true;
+      if (typeof maplibregl === 'undefined') { buildSchematic(); return; }
+      try {
+        mapObj = new maplibregl.Map({
+          container: map,
+          style: {
+            version: 8,
+            sources: {
+              osm: {
+                type: 'raster',
+                tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
+                tileSize: 256,
+                attribution: '© OpenStreetMap'
+              }
+            },
+            layers: [{ id: 'osm', type: 'raster', source: 'osm' }]
+          },
+          center: [CENTER.lng, CENTER.lat],
+          zoom: 13,
+          attributionControl: { compact: true }
+        });
+        mapObj.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+        // Fallback nastane LEN ak sa mapa vôbec nenatočí (load) do timeoutu.
+        // Chyba jednotlivých dlaždíc (offline tile server) mapu nezhodí —
+        // canvas aj markery ostávajú funkčné.
+        const loadGuard = setTimeout(() => { if (!mapReady) buildSchematic(); }, 6000);
+        mapObj.on('load', () => {
+          mapReady = true;
+          clearTimeout(loadGuard);
+          const note = map.querySelector('.su-map-note');
+          if (note) note.remove();
+          placeMarkers();
+        });
+      } catch (e) {
+        buildSchematic();
+      }
+    }
+
+    function placeMarkers() {
+      markerObjs.forEach((m) => m.remove());
+      markerObjs = [];
+      POINTS.forEach((p) => {
+        const on = matches(p);
+        const el = pinEl(p, on);
+        el.addEventListener('click', () => showPoint(p));
+        const mk = new maplibregl.Marker({ element: el })
+          .setLngLat([p.lng, p.lat])
+          .addTo(mapObj);
+        markerObjs.push(mk);
+      });
+      // stred — Nová Baňa
+      const cEl = document.createElement('div');
+      cEl.className = 'su-map-center';
+      cEl.innerHTML = '<span class="su-map-center-dot"></span><span class="su-map-center-label">' + esc(CENTER.name) + '</span>';
+      markerObjs.push(new maplibregl.Marker({ element: cEl }).setLngLat([CENTER.lng, CENTER.lat]).addTo(mapObj));
+    }
+
+    // Fallback: pôvodné schematické pozadie (ak MapLibre nie je dostupné / offline)
+    function buildSchematic() {
+      map.classList.add('su-map--schematic');
+      map.innerHTML = '<span class="su-map-note">schematická ukážka · mapa sa nenačítala</span>';
       const c = document.createElement('div');
       c.className = 'su-map-center';
-      c.style.left = CENTER.x + '%';
-      c.style.top = CENTER.y + '%';
+      c.style.left = CENTER.x + '%'; c.style.top = CENTER.y + '%'; c.style.position = 'absolute';
       c.innerHTML = '<span class="su-map-center-dot"></span><span class="su-map-center-label">' + esc(CENTER.name) + '</span>';
       map.appendChild(c);
       const ring = document.createElement('div');
       ring.className = 'su-map-ring';
-      ring.style.left = CENTER.x + '%';
-      ring.style.top = CENTER.y + '%';
+      ring.style.left = CENTER.x + '%'; ring.style.top = CENTER.y + '%';
       map.appendChild(ring);
-
       POINTS.forEach((p) => {
         const on = matches(p);
-        const pin = document.createElement('button');
-        pin.type = 'button';
-        pin.className = 'su-map-pin' + (on ? '' : ' is-dim');
-        pin.style.left = p.x + '%';
-        pin.style.top = p.y + '%';
-        pin.style.setProperty('--pin', p.color);
-        pin.setAttribute('aria-label', p.name);
-        pin.innerHTML = '<span class="su-pin-ico">' + p.icon + '</span>';
+        const pin = pinEl(p, on);
+        pin.style.position = 'absolute';
+        pin.style.left = p.x + '%'; pin.style.top = p.y + '%';
         pin.addEventListener('click', () => showPoint(p));
         map.appendChild(pin);
       });
+    }
+
+    function buildMap() {
+      if (!mapTried) { initRealMap(); return; }
+      if (mapReady) { placeMarkers(); }
+      else if (map.classList.contains('su-map--schematic')) { buildSchematic(); }
     }
 
     function amenChips(p) {
