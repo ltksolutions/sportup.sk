@@ -481,6 +481,204 @@
     detail.innerHTML = '<div style="color:var(--text-soft);font-size:0.85rem;line-height:1.55"><div style="font-weight:700;color:var(--navy);margin-bottom:0.4rem">Vrstvená pyramída</div>Klikni na vrstvu vľavo — čím vyššie číslo, tým užší a špecifickejší rozsah. Základ (vrstva 0) je najširší a pokrýva väčšinu.</div>';
   }
 
+  // ===== Widget 07: Hobby aktivita (evidovana osoba vs. anonymny agregat) =====
+  function initHobby(root) {
+    var modeBtns = root.querySelectorAll('[data-hobby-tab]');
+    var out = root.querySelector('[data-hobby-out]');
+    var views = {
+      person: {
+        label: 'Evidovaná osoba (dobrovoľník-organizátor)',
+        body: '<div style="display:flex;align-items:center;gap:10px;margin-bottom:0.7rem">' +
+          '<div class="su-ident">DO</div>' +
+          '<div><div style="font-weight:700;font-size:0.9rem">Dobrovoľník — organizátor</div><div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted)">prs_organizator_…</div></div></div>' +
+          '<div style="font-size:0.82rem;color:var(--navy);line-height:1.6">Organizátor rekreačného behu je <strong>evidovaná osoba s rolou</strong> — má afiliáciu k mestu ako dobrovoľník. Systém eviduje všetky typy osôb tam, kde rola existuje.</div>' +
+          '<div style="margin-top:0.7rem;font-family:var(--font-mono);font-size:0.72rem;color:var(--blue-dark);background:var(--blue-light);padding:0.5rem 0.6rem;border-radius:6px">role_code: <strong>dobrovolnik</strong> · afiliácia k mestu Prešov</div>'
+      },
+      aggregate: {
+        label: 'Anonymní účastníci (agregát)',
+        body: '<div style="display:flex;align-items:center;gap:10px;margin-bottom:0.7rem">' +
+          '<div style="width:44px;height:44px;border-radius:50%;background:var(--bg-alt);border:1px dashed var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--text-soft);font-size:1.2rem">?</div>' +
+          '<div><div style="font-weight:700;font-size:0.9rem">Bežci — bez identity</div><div style="font-size:0.72rem;color:var(--text-muted)">žiadne person_id · žiadne PII</div></div></div>' +
+          '<div style="font-size:0.82rem;color:var(--navy);line-height:1.6">Pri hobby aktivite sa účastníci <strong>neevidujú menovite</strong> — ukladajú sa len agregátne počty pre plánovanie infraštruktúry.</div>' +
+          '<div style="margin-top:0.7rem;font-family:var(--font-mono);font-size:0.72rem;color:var(--code-string);background:var(--code-bg);padding:0.6rem 0.7rem;border-radius:6px;line-height:1.7">estimated_participants: <strong>34</strong><br>age_bands: {U18:4, 18-39:18, 40-59:9, 60+:3}<br>data_form: <strong>aggregate_only_no_pii</strong></div>'
+      }
+    };
+    function render(mode) {
+      modeBtns.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-hobby-tab') === mode); });
+      var v = views[mode];
+      out.innerHTML = '<div class="su-panel-label">' + esc(v.label) + '</div>' + v.body;
+    }
+    modeBtns.forEach(function (b) {
+      b.addEventListener('click', function () { render(b.getAttribute('data-hobby-tab')); });
+    });
+    render('person');
+  }
+
+  // ===== Widget 08: Akademia bulk import (rozne typy osob + partial success) =====
+  function initBulk(root) {
+    var rows = [
+      { ref: '1', name: 'Adam Horváth', role: 'hráč (maloletý, U15)', icon: 'AH', minor: true, status: 'created', note: 'založený + guardian consent (otec)' },
+      { ref: '2', name: 'Marek Kováč', role: 'tréner', icon: 'MK', status: 'matched', note: 'už existuje v inom klube — pridaná ďalšia afiliácia' },
+      { ref: '3', name: 'Jana Šimková', role: 'fyzioterapeut', icon: 'JŠ', status: 'created', note: 'zdravotnícky personál' },
+      { ref: '4', name: 'Ivan Baláž', role: 'technický vedúci', icon: 'IB', status: 'rejected', note: 'chýba rodné číslo — nemožno overiť voči RFO' }
+    ];
+    var list = root.querySelector('[data-bulk-rows]');
+    var summary = root.querySelector('[data-bulk-summary]');
+    var runBtn = root.querySelector('[data-bulk-run]');
+    var resetBtn = root.querySelector('[data-bulk-reset]');
+    var statusStyle = {
+      created: { bg: '#EAF5EE', bd: '#2E7D5B', fg: '#2E7D5B', tag: '✓ created' },
+      matched: { bg: 'var(--blue-light)', bd: 'var(--blue)', fg: 'var(--blue-dark)', tag: '⇄ matched' },
+      rejected: { bg: 'var(--danger-soft)', bd: '#E0A9A4', fg: 'var(--danger)', tag: '✕ rejected' }
+    };
+    function paintRow(el, r, revealed) {
+      var s = statusStyle[r.status];
+      el.style.borderLeft = '3px solid ' + (revealed ? s.bd : 'var(--border)');
+      el.innerHTML =
+        '<div style="display:flex;align-items:center;gap:10px">' +
+        '<div style="width:34px;height:34px;border-radius:8px;background:' + (revealed ? s.bg : 'var(--bg-alt)') + ';color:' + (revealed ? s.fg : 'var(--text-soft)') + ';display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.78rem;flex-shrink:0">' + esc(r.icon) + '</div>' +
+        '<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:0.85rem">' + esc(r.name) + '</div><div style="font-size:0.73rem;color:var(--text-muted)">' + esc(r.role) + '</div></div>' +
+        (revealed ? '<div style="text-align:right"><div style="font-family:var(--font-mono);font-size:0.72rem;font-weight:600;color:' + s.fg + '">' + s.tag + '</div></div>' : '<div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-soft)">…</div>') +
+        '</div>' +
+        (revealed ? '<div style="font-size:0.73rem;color:var(--text-muted);margin-top:0.4rem;padding-left:44px;line-height:1.45">' + esc(r.note) + '</div>' : '');
+    }
+    var els = [];
+    function build() {
+      list.innerHTML = ''; els = [];
+      rows.forEach(function (r) {
+        var el = document.createElement('div');
+        el.className = 'su-panel'; el.style.padding = '0.7rem 0.8rem';
+        paintRow(el, r, false); list.appendChild(el); els.push(el);
+      });
+      summary.style.opacity = '0';
+      summary.innerHTML = '';
+    }
+    function run() {
+      runBtn.disabled = true;
+      rows.forEach(function (r, i) {
+        setTimeout(function () {
+          paintRow(els[i], r, true);
+          if (i === rows.length - 1) {
+            summary.innerHTML = '<strong>3 spracované</strong> (1 hráč-maloletý, 1 tréner, 1 fyzioterapeut) · <span style="color:var(--danger)">1 odmietnutý</span>. Dávka nezlyhala ako celok — idempotencia umožní bezpečne opraviť len chybný riadok a nahrať znova.';
+            summary.style.opacity = '1';
+            runBtn.disabled = false;
+          }
+        }, 400 * (i + 1));
+      });
+    }
+    runBtn.addEventListener('click', run);
+    resetBtn.addEventListener('click', build);
+    build();
+  }
+
+  // ===== Widget 09: Turizmus TIC (dvojaka konzumacia tej istej Facility) =====
+  function initTourism(root) {
+    var tabs = root.querySelectorAll('[data-tour-tab]');
+    var out = root.querySelector('[data-tour-out]');
+    var views = {
+      sport: {
+        label: 'Konzument: šport (zväz, rezervačný systém)',
+        accent: 'var(--blue)',
+        rows: [
+          ['Účel', 'POD-SPORTOVISKO-001'],
+          ['Prístup', 'priradenie k ligovému zápasu, rezervácie'],
+          ['Kto číta', 'zväzy (SBA, SHF, SZH), kluby'],
+          ['Dáta', 'kapacita, povrchy, dostupnosť pre súťaž']
+        ]
+      },
+      tourism: {
+        label: 'Konzument: cestovný ruch (TIC, OOCR)',
+        accent: '#2E7D5B',
+        rows: [
+          ['Účel', 'TUR-KATALOG-001 · TUR-PODUJATIE-001'],
+          ['Prístup', 'read-only, verejná mapa a kalendár'],
+          ['Kto číta', 'TIC Vysoké Tatry, OOCR, visitslovakia.com'],
+          ['Dáta', 'poloha, dostupnosť, mobilita — bez PII']
+        ]
+      }
+    };
+    function render(mode) {
+      tabs.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-tour-tab') === mode); });
+      var v = views[mode];
+      out.innerHTML =
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:0.7rem"><span style="width:10px;height:10px;border-radius:50%;background:' + v.accent + '"></span><span style="font-weight:700;font-size:0.88rem">' + esc(v.label) + '</span></div>' +
+        v.rows.map(function (r) {
+          return '<div style="display:grid;grid-template-columns:88px 1fr;gap:10px;padding:0.4rem 0;border-bottom:1px solid var(--border);font-size:0.8rem"><span style="color:var(--text-soft);font-weight:600">' + esc(r[0]) + '</span><span style="color:var(--navy)">' + r[1].replace(/([A-Z]{3}-[A-Z-]+-\d+)/g, '<code>$1</code>') + '</span></div>';
+        }).join('') +
+        '<div style="font-size:0.74rem;color:var(--text-soft);margin-top:0.7rem;line-height:1.5">Tá istá <code>Facility</code> — dvaja oficiálni konzumenti, dva právne základy. Turistický scope nikdy nedáva prístup k osobám.</div>';
+    }
+    tabs.forEach(function (b) { b.addEventListener('click', function () { render(b.getAttribute('data-tour-tab')); }); });
+    render('sport');
+  }
+
+  // ===== Widget 10: Vymaz dat (GDPR cl. 17) — zmazat / anonymizovat / zachovat =====
+  function initErasure(root) {
+    var items = [
+      { purpose: 'MKT-FOTO-001', label: 'Fotografie', action: 'delete', why: 'Súhlas odvolaný — dáta sa zmažú (crypto-shredding: zničí sa šifrovací kľúč).' },
+      { purpose: 'MKT-NEWSLETTER-001', label: 'Marketingové súhlasy', action: 'delete', why: 'Súhlas odvolaný — kontaktné údaje pre marketing sa zmažú.' },
+      { purpose: 'REG-DOBROVOLNIK-001', label: 'Dobrovoľnícka evidencia', action: 'delete', why: 'Aktívna činnosť ukončená, žiadny iný právny základ — zmaže sa.' },
+      { purpose: 'POD-VYSLEDKY-001', label: 'Historické výkony', action: 'anonymize', why: 'Verejný historický záznam — meno sa nahradí kódom, výkon v časovom rade ostáva (kontinuita rebríčkov).' },
+      { purpose: 'DIS-KONANIE-001', label: 'Disciplinárne konanie', action: 'retain', why: 'Prebiehajúce konanie — zachová sa (čl. 17 ods. 3 písm. e, uplatnenie právnych nárokov).' },
+      { purpose: 'FIN-DOTACIA-001', label: 'Vyplatené dotácie', action: 'retain', why: 'Zákonná archivačná lehota 10 rokov (čl. 17 ods. 3 písm. b) — nemožno zmazať.' }
+    ];
+    var actStyle = {
+      delete: { bg: 'var(--danger-soft)', bd: '#E0A9A4', fg: 'var(--danger)', tag: 'Zmazať', ico: '✕' },
+      anonymize: { bg: 'var(--blue-light)', bd: 'var(--blue)', fg: 'var(--blue-dark)', tag: 'Anonymizovať', ico: '≈' },
+      retain: { bg: '#FBF3E0', bd: '#D9B54A', fg: '#8A6D1A', tag: 'Zachovať', ico: '⚿' }
+    };
+    var list = root.querySelector('[data-erasure-list]');
+    var detail = root.querySelector('[data-erasure-detail]');
+    var activeEl = null;
+    items.forEach(function (it) {
+      var s = actStyle[it.action];
+      var el = document.createElement('button');
+      el.type = 'button'; el.className = 'su-role-btn'; el.style.borderLeftColor = s.bd; el.style.width = '100%';
+      el.innerHTML =
+        '<div style="display:flex;align-items:center;gap:9px">' +
+        '<span style="width:26px;height:26px;border-radius:6px;background:' + s.bg + ';color:' + s.fg + ';display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0">' + s.ico + '</span>' +
+        '<span style="flex:1;min-width:0"><span style="display:block;font-weight:600;font-size:0.84rem">' + esc(it.label) + '</span><span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted)">' + esc(it.purpose) + '</span></span>' +
+        '<span style="font-size:0.7rem;font-weight:600;color:' + s.fg + '">' + s.tag + '</span></div>';
+      el.addEventListener('click', function () {
+        if (activeEl) activeEl.classList.remove('is-active');
+        activeEl = el; el.classList.add('is-active');
+        detail.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:0.5rem"><span style="font-family:var(--font-mono);font-size:0.72rem;color:' + s.fg + ';font-weight:600">' + s.ico + ' ' + esc(s.tag) + '</span><span style="font-family:var(--font-mono);font-size:0.7rem;color:var(--code-comment)">' + esc(it.purpose) + '</span></div><div style="color:var(--code-text);font-size:0.84rem;line-height:1.55">' + esc(it.why) + '</div>';
+      });
+      list.appendChild(el);
+    });
+    detail.innerHTML = '<div class="su-detail-empty">↑ Klikni na položku — uvidíš, či sa zmaže, anonymizuje alebo zachová, a prečo. Právo na výmaz nie je absolútne.</div>';
+  }
+
+  // ===== Widget 11: Dobrovolnik safeguarding (Pripad A vs. B) =====
+  function initSafeguard(root) {
+    var tabs = root.querySelectorAll('[data-sg-tab]');
+    var out = root.querySelector('[data-sg-out]');
+    var views = {
+      valid: {
+        label: 'Prípad A — platný certifikát',
+        color: '#2E7D5B', bg: '#EAF5EE',
+        badge: '✓ afiliácia aktivovaná',
+        body: '<div style="font-size:0.83rem;color:var(--navy);line-height:1.6;margin-bottom:0.7rem">Zuzana má platný <code>KVL-SAFEGUARDING-001</code>. Policy engine overí certifikát a <strong>aktivuje</strong> dobrovoľnícku afiliáciu s prístupom k maloletým.</div>' +
+          '<div style="font-family:var(--font-mono);font-size:0.72rem;background:var(--code-bg);color:var(--code-string);padding:0.6rem 0.7rem;border-radius:6px;line-height:1.7">status: <strong>active</strong><br>works_with_minors: true<br>safeguarding_verified: <strong>true</strong></div>'
+      },
+      missing: {
+        label: 'Prípad B — chýbajúci certifikát',
+        color: 'var(--danger)', bg: 'var(--danger-soft)',
+        badge: '✕ aktivácia blokovaná',
+        body: '<div style="font-size:0.83rem;color:var(--navy);line-height:1.6;margin-bottom:0.7rem">Bez platného certifikátu policy engine <strong>neaktivuje</strong> afiliáciu s prístupom k maloletým. Ochrana detí je vynútená serverom, nie dôverou v aplikáciu.</div>' +
+          '<div style="font-family:var(--font-mono);font-size:0.72rem;background:var(--code-bg);color:#E8A5A0;padding:0.6rem 0.7rem;border-radius:6px;line-height:1.7">status: <strong>pending_safeguarding</strong><br>error_code: <strong>safeguarding_required_for_minors</strong><br>activated: false</div>'
+      }
+    };
+    function render(mode) {
+      tabs.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-sg-tab') === mode); });
+      var v = views[mode];
+      out.innerHTML =
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:0.7rem"><span style="font-weight:700;font-size:0.88rem">' + esc(v.label) + '</span><span style="margin-left:auto;font-size:0.72rem;font-weight:600;color:' + v.color + ';background:' + v.bg + ';padding:0.25rem 0.6rem;border-radius:99px">' + esc(v.badge) + '</span></div>' +
+        v.body;
+    }
+    tabs.forEach(function (b) { b.addEventListener('click', function () { render(b.getAttribute('data-sg-tab')); }); });
+    render('valid');
+  }
+
   const inits = {
     reg: initReg,
     transfer: initTransfer,
@@ -488,6 +686,11 @@
     verify: initVerify,
     death: initDeath,
     facility: initFacility,
+    hobby: initHobby,
+    bulk: initBulk,
+    tourism: initTourism,
+    erasure: initErasure,
+    safeguard: initSafeguard,
     schema: initSchema,
     layers: initLayers
   };

@@ -89,7 +89,7 @@
   <div class="container">
     <div class="hero-eyebrow">Kapitola 06 · Príklady dát</div>
     <h1>Ako to <em>reálne vyzerá</em></h1>
-    <p class="lead">Šesť konkrétnych scenárov s reálnymi dátovými príkladmi. Registrácia nového športovca, prestup medzi klubmi, osoba vo viacerých rolách súčasne, overenie pre hotel, úmrtie a registrácia športoviska. Názvy osôb a klubov sú fiktívne; štruktúra dát zodpovedá produkčnému modelu.</p>
+    <p class="lead">Jedenásť konkrétnych scenárov s reálnymi dátovými príkladmi. Registrácia nového športovca, prestup medzi klubmi, osoba vo viacerých rolách súčasne, overenie pre hotel, úmrtie, registrácia športoviska, hobby aktivita bez PII, hromadný import akadémie, dáta pre cestovný ruch, výmaz podľa GDPR a ochrana maloletých. Názvy osôb a klubov sú fiktívne; štruktúra dát zodpovedá produkčnému modelu.</p>
   </div>
 </header>
 
@@ -105,6 +105,11 @@
 <li><a href="#scenar-4">Komerčné overenie pre hotel</a></li>
 <li><a href="#scenar-5">Úmrtie a ukončenie afiliácií</a></li>
 <li><a href="#scenar-6">Registrácia nového športoviska</a></li>
+<li><a href="#scenar-7">Voľnočasová aktivita bez osobných údajov</a></li>
+<li><a href="#scenar-8">Akadémia — hromadný import dát</a></li>
+<li><a href="#scenar-9">Dáta pre cestovný ruch (TIC / OOCR)</a></li>
+<li><a href="#scenar-10">Žiadosť o výmaz údajov (GDPR čl. 17)</a></li>
+<li><a href="#scenar-11">Dobrovoľník k maloletým — safeguarding</a></li>
 </ol>
 </div>
 
@@ -700,6 +705,351 @@
 <li>Obec má základný podklad pre výročné hlásenie o športovej infraštruktúre.</li>
 <li>Mestský magistrát môže vypisovať verejné obstarávanie na údržbu s presným popisom objektu.</li>
 </ul>
+</div>
+</div>
+</details>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-7">
+<div class="scenario-header">
+<span class="label">Scenár 07 · Hobby</span>
+<h3>Voľnočasová aktivita bez osobných údajov</h3>
+</div>
+<div class="scenario-body">
+
+<p>Skupina ľudí sa pravidelne stretáva na <strong>rekreačnom behu</strong> v mestskom parku v Prešove. Nie sú registrovaní v žiadnom klube — je to čisté hobby. Mesto chce aktivitu evidovať pre plánovanie infraštruktúry, ale <strong>bez zberu osobných údajov účastníkov</strong>.</p>
+
+<div class="su-widget" data-su-widget="hobby">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 07 · Hobby</span>
+<span class="su-w-sub">Rekreačný beh v mestskom parku Prešov — neorganizovaná aktivita</span>
+</div>
+<div class="su-w-intro">Pri hobby aktivite systém eviduje len agregátne počty. Prepni pohľad a uvidíš hranicu medzi evidovanou osobou (dobrovoľník-organizátor) a anonymnými účastníkmi.</div>
+<div class="su-toggle">
+<button type="button" data-hobby-tab="person" class="is-active">Evidovaná osoba</button>
+<button type="button" data-hobby-tab="aggregate">Anonymný agregát</button>
+</div>
+<div class="su-panel" data-hobby-out></div>
+<div style="font-size:0.74rem;color:var(--text-soft);margin-top:0.85rem;line-height:1.5">Ak by sa z hobby aktivity stalo organizované podujatie s registráciou, vznikne nová <code>Activity</code> a až vtedy sa evidujú osoby (s afiliáciami a súhlasmi).</div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API volania pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Registrácia hobby aktivity (bez osôb)</h4>
+<p>Aktivita sa zapíše s <code>participant_data: aggregate_only</code> — systém nečaká žiadne person_id.</p>
+<div class="code-header">POST /v1/activities</div>
+<pre><code>{
+  <span class="code-key">"activity_type"</span>: <span class="code-string">"hobby"</span>,
+  <span class="code-key">"organization_scope"</span>: <span class="code-string">"unorganized"</span>,
+  <span class="code-key">"sport_code"</span>: <span class="code-string">"SK-ATH"</span>,
+  <span class="code-key">"reported_by_organization_id"</span>: <span class="code-string">"org_mesto_presov"</span>,
+  <span class="code-key">"participant_data"</span>: <span class="code-string">"aggregate_only"</span>
+}
+
+<span class="code-comment">// → 201 Created</span>
+{
+  <span class="code-key">"activity_id"</span>: <span class="code-string">"act_po_park_run_..."</span>,
+  <span class="code-key">"personal_data_stored"</span>: <span class="code-bool">false</span>
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Nahlásenie agregátneho počtu (bez identít)</h4>
+<p>Po každom stretnutí sa nahlási len počet — žiadne mená, žiadne person_id.</p>
+<div class="code-header">POST /v1/activities/{id}/aggregate-counts</div>
+<pre><code>{
+  <span class="code-key">"occurred_on"</span>: <span class="code-string">"2026-05-17"</span>,
+  <span class="code-key">"estimated_participants"</span>: <span class="code-number">34</span>,
+  <span class="code-key">"age_bands"</span>: { <span class="code-key">"under_18"</span>: <span class="code-number">4</span>, <span class="code-key">"18_39"</span>: <span class="code-number">18</span>, <span class="code-key">"40_59"</span>: <span class="code-number">9</span>, <span class="code-key">"60_plus"</span>: <span class="code-number">3</span> }
+}</code></pre>
+</div>
+
+<div class="callout green">
+<h4>Hranica osobného údaja</h4>
+<p>Ak by certifikovaná aplikácia poslala k hobby aktivite <code>person_id</code> alebo mená, policy engine to odmietne (<code>422 pii_not_allowed_for_hobby</code>). Dobrovoľník-organizátor však je evidovaná osoba s rolou — rozlišuje sa: rola = evidovaná osoba, bežci = anonymný agregát.</p>
+</div>
+</div>
+</details>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-8">
+<div class="scenario-header">
+<span class="label">Scenár 08 · Bulk import</span>
+<h3>Akadémia nahráva celú databázu naraz</h3>
+</div>
+<div class="scenario-body">
+
+<p>Futbalová akadémia <strong>FA Žilina</strong> prechádza zo starého systému do SportUp a potrebuje <strong>hromadne nahrať</strong> stovky osôb naraz — nielen hráčov, ale aj trénerov, fyzioterapeuta a technického vedúceho. Import je idempotentný a validovaný.</p>
+
+<div class="su-widget" data-su-widget="bulk">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 08 · Bulk import</span>
+<span class="su-w-sub">FA Žilina — dávka rôznych typov osôb, čiastočný úspech</span>
+</div>
+<div class="su-w-intro">Jedna dávka, rôzne typy osôb. Spusti spracovanie — uvidíš, ako sa každý riadok matchne alebo založí, maloletý dostane guardian consent, a chybný riadok sa odmietne bez zablokovania dávky.</div>
+<div data-bulk-rows style="display:flex;flex-direction:column;gap:0.5rem"></div>
+<div data-bulk-summary style="font-size:0.8rem;color:var(--navy);line-height:1.55;margin-top:0.85rem;background:var(--bg-alt);border-radius:8px;padding:0.7rem 0.8rem;opacity:0;transition:opacity 0.4s"></div>
+<div class="su-controls">
+<button type="button" class="su-btn" data-bulk-run>▷ Spusti import dávky</button>
+<button type="button" class="su-btn su-btn-ghost" data-bulk-reset>↻ Reset</button>
+</div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API volania pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Odoslanie dávky</h4>
+<p>Certifikovaná aplikácia akadémie pošle dávku s <code>Idempotency-Key</code>. Rôzne role, maloletý s guardian údajmi.</p>
+<div class="code-header">POST /v1/affiliations/bulk</div>
+<pre><code>{
+  <span class="code-key">"organization_id"</span>: <span class="code-string">"org_fa_zilina"</span>,
+  <span class="code-key">"default_sport_code"</span>: <span class="code-string">"SK-FBL"</span>,
+  <span class="code-key">"records"</span>: [
+    { <span class="code-key">"row_ref"</span>: <span class="code-string">"1"</span>, <span class="code-key">"given_name"</span>: <span class="code-string">"Adam"</span>, <span class="code-key">"role_code"</span>: <span class="code-string">"amatersky_sportovec"</span>, <span class="code-key">"discipline_code"</span>: <span class="code-string">"SK-FBL-FUTBAL"</span>, <span class="code-key">"guardian"</span>: { <span class="code-comment">/* zákonný zástupca */</span> } },
+    { <span class="code-key">"row_ref"</span>: <span class="code-string">"2"</span>, <span class="code-key">"given_name"</span>: <span class="code-string">"Marek"</span>, <span class="code-key">"role_code"</span>: <span class="code-string">"trener"</span> },
+    { <span class="code-key">"row_ref"</span>: <span class="code-string">"3"</span>, <span class="code-key">"given_name"</span>: <span class="code-string">"Jana"</span>, <span class="code-key">"role_code"</span>: <span class="code-string">"fyzioterapeut"</span> },
+    { <span class="code-key">"row_ref"</span>: <span class="code-string">"4"</span>, <span class="code-key">"given_name"</span>: <span class="code-string">"Ivan"</span>, <span class="code-key">"role_code"</span>: <span class="code-string">"technicky_veduci"</span> }
+  ]
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Výsledok — čiastočný úspech</h4>
+<p>Tri riadky prešli, jeden (technický vedúci bez rodného čísla) sa odmietol. Dávka nezlyhala ako celok.</p>
+<div class="code-header">GET /v1/affiliations/bulk/{correlation_id}</div>
+<pre><code>{
+  <span class="code-key">"status"</span>: <span class="code-string">"completed_with_errors"</span>,
+  <span class="code-key">"summary"</span>: { <span class="code-key">"total"</span>: <span class="code-number">4</span>, <span class="code-key">"succeeded"</span>: <span class="code-number">3</span>, <span class="code-key">"failed"</span>: <span class="code-number">1</span> },
+  <span class="code-key">"results"</span>: [
+    { <span class="code-key">"row_ref"</span>: <span class="code-string">"1"</span>, <span class="code-key">"status"</span>: <span class="code-string">"created"</span> },
+    { <span class="code-key">"row_ref"</span>: <span class="code-string">"2"</span>, <span class="code-key">"status"</span>: <span class="code-string">"matched_existing"</span> },
+    { <span class="code-key">"row_ref"</span>: <span class="code-string">"3"</span>, <span class="code-key">"status"</span>: <span class="code-string">"created"</span> },
+    { <span class="code-key">"row_ref"</span>: <span class="code-string">"4"</span>, <span class="code-key">"status"</span>: <span class="code-string">"rejected"</span>, <span class="code-key">"error_code"</span>: <span class="code-string">"missing_national_id"</span> }
+  ]
+}</code></pre>
+</div>
+
+<div class="callout">
+<h4>Idempotencia a multi-role</h4>
+<p>Opakované volanie s tým istým <code>Idempotency-Key</code> nevytvorí duplicity. Tréner Marek, ktorý už existuje v inom klube, sa matchne na jedno <code>person_id</code> a pridá sa mu ďalšia afiliácia — v súlade s princípom multi-role (scenár 03).</p>
+</div>
+</div>
+</details>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-9">
+<div class="scenario-header">
+<span class="label">Scenár 09 · Cestovný ruch</span>
+<h3>Dáta pre turizmus (TIC / OOCR)</h3>
+</div>
+<div class="scenario-body">
+
+<p>Turistické informačné centrum a oblastná organizácia cestovného ruchu <strong>Vysoké Tatry</strong> chcú zobrazovať športovú infraštruktúru a verejné podujatia pre návštevníkov. Čítajú dáta cez <strong>otvorené API</strong> — tá istá evidencia slúži športu aj turizmu.</p>
+
+<div class="su-widget" data-su-widget="tourism">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 09 · Cestovný ruch</span>
+<span class="su-w-sub">Tá istá <code>Facility</code>, dvaja oficiálni konzumenti</span>
+</div>
+<div class="su-w-intro">Jeden záznam športoviska — dvojaká konzumácia. Prepni pohľad a uvidíš, ako té isté dáta číta šport (zväz, rezervácie) aj cestovný ruch (TIC, OOCR) — s rôznymi účelmi a právnymi základmi.</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-bottom:1.1rem">
+<div class="su-gate" style="width:130px"><div class="su-gate-label">Facility</div><div class="su-gate-hint">Tatranský bežecký<br>okruh Štrbské Pleso</div></div>
+<div class="su-panel" style="align-self:stretch;display:flex;flex-direction:column;justify-content:center">
+<div style="font-size:0.8rem;color:var(--text-muted);line-height:1.55">Read-only pre TIC/OOCR — zapisujú len oficiálne zdroje (mestá, zväzy, organizátori). Verejné (otvorené) dáta bez PII účastníkov.</div>
+</div>
+</div>
+<div class="su-toggle">
+<button type="button" data-tour-tab="sport" class="is-active">◆ Šport</button>
+<button type="button" data-tour-tab="tourism">◈ Cestovný ruch</button>
+</div>
+<div class="su-panel" data-tour-out></div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API volania pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>TIC číta verejný katalóg športovísk</h4>
+<p>Certifikovaná turistická aplikácia so scope <code>read:public_facilities</code>.</p>
+<div class="code-header">GET /v1/public/facilities?region=SK-PO&amp;tourism=true</div>
+<pre><code>{
+  <span class="code-key">"facilities"</span>: [{
+    <span class="code-key">"facility_id"</span>: <span class="code-string">"fac_tatry_trail_..."</span>,
+    <span class="code-key">"name_sk"</span>: <span class="code-string">"Tatranský bežecký okruh Štrbské Pleso"</span>,
+    <span class="code-key">"public_access"</span>: <span class="code-string">"free"</span>,
+    <span class="code-key">"tourism"</span>: { <span class="code-key">"nearby_accommodation"</span>: <span class="code-bool">true</span>, <span class="code-key">"difficulty"</span>: <span class="code-string">"medium"</span> },
+    <span class="code-key">"purpose"</span>: <span class="code-string">"TUR-KATALOG-001"</span>
+  }]
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Kalendár verejných podujatí</h4>
+<p>Kalendár obsahuje verejné podujatia — <strong>žiadne osobné údaje účastníkov</strong>.</p>
+<div class="code-header">GET /v1/public/events?region=SK-PO</div>
+<pre><code>{
+  <span class="code-key">"events"</span>: [{
+    <span class="code-key">"name_sk"</span>: <span class="code-string">"Tatry Ultra Trail 2026"</span>,
+    <span class="code-key">"public"</span>: <span class="code-bool">true</span>,
+    <span class="code-key">"purpose"</span>: <span class="code-string">"TUR-PODUJATIE-001"</span>,
+    <span class="code-key">"data_form"</span>: <span class="code-string">"public_no_participant_pii"</span>
+  }]
+}</code></pre>
+</div>
+
+<div class="callout green">
+<h4>Turistický scope nevidí osoby</h4>
+<p>Ak by turistická aplikácia požiadala o endpoint mimo verejného scope (napr. <code>/v1/persons/...</code>), policy engine vráti <code>403 Forbidden</code>. Komerčné subjekty (hotely, penzióny) môžu nadviazať na lokalitu — dostanú len verejné dáta o mieste, nie o osobách.</p>
+</div>
+</div>
+</details>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-10">
+<div class="scenario-header">
+<span class="label">Scenár 10 · GDPR čl. 17</span>
+<h3>Žiadosť o výmaz údajov</h3>
+</div>
+<div class="scenario-body">
+
+<p>Bývalá <strong>dobrovoľníčka a rozhodkyňa Zuzana Malíková</strong> ukončila činnosť v športe a žiada o výmaz osobných údajov. Systém musí posudiť, čo sa <strong>zmaže</strong>, čo <strong>anonymizuje</strong> a čo <strong>zachová</strong> — právo na výmaz nie je absolútne.</p>
+
+<div class="su-widget" data-su-widget="erasure">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 10 · GDPR čl. 17</span>
+<span class="su-w-sub">Zuzana Malíková — selektívny výmaz podľa účelu</span>
+</div>
+<div class="su-w-intro">Klikni na položku a uvidíš rozhodnutie systému: <strong>zmazať</strong>, <strong>anonymizovať</strong> alebo <strong>zachovať</strong> — a prečo. Každý účel má vlastný právny základ a retenčnú lehotu.</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div data-erasure-list style="display:flex;flex-direction:column;gap:0.45rem"></div>
+<div class="su-detail" data-erasure-detail></div>
+</div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — eventy pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Posudok voči účelom</h4>
+<p>Erasure Coordinator prejde všetky dáta osoby a pre každý účel rozhodne podľa <code>legal_basis</code> a <code>retention</code>.</p>
+<div class="code-header">Event · ErasureAssessed</div>
+<pre><code>{
+  <span class="code-key">"erasable"</span>: [
+    <span class="code-string">"MKT-FOTO-001"</span>, <span class="code-string">"MKT-NEWSLETTER-001"</span>, <span class="code-string">"REG-DOBROVOLNIK-001"</span>
+  ],
+  <span class="code-key">"retained"</span>: [
+    { <span class="code-key">"purpose"</span>: <span class="code-string">"DIS-KONANIE-001"</span>, <span class="code-key">"reason"</span>: <span class="code-string">"active_legal_proceeding"</span> },
+    { <span class="code-key">"purpose"</span>: <span class="code-string">"FIN-DOTACIA-001"</span>, <span class="code-key">"reason"</span>: <span class="code-string">"legal_retention_10y"</span> }
+  ]
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Crypto-shredding a anonymizácia</h4>
+<p>Osobné údaje v eventoch sú šifrované per-person kľúčom — výmaz zničí kľúč. Eventy zostanú (nemenná história), osobné dáta v nich sú nečitateľné. Historické výkony sa anonymizujú.</p>
+<div class="code-header">Event · PersonalDataErased / Anonymized</div>
+<pre><code>{
+  <span class="code-key">"deleted_scopes"</span>: [<span class="code-string">"contact"</span>, <span class="code-string">"photo"</span>, <span class="code-string">"marketing_preferences"</span>],
+  <span class="code-key">"method"</span>: <span class="code-string">"crypto_shredding"</span>,
+  <span class="code-key">"anonymized_scopes"</span>: [<span class="code-string">"historical_results"</span>]
+}</code></pre>
+</div>
+
+<div class="callout">
+<h4>Právo na výmaz má hranice</h4>
+<p>Dotácie majú zákonnú archivačnú lehotu (čl. 17 ods. 3 písm. b), prebiehajúce konanie sa zachová (písm. e). Verejné výsledky sa <strong>anonymizujú</strong>, nie mažú — inak by sa rozbila kontinuita rebríčkov a štatistík.</p>
+</div>
+</div>
+</details>
+
+</div>
+</div>
+
+<div class="scenario" id="scenar-11">
+<div class="scenario-header">
+<span class="label">Scenár 11 · Safeguarding</span>
+<h3>Dobrovoľník k maloletým — ochrana detí</h3>
+</div>
+<div class="scenario-body">
+
+<p>Mesto <strong>Trnava</strong> organizuje letný športový tábor pre deti a hľadá dobrovoľníkov. <strong>Zuzana Malíková</strong> sa chce prihlásiť. Keďže bude v priamom kontakte s <strong>maloletými</strong>, systém vyžaduje platný safeguarding certifikát ešte pred aktiváciou afiliácie.</p>
+
+<div class="su-widget" data-su-widget="safeguard">
+<div class="su-w-head">
+<span class="su-w-tag">Scenár 11 · Safeguarding</span>
+<span class="su-w-sub">Mesto Trnava — dobrovoľníčka na tábor pre deti</span>
+</div>
+<div class="su-w-intro">Ochrana maloletých je vynútená serverom. Prepni medzi prípadmi a uvidíš, ako policy engine buď aktivuje afiliáciu (platný certifikát), alebo ju zablokuje (chýbajúci).</div>
+<div style="display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;margin-bottom:1.1rem">
+<div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+<div class="su-ident">ZM</div>
+<div style="font-size:0.72rem;color:var(--text-muted);text-align:center">Zuzana<br>dobrovoľníčka</div>
+</div>
+<div class="su-gate" style="align-self:stretch;display:flex;flex-direction:column;justify-content:center"><div class="su-gate-ico">⛨</div><div class="su-gate-label">Policy engine · kontrola<br>KVL-SAFEGUARDING-001</div><div class="su-gate-hint">works_with_minors: true</div></div>
+</div>
+<div class="su-toggle">
+<button type="button" data-sg-tab="valid" class="is-active">Platný certifikát</button>
+<button type="button" data-sg-tab="missing">Chýbajúci</button>
+</div>
+<div class="su-panel" data-sg-out></div>
+</div>
+
+<details class="su-tech">
+<summary>Technický detail — API volania pre vývojárov<span class="su-tech-hint">rozbaliť JSON</span></summary>
+<div class="su-tech-body">
+<div class="scenario-step">
+<span class="step-num">1</span>
+<h4>Kontrola safeguarding certifikátu</h4>
+<p>Pred vytvorením afiliácie s prístupom k maloletým policy engine overí kvalifikáciu.</p>
+<div class="code-header">GET /v1/persons/{id}/qualifications?type=KVL-SAFEGUARDING-001</div>
+<pre><code>{
+  <span class="code-key">"qualifications"</span>: [{
+    <span class="code-key">"type"</span>: <span class="code-string">"KVL-SAFEGUARDING-001"</span>,
+    <span class="code-key">"valid_to"</span>: <span class="code-string">"2026-05-01"</span>,
+    <span class="code-key">"status"</span>: <span class="code-string">"valid"</span>
+  }]
+}</code></pre>
+</div>
+
+<div class="scenario-step">
+<span class="step-num">2</span>
+<h4>Vytvorenie afiliácie viazanej na aktivitu</h4>
+<p>Afiliácia sa aktivuje len ak je safeguarding platný. Inak zôstane v stave <code>pending_safeguarding</code>.</p>
+<div class="code-header">POST /v1/affiliations</div>
+<pre><code>{
+  <span class="code-key">"person_id"</span>: <span class="code-string">"prs_zuzana_..."</span>,
+  <span class="code-key">"organization_id"</span>: <span class="code-string">"org_mesto_trnava"</span>,
+  <span class="code-key">"role_code"</span>: <span class="code-string">"dobrovolnik"</span>,
+  <span class="code-key">"works_with_minors"</span>: <span class="code-bool">true</span>,
+  <span class="code-key">"safeguarding_qualification_id"</span>: <span class="code-string">"qual_sg_..."</span>
+}
+
+<span class="code-comment">// → 201 Created (Prípad A)</span>
+{ <span class="code-key">"status"</span>: <span class="code-string">"active"</span>, <span class="code-key">"safeguarding_verified"</span>: <span class="code-bool">true</span> }</code></pre>
+</div>
+
+<div class="callout">
+<h4>Ochrana detí vynútená serverom</h4>
+<p>Ak certifikát chýba alebo je po platnosti, systém vráti <code>safeguarding_required_for_minors</code> a afiliácia sa neaktivuje. Zuzana nesmie k deťom, kým certifikát nedoloží — nie je to na dôvere v aplikáciu. Zuzana je plná evidovaná osoba (dobrovoľníčka), hoci nie je športovkyňa.</p>
 </div>
 </div>
 </details>
