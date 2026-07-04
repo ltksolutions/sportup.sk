@@ -147,6 +147,24 @@
 <button type="button" class="su-btn" data-next>Ďalší krok →</button>
 <span class="su-status" data-status></span>
 </div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Eventy <code>PersonRegistered</code> + <code>AffiliationActivated</code></div>
+<div class="su-ae-item">Väzba maloletý ↔ zákonný zástupca + guardian consent</div>
+<div class="su-ae-item">Zápis do <code>organization_roster</code> klubu</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Maloletý bez zákonného zástupcu → registrácia odmietnutá</div>
+<div class="su-ae-item">Osoba už existuje v RFO → match, nie duplicita</div>
+<div class="su-ae-item">Marketingový súhlas odvolateľný, registračný nie</div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">
@@ -273,6 +291,24 @@
 <button type="button" class="su-btn su-btn-danger" data-fail>⚠ Simuluj zlyhanie 2. kroku</button>
 <button type="button" class="su-btn su-btn-ghost" data-reset>↻ Reset</button>
 </div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">3 eventy spojené spoločným <code>correlation_id</code></div>
+<div class="su-ae-item"><code>current_affiliations</code> — stará ukončená, nová aktívna</div>
+<div class="su-ae-item">Webhook obom klubom (starý aj nový)</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Zlyhanie kroku → kompenzačné eventy (nie rollback)</div>
+<div class="su-ae-item">Celý prestup spätne rekonštruovateľný z <code>correlation_id</code></div>
+<div class="su-ae-item">Stará afiliácia ostane v histórii (nemenná)</div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">
@@ -385,6 +421,24 @@
 </div>
 </div>
 <div class="su-detail" data-detail><div class="su-detail-empty">↑ Vyber jednu zo štyroch rolí a zobrazí sa jej afiliácia — organizácia, šport, odvetvie a platnosť.</div></div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item"><code>current_affiliations</code> — 4 riadky, jedno <code>person_id</code></div>
+<div class="su-ae-item"><code>multi_role_index</code> — osoba označená (≥2 role) pre štatistiku</div>
+<div class="su-ae-item">Webhook <code>PersonNameChanged</code> → všetky 4 organizácie</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Rovnaká rola v 2 kluboch = platné (nie duplicita)</div>
+<div class="su-ae-item">Časovo ohraničená rola (dobrovoľník) → auto-expiruje</div>
+<div class="su-ae-item">Úmrtie → kaskádové ukončenie všetkých 4 rolí naraz</div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">
@@ -474,6 +528,24 @@
 <div data-out style="border-radius:12px;padding:1.1rem;transition:all 0.3s"></div>
 </div>
 <div style="font-size:0.74rem;color:var(--text-soft);margin-top:0.85rem;line-height:1.5">Každé overenie sa zapíše do auditu — osoba si vie pozrieť, kto sa jej dát dotýkal. Hotel je oficiálny zdroj/spotrebiteľ, ale bez prístupu k identite.</div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Event <code>VerificationPerformed</code> — audit pre osobu</div>
+<div class="su-ae-item">Hotel dostane len <code>true/false</code> + kategóriu zľavy</div>
+<div class="su-ae-item">Počítadlo overení pre kvóty/fakturáciu</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Hotel žiada atribút mimo scope → <code>403</code>, vynútené serverom</div>
+<div class="su-ae-item">Tréner bez hráčskej afiliácie → <code>false</code> (iný typ osoby)</div>
+<div class="su-ae-item">Odvolaný súhlas → token sa nevygeneruje</div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">
@@ -552,6 +624,24 @@
 <span class="su-status" data-status></span>
 </div>
 <div style="font-size:0.74rem;color:var(--text-soft);margin-top:0.85rem;line-height:1.5;opacity:0;transition:opacity 0.4s" data-note>Základné údaje sa zachovávajú pre historickú a štatistickú hodnotu (napr. zoznam majstrov SR za 50 rokov). Prístup k citlivým údajom sa automaticky obmedzí.</div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Kaskáda <code>AffiliationTerminated</code> cez <code>correlation_id</code></div>
+<div class="su-ae-item">Osoba do režimu <code>deceased</code>, citlivé údaje obmedzené</div>
+<div class="su-ae-item">Webhook všetkým dotknutým zdrojom (zväz, klub, ObFZ)</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Historické záznamy zachované (časové rady sa nerozbijú)</div>
+<div class="su-ae-item">Duplicitná notifikácia → deduplikácia podľa <code>rfo_reference</code></div>
+<div class="su-ae-item">Otvorené disciplinárne konanie → <code>closed_deceased</code></div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">
@@ -634,6 +724,24 @@
 <button type="button" data-tab-tour>◈ Cestovný ruch</button>
 </div>
 <div class="su-cards" data-consumers></div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Eventy <code>FacilityRegistered</code> + <code>FacilityActivated</code></div>
+<div class="su-ae-item">Zápis do <code>public_facility_map</code> aj <code>tourism_facilities</code></div>
+<div class="su-ae-item">Webhook zväzom v regióne (SBA, SHF, SZH)</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Vlastník ≠ prevádzkovateľ (mesto vs. príspevková org.)</div>
+<div class="su-ae-item">Rekonštrukcia → <code>suspended</code>, zmizne z rezervácií</div>
+<div class="su-ae-item">Šport s odvetviami → dostupnosť podľa <code>discipline_code</code></div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">
@@ -732,6 +840,24 @@
 </div>
 <div class="su-panel" data-hobby-out></div>
 <div style="font-size:0.74rem;color:var(--text-soft);margin-top:0.85rem;line-height:1.5">Ak by sa z hobby aktivity stalo organizované podujatie s registráciou, vznikne nová <code>Activity</code> a až vtedy sa evidujú osoby (s afiliáciami a súhlasmi).</div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Zápis do <code>aggregate_participation_stats</code> (bez PII)</div>
+<div class="su-ae-item">Aktualizácia <code>infrastructure_demand_index</code> regiónu</div>
+<div class="su-ae-item">Žiadne person-projekcie sa nedotknu</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Pokus zapísať <code>person_id</code> → <code>422 pii_not_allowed</code></div>
+<div class="su-ae-item">Dobrovoľník-organizátor = evidovaná osoba s rolou</div>
+<div class="su-ae-item">Duplicitný počet za deň → upsert, nezdvojnásobí</div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">
@@ -799,6 +925,24 @@
 <div class="su-controls">
 <button type="button" class="su-btn" data-bulk-run>▷ Spusti import dávky</button>
 <button type="button" class="su-btn su-btn-ghost" data-bulk-reset>↻ Reset</button>
+</div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Per-row eventy s jedným <code>correlation_id</code></div>
+<div class="su-ae-item">Maloletý → guardian consent + <code>guardian_relationships</code></div>
+<div class="su-ae-item">Záznam dávky do <code>bulk_import_log</code></div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Chybný riadok odmietnutý, dávka nezlyhá ako celok</div>
+<div class="su-ae-item">Opakovanie (rovnaký kľúč) → idempotencia, žiadne duplicity</div>
+<div class="su-ae-item">Osoba už existuje inde → ďalšia afiliácia (multi-role)</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -875,6 +1019,24 @@
 <button type="button" data-tour-tab="tourism">◈ Cestovný ruch</button>
 </div>
 <div class="su-panel" data-tour-out></div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Read-only prístup nad <code>public_facility_map</code> a kalendárom</div>
+<div class="su-ae-item">Audit prístupu do <code>organization_api_usage</code></div>
+<div class="su-ae-item">TIC/OOCR nečítajú žiadne PII účastníkov</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Žiadosť o <code>/v1/persons</code> → <code>403</code> (turistický scope)</div>
+<div class="su-ae-item">Neverejné podujatie → nezobrazí sa v katalógu</div>
+<div class="su-ae-item">Šport s odvetviami → filter podľa <code>discipline_code</code></div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">
@@ -939,6 +1101,24 @@
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
 <div data-erasure-list style="display:flex;flex-direction:column;gap:0.45rem"></div>
 <div class="su-detail" data-erasure-detail></div>
+</div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Eventy <code>ErasureAssessed</code> → <code>PersonalDataErased</code></div>
+<div class="su-ae-item">Crypto-shredding — zničenie per-person kľúča</div>
+<div class="su-ae-item">Transparentný výsledok osobe (čo, prečo)</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Zákonná lehota (dotácie) → výmaz odmietnutý</div>
+<div class="su-ae-item">Prebiehajúce konanie → zachované (čl. 17 ods. 3)</div>
+<div class="su-ae-item">Historické výsledky → anonymizované, nie zmazané</div>
+</div>
+</div>
 </div>
 </div>
 
@@ -1010,6 +1190,24 @@
 <button type="button" data-sg-tab="missing">Chýbajúci</button>
 </div>
 <div class="su-panel" data-sg-out></div>
+<div class="su-aftereffects">
+<div class="su-ae-side">
+<div class="su-ae-col-label"><span class="su-ae-ico">↻</span> Čo to spustí</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Event <code>AffiliationActivated</code> (len pri platnom certifikáte)</div>
+<div class="su-ae-item">Väzba do <code>safeguarding_register</code> (osoba × certifikát × aktivita)</div>
+<div class="su-ae-item">Webhook mestu o novom dobrovoľníkovi</div>
+</div>
+</div>
+<div class="su-ae-edge">
+<div class="su-ae-col-label"><span class="su-ae-ico">⚠</span> Ošetrené hraničné prípady</div>
+<div class="su-ae-list">
+<div class="su-ae-item">Chýbajúci certifikát → <code>pending_safeguarding</code>, blokované</div>
+<div class="su-ae-item">Certifikát vyprší počas aktivity → auto-<code>suspended</code></div>
+<div class="su-ae-item">Bez prístupu k maloletým → safeguarding sa nevyžaduje</div>
+</div>
+</div>
+</div>
 </div>
 
 <details class="su-tech">

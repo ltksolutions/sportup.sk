@@ -280,10 +280,53 @@
 }
 .su-tech-body { padding: 0 1.1rem; border-top: 1px solid var(--border); }
 
+/* ── Side effects + hraničné prípady (pruh naspodku widgetu) ── */
+.su-aftereffects {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.su-ae-col-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.su-ae-col-label .su-ae-ico { font-size: 0.9rem; line-height: 1; }
+.su-ae-side .su-ae-col-label { color: var(--blue-dark); }
+.su-ae-edge .su-ae-col-label { color: #8A6D1A; }
+.su-ae-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.su-ae-item {
+  display: flex;
+  gap: 7px;
+  align-items: flex-start;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--navy);
+}
+.su-ae-item::before {
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 0.4rem;
+}
+.su-ae-side .su-ae-item::before { background: var(--blue); }
+.su-ae-edge .su-ae-item::before { background: #D9B54A; }
+
 /* ── Responzívne ── */
 @media (max-width: 640px) {
   .su-grid-3, .su-grid-3c { grid-template-columns: 1fr; }
   .su-widget { padding: 1.1rem; }
+  .su-aftereffects { grid-template-columns: 1fr; gap: 1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
