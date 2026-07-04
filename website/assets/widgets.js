@@ -788,6 +788,33 @@
       return el;
     }
 
+    // Typ miesta pre čitateľný popis v tooltipe
+    const CAT_LABELS = {
+      sport: 'Športovisko', stay: 'Ubytovanie', activity: 'Aktivita', event: 'Podujatie'
+    };
+    function popupHTML(p, full) {
+      const host = p.url ? p.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, '') : '';
+      let h = '<div class="su-pop">' +
+        '<div class="su-pop-head">' +
+          '<span class="su-pop-ico" style="color:' + p.color + '">' + p.icon + '</span>' +
+          '<span class="su-pop-name">' + esc(p.name) + '</span>' +
+        '</div>' +
+        '<div class="su-pop-type">' + esc(CAT_LABELS[p.cat] || 'Miesto') + ' · ' + esc(p.sports) + '</div>';
+      if (full) {
+        h += '<div class="su-pop-dist">' + p.dist.toFixed(1) + ' km od centra Novej Bane</div>';
+        if (p.url) {
+          h += '<a class="su-pop-web" href="' + esc(p.url) + '" target="_blank" rel="noopener">' + esc(host) + ' ↗</a>';
+        } else {
+          h += '<div class="su-pop-demo">ukážkový bod</div>';
+        }
+      }
+      h += '</div>';
+      return h;
+    }
+
+    let hoverPopup = null;
+    let clickPopup = null;
+
     function initRealMap() {
       mapTried = true;
       if (typeof maplibregl === 'undefined') { buildSchematic(); return; }
@@ -830,10 +857,34 @@
     function placeMarkers() {
       markerObjs.forEach((m) => m.remove());
       markerObjs = [];
+      if (hoverPopup) { hoverPopup.remove(); hoverPopup = null; }
+      if (clickPopup) { clickPopup.remove(); clickPopup = null; }
       POINTS.forEach((p) => {
         const on = matches(p);
         const el = pinEl(p, on);
-        el.addEventListener('click', () => showPoint(p));
+        // Hover → krátky tooltip (na dotykových zariadeniach sa nespustí)
+        el.addEventListener('mouseenter', () => {
+          if (hoverPopup) hoverPopup.remove();
+          hoverPopup = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 18, className: 'su-pop-wrap su-pop-hover' })
+            .setLngLat([p.lng, p.lat])
+            .setHTML(popupHTML(p, false))
+            .addTo(mapObj);
+        });
+        el.addEventListener('mouseleave', () => {
+          if (hoverPopup) { hoverPopup.remove(); hoverPopup = null; }
+        });
+        // Klik → väčší popup s odkazom + detail v API paneli.
+        // closeOnClick:false — inak MapLibre zavrie popup v tom istom klike,
+        // ktorý ho otvoril (klik bublá z markera na mapu).
+        el.addEventListener('click', () => {
+          if (hoverPopup) { hoverPopup.remove(); hoverPopup = null; }
+          if (clickPopup) clickPopup.remove();
+          clickPopup = new maplibregl.Popup({ closeButton: true, closeOnClick: false, offset: 18, className: 'su-pop-wrap' })
+            .setLngLat([p.lng, p.lat])
+            .setHTML(popupHTML(p, true))
+            .addTo(mapObj);
+          showPoint(p);
+        });
         const mk = new maplibregl.Marker({ element: el })
           .setLngLat([p.lng, p.lat])
           .addTo(mapObj);

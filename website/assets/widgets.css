@@ -689,6 +689,51 @@
   white-space: nowrap;
 }
 .su-disc-web:hover { background: var(--blue); color: #fff; }
+
+/* ── Tooltip / popup na mape (MapLibre Popup) ── */
+.su-pop-wrap .maplibregl-popup-content {
+  padding: 0;
+  border-radius: 10px;
+  box-shadow: 0 6px 22px rgba(26,45,71,0.18);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+.su-pop-wrap .maplibregl-popup-close-button {
+  font-size: 1.1rem;
+  color: var(--text-soft);
+  padding: 0 6px;
+}
+.su-pop-wrap.su-pop-hover .maplibregl-popup-content { cursor: default; }
+.su-pop { padding: 0.6rem 0.75rem; min-width: 140px; max-width: 230px; }
+.su-pop-head { display: flex; align-items: center; gap: 7px; margin-bottom: 0.25rem; }
+.su-pop-ico { font-size: 0.8rem; flex-shrink: 0; }
+.su-pop-name { font-weight: 700; font-size: 0.85rem; color: var(--navy); line-height: 1.25; }
+.su-pop-type { font-size: 0.73rem; color: var(--text-muted); line-height: 1.4; }
+.su-pop-dist {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-soft);
+  margin-top: 0.4rem;
+}
+.su-pop-web {
+  display: inline-block;
+  margin-top: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--blue-dark);
+  text-decoration: none;
+}
+.su-pop-web:hover { text-decoration: underline; }
+.su-pop-demo {
+  display: inline-block;
+  margin-top: 0.45rem;
+  font-size: 0.64rem;
+  color: var(--text-soft);
+  background: var(--bg-alt);
+  padding: 0.1rem 0.45rem;
+  border-radius: 99px;
+}
 .su-chip {
   font-size: 0.66rem;
   padding: 0.1rem 0.45rem;
