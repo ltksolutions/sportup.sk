@@ -4,9 +4,19 @@ Tento súbor sleduje významné zmeny v projekte. Formát je založený na [Keep
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-07-04
+
 ### Added
 
-- **[REUSE Specification 3.3](https://reuse.software/spec/) compliance** — každý súbor v repozitári (161/161) má jednoznačnú copyright a license metadata. Centrálne licenčné mapovanie cez `REUSE.toml`, plné texty licencií v `LICENSES/` (EUPL-1.2, CC-BY-4.0). Compliance je automaticky validovaná pri každom PR cez GitHub Actions workflow `.github/workflows/reuse.yml` (FSFE reuse-action). REUSE je odporúčaný prístup EÚ Joinup pre softvér verejného sektora.
+**Marketing, brand a prezentácia — Fáza 0**
+
+- **Marketingový web a prezentácia projektu** — HTML stránky (`website/`): úvod, príklady dát, účely spracovania (Purpose Catalogue), architektúra, doménový model, číselníky, integrácie, technológie, brand, ekosystém a kontakt. Nasadené na Vercel (`sportup.sk`), REUSE-compliant, s OG images, canonical URL, JSON-LD, sitemap, robots.txt a security.txt.
+- **Brand identita a Design Manual** — dvojúrovňový logo systém (ilustrácia + wordmark) v štyroch farebných variantoch, favicon sada, Design Manual v2.1 (PDF) pre developerov aj marketing. Poppins typografia s plnou slovenskou diakritikou.
+- **Interaktívne vizualizácie scenárov a katalógu** — 6 widgetov na stránke Príklady (registrácia mládežníka, prestup ako reťaz udalostí, multi-role osoba, komerčné overenie s minimalizáciou dát, kaskáda pri úmrtí, dvojhodnota športoviska — šport aj cestovný ruch) a 2 widgety na stránke Účely (interaktívna štruktúra záznamu účelu naprieč typmi osôb, vrstvený katalóg). Vanilla JS + inline SVG bez závislostí, spoločné `website/assets/widgets.{js,css}`. Zdôrazňujú, že komunikácia ide výhradne cez API·MCP bránu a čítať/zapisovať môžu len aplikácie certifikované prevádzkovateľom.
+
+**Compliance a infraštruktúra**
+
+- **[REUSE Specification 3.3](https://reuse.software/spec/) compliance** — každý súbor v repozitári (164/164) má jednoznačnú copyright a license metadata. Centrálne licenčné mapovanie cez `REUSE.toml`, plné texty licencií v `LICENSES/` (EUPL-1.2, CC-BY-4.0). Compliance je automaticky validovaná pri každom PR cez GitHub Actions workflow `.github/workflows/reuse.yml` (FSFE reuse-action). REUSE je odporúčaný prístup EÚ Joinup pre softvér verejného sektora.
 - Adresár `src/` rezervovaný pre budúcu implementáciu (Next.js + MongoDB) s plánovanou štruktúrou monorepa (`apps/`, `packages/`).
 
 ### Changed
