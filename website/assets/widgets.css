@@ -41,12 +41,22 @@
 
 .su-w-sub { font-size: 0.85rem; color: var(--text-muted); }
 
+/* ── Strop šírky obsahu widgetu ──
+   Aby sa telo widgetu nerozťahovalo cez celú šírku širokého kontajnera
+   a všetky scenáre boli vizuálne konzistentné (ako scenár 01).
+   Strop dostane každý priamy potomok .su-widget, takže hlavička aj
+   telo sú zarovnané na rovnakú mieru a vycentrované. */
+.su-widget > * {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .su-w-intro {
   font-size: 0.85rem;
   color: var(--text-muted);
   line-height: 1.55;
   margin-bottom: 1rem;
-  max-width: none;
 }
 
 .su-widget code {
