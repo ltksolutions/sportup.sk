@@ -390,7 +390,7 @@
       } }
     ];
     var exWrap = root.querySelector('[data-examples]');
-    var jsonBox = root.querySelector('[data-json]');
+    var cardsBox = root.querySelector('[data-fieldcards]');
     var explain = root.querySelector('[data-explain]');
     var activeEx = examples[0], activeField = null, activeBtn = null;
     examples.forEach(function (ex) {
@@ -400,35 +400,32 @@
       b.addEventListener('click', function () {
         if (activeBtn) activeBtn.classList.remove('is-active');
         activeBtn = b; b.classList.add('is-active');
-        activeEx = ex; activeField = null; renderJson(); resetExplain();
+        activeEx = ex; activeField = null; renderFields(); resetExplain();
       });
       exWrap.appendChild(b);
     });
-    function valColor(val) {
-      if (/^(true|false)$/.test(val)) return 'var(--code-number)';
-      if (/^\d/.test(val)) return 'var(--code-number)';
-      if (val[0] === '"') return 'var(--code-string)';
-      return '#C8DCEC';
+    function humanVal(raw) {
+      var v = String(raw).replace(/^"|"$/g, '');
+      if (v === 'true') return 'áno';
+      if (v === 'false') return 'nie';
+      if (v.length > 34) return v.slice(0, 32) + '…';
+      return v;
     }
-    function renderJson() {
+    function renderFields() {
       var d = activeEx.data;
-      var html = '<div style="color:var(--code-comment)">{</div>';
+      cardsBox.innerHTML = '';
       Object.keys(d).forEach(function (k) {
-        var attr = fieldDocs[k] ? ' data-field="' + k + '"' : '';
-        var cursor = fieldDocs[k] ? '' : 'cursor:default;';
-        html += '<div style="padding-left:1rem"><span class="su-key"' + attr + ' style="' + cursor + '">"' + k + '"</span><span style="color:var(--code-comment)">: </span><span style="color:' + valColor(d[k]) + '">' + esc(d[k]) + '</span><span style="color:var(--code-comment)">,</span></div>';
-      });
-      html += '<div style="color:var(--code-comment)">}</div>';
-      jsonBox.innerHTML = html;
-      jsonBox.querySelectorAll('.su-key[data-field]').forEach(function (el) {
-        el.addEventListener('mouseenter', function () { if (activeField !== el.dataset.field) el.style.background = 'rgba(155,211,240,0.15)'; });
-        el.addEventListener('mouseleave', function () { if (activeField !== el.dataset.field) el.style.background = 'transparent'; });
-        el.addEventListener('click', function () { selectField(el.dataset.field, el); });
+        if (!fieldDocs[k]) return;
+        var card = document.createElement('button');
+        card.type = 'button'; card.className = 'su-field-card';
+        card.innerHTML = '<div class="su-fc-name">' + esc(fieldDocs[k].t) + '</div><div class="su-fc-val">' + esc(humanVal(d[k])) + '</div>';
+        card.addEventListener('click', function () { selectField(k, card); });
+        cardsBox.appendChild(card);
       });
     }
     function selectField(k, el) {
-      jsonBox.querySelectorAll('.su-key[data-field]').forEach(function (e) { e.style.background = 'transparent'; });
-      activeField = k; el.style.background = 'rgba(56,143,195,0.35)';
+      cardsBox.querySelectorAll('.su-field-card').forEach(function (e) { e.classList.remove('is-active'); });
+      activeField = k; el.classList.add('is-active');
       var doc = fieldDocs[k], val = activeEx.data[k];
       explain.innerHTML =
         '<div class="su-explain-code">"' + esc(k) + '"</div>' +
@@ -438,10 +435,10 @@
         '<div class="su-explain-val">' + esc(val) + '</div></div>';
     }
     function resetExplain() {
-      explain.innerHTML = '<div style="color:var(--text-soft);font-size:0.85rem;line-height:1.55"><div style="font-weight:700;color:var(--navy);margin-bottom:0.4rem">' + esc(activeEx.label) + '</div>Klikni na ktorékoľvek pole vľavo (modré názvy) a zobrazí sa jeho význam a hodnota pri tomto účele.</div>';
+      explain.innerHTML = '<div style="color:var(--text-soft);font-size:0.85rem;line-height:1.55"><div style="font-weight:700;color:var(--navy);margin-bottom:0.4rem">' + esc(activeEx.label) + '</div>Klikni na ktorékoľvek pole vľavo a zobrazí sa jeho význam a hodnota pri tomto účele.</div>';
     }
     activeBtn = exWrap.firstChild; activeBtn.classList.add('is-active');
-    renderJson(); resetExplain();
+    renderFields(); resetExplain();
   }
 
   function initLayers(root) {

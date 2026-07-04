@@ -371,6 +371,41 @@
 }
 .su-json-box .su-key { color: var(--code-key); border-radius: 3px; padding: 0 2px; }
 .su-json-box .su-key[data-field] { cursor: pointer; }
+
+/* ── Kartičky polí (schema widget — štýl Príkladov) ── */
+.su-field-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 8px;
+  align-content: start;
+}
+.su-field-card {
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--white);
+  border-radius: 9px;
+  padding: 0.6rem 0.7rem;
+  text-align: left;
+  font-family: var(--font-sans);
+  transition: border-color 0.12s, transform 0.12s, background 0.12s;
+}
+.su-field-card:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+.su-field-card.is-active { background: var(--blue-light); border-color: var(--blue); transform: none; }
+.su-field-card .su-fc-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 0.2rem;
+  line-height: 1.25;
+}
+.su-field-card .su-fc-val {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .su-explain {
   background: var(--bg-alt);
   border: 1px solid var(--border);
