@@ -60,12 +60,68 @@ Voľnočasová aktivita bez organizátora. **Eviduje sa len agregátne, nie pers
 }
 ```
 
+### Tábory a kempy (organizovaná vzdelávacia/rekreačná aktivita)
+
+**Tábor ani kemp nie je súťaž — je to organizovaná vzdelávacia a rekreačná
+aktivita** s trénermi, inštruktormi a účastníkmi (deťmi alebo dospelými). Príklad:
+Letný futbalový kemp MFK Nová Baňa, Junior Golf Camp Tri Duby, prímestský
+tenisový tábor. Modelujeme ho ako `Activity` typu `camp` — nie ako `Competition`
+(tábor sa nesúťaží) ani ako `Match`.
+
+Charakteristika, prečo je to samostatný typ aktivity:
+
+- **prihlasovateľný** — verejne ponúkaný, rodič/účastník sa prihlasuje (na rozdiel
+  od zápasu, na ktorý sa neprihlasuje),
+- **cieľová skupina** — deti, mládež, dospelí, seniori (`target_audience`),
+- **realizačný tím** — tréneri, inštruktori, zdravotný dozor, vedúci tábora; opäť
+  **nielen športovci**, ale všetky osoby nevyhnutné pre chod tábora,
+- **safeguarding** — pri táboroch pre **maloletých** je povinný bezpečnostný režim:
+  certifikovaní tréneri (safeguarding certifikát), súhlas zákonného zástupcu,
+  zdravotný dozor. To sa viaže na scenár 11 (Safeguarding) a na `Qualification`.
+
+| Pole (nad rámec základnej schémy) | Typ | Popis |
+|---|---|---|
+| `activity_type` | Enum | `camp` |
+| `target_audience` | Enum | `children` / `youth` / `adults` / `seniors` / `mixed` |
+| `involves_minors` | Boolean | Či sa zúčastňujú maloletí (→ safeguarding povinný) |
+| `registration_url` | String \| null | Kam sa prihlásiť (web organizátora) |
+| `price_from` | Number \| null | Orientačná cena (pre verejný katalóg) |
+
+```json
+{
+  "activity_id": "act_mfknb_letny_kemp_2026",
+  "activity_type": "camp",
+  "name": "Letný futbalový kemp — MFK Nová Baňa",
+  "is_organized": true,
+  "is_official": false,
+  "organizer_org_id": "org_mfk_nova_bana",
+  "sport_code": "SK-FTB",
+  "discipline_code": "SK-FTB-FUTBAL",
+  "target_audience": "children",
+  "involves_minors": true,
+  "category_codes": ["deti_7_14"],
+  "start_at": "2026-07-14T08:00:00+02:00",
+  "end_at": "2026-07-18T16:00:00+02:00",
+  "location_facility_id": "fac_mfknb_stadion",
+  "is_public": true,
+  "tourism_relevance": "regional",
+  "registration_url": "https://mfknovabana.sk/",
+  "price_from": 89
+}
+```
+
+> **Safeguarding pri deťoch:** keďže `involves_minors: true`, policy engine vyžaduje,
+> aby tréneri tábora mali platný safeguarding certifikát a aby existoval súhlas
+> zákonného zástupcu. Bez toho sa afiliácie realizačného tímu k táboru neaktivujú
+> (rovnaký mechanizmus ako scenár 11). Do **verejnej vrstvy** idú len miesto, termín,
+> cieľová skupina a odkaz na prihlásenie — nikdy zoznam prihlásených detí.
+
 ## Schéma
 
 | Pole | Typ | Popis |
 |---|---|---|
 | `activity_id` | UUID | Primárny kľúč |
-| `activity_type` | Enum | `oficialne_organizovana_sutaz` / `neoficialne_organizovana_sutaz` / `tréning` / `vystúpenie` / `hobby` / iné |
+| `activity_type` | Enum | `oficialne_organizovana_sutaz` / `neoficialne_organizovana_sutaz` / `camp` (tábor/kemp) / `tréning` / `vystúpenie` / `hobby` / iné |
 | `is_organized` | Boolean | Má identifikovateľného organizátora |
 | `is_official` | Boolean | Riadi ho národný zväz alebo jeho podzväz |
 | `name` | String | Názov aktivity |

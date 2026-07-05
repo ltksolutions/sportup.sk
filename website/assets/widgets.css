@@ -831,6 +831,41 @@
   padding: 0.3rem 0.65rem; border-radius: 7px; text-decoration: none; white-space: nowrap;
 }
 .su-match-nav:hover { background: var(--blue-dark); }
+
+/* ── Vrstva táborov: markery, tagy, safeguarding ── */
+.su-camp-pin {
+  width: 30px; height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--pin, #B8860B);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transform: rotate(-45deg);
+  transition: transform 0.15s;
+}
+.su-camp-pin:hover { transform: rotate(-45deg) scale(1.15); }
+.su-camp-ico { transform: rotate(45deg); font-size: 0.82rem; line-height: 1; }
+.su-camp-org { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+.su-camp-tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 0.5rem; }
+.su-camp-when { font-family: var(--font-mono); font-size: 0.7rem; color: var(--blue-dark); font-weight: 500; }
+.su-camp-aud {
+  font-size: 0.68rem; color: var(--text-muted); background: var(--bg-alt);
+  padding: 0.1rem 0.5rem; border-radius: 99px;
+}
+.su-camp-safe {
+  font-size: 0.64rem; font-weight: 700; color: #8A6D1A; background: #FBF3E0;
+  padding: 0.1rem 0.5rem; border-radius: 99px; letter-spacing: 0.02em;
+}
+.su-camp-price {
+  font-size: 0.68rem; font-weight: 600; color: #2E7D5B; background: #EAF5EE;
+  padding: 0.1rem 0.5rem; border-radius: 99px;
+}
+.su-camp-info {
+  font-size: 0.74rem; font-weight: 600; color: var(--blue-dark);
+  text-decoration: none;
+}
+.su-camp-info:hover { text-decoration: underline; }
 .su-chip {
   font-size: 0.66rem;
   padding: 0.1rem 0.45rem;

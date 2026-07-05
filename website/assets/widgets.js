@@ -725,7 +725,12 @@
       { id: 'event', kind: 'event', name: 'Pohronský e-bike maratón', cat: 'event',
         x: 46, y: 45, lat: 48.4265, lng: 18.6390, dist: 0.4, icon: '★', color: '#C8453C',
         amen: ['ebike'], sports: 'sobota 11. 7. · 09:00',
-        note: 'Verejné podujatie — dá sa prísť aj len fandiť. (ukážkový bod)' }
+        note: 'Verejné podujatie — dá sa prísť aj len fandiť. (ukážkový bod)' },
+      { id: 'golf', kind: 'venue', name: 'Tri Duby Golf Resort', cat: 'sport',
+        x: 70, y: 30, lat: 48.6350, lng: 19.1400, dist: 38.0, icon: '◆', color: '#2E7D5B',
+        amen: ['parking'], sports: 'golf · 18 jamiek · PAR 71',
+        url: 'https://tridubygolf.sk',
+        note: '18-jamkové golfové ihrisko (PAR 71, 5571 m) na úpätí Kremnických vrchov pri Sliači — golfová škola, tábory, turnaje.' }
     ];
     const AMEN_LABELS = {
       pool: 'bazén', tennis: 'tenisový kurt', spa: 'SPA', ebike: 'e-bike / požičovňa',
@@ -788,9 +793,40 @@
       { id: 'mch_atletika', sport: 'Atletika', sportColor: '#C8453C',
         competition: 'Stredoslovenský atletický míting', home: 'AŠK Nová Baňa', away: '— (otvorené preteky)',
         when: 'so 11. 7. · 10:00', status: 'scheduled', score: null,
-        venue: 'Atletický štadión Ban. Bystrica', lat: 48.7350, lng: 19.1460, dist: 42.0, real: false }
+        venue: 'Atletický štadión Ban. Bystrica', lat: 48.7350, lng: 19.1460, dist: 42.0, real: false },
+      { id: 'mch_golf', sport: 'Golf', sportColor: '#2E7D5B',
+        competition: 'SKGA — klubový turnaj', home: 'Tri Duby Golf', away: '— (otvorený turnaj, 54 hráčov)',
+        when: 'so 11. 7. · 08:30', status: 'scheduled', score: null,
+        venue: 'Tri Duby Golf Resort', lat: 48.6350, lng: 19.1400, dist: 38.0,
+        club_url: 'https://tridubygolf.sk', real: false }
     ];
-    let layerMode = 'places'; // 'places' | 'matches'
+    let layerMode = 'places'; // 'places' | 'matches' | 'camps'
+
+    // ── Vrstva táborov a kempov (Activity typu camp) ──
+    // Organizovaná vzdelávacia/rekreačná aktivita — NIE súťaž. Cieľová skupina
+    // (deti/dospelí), safeguarding pri maloletých, prihlasovanie cez web.
+    const CAMPS = [
+      { id: 'camp_mfknb', sport: 'Futbal', sportColor: '#2E7D5B',
+        name: 'Letný futbalový kemp', org: 'MFK Nová Baňa',
+        audience: 'deti 7–14', minors: true, when: '14.–18. 7. 2026', priceFrom: 89,
+        venue: 'Mestský futbalový štadión, Nová Baňa', lat: 48.4210, lng: 18.6470, dist: 0.6,
+        url: 'https://mfknovabana.sk/', real: true },
+      { id: 'camp_golf', sport: 'Golf', sportColor: '#B8860B',
+        name: 'Junior Golf Camp', org: 'Tri Duby Golf Resort',
+        audience: 'deti 8–16', minors: true, when: 'jl–aug 2026 (viac turnusov)', priceFrom: 149,
+        venue: 'Tri Duby Golf Resort', lat: 48.6350, lng: 19.1400, dist: 38.0,
+        url: 'https://tridubygolf.sk/golf/golfove-tabory/', real: true },
+      { id: 'camp_tenis', sport: 'Tenis', sportColor: '#8250C4',
+        name: 'Prímestský tenisový tábor', org: 'TK Tajch Nová Baňa',
+        audience: 'deti 6–12', minors: true, when: '21.–25. 7. 2026', priceFrom: 79,
+        venue: 'TK Tajch — tenisové kurty', lat: 48.4560, lng: 18.6372, dist: 2.5,
+        url: 'https://www.tktajchnovabana.sk/', real: false },
+      { id: 'camp_kondicny', sport: 'Kondičný', sportColor: '#388FC3',
+        name: 'Kondičný kemp pre dospelých', org: 'Športové centrum Nová Baňa',
+        audience: 'dospelí', minors: false, when: 'víkend 19.–20. 7. 2026', priceFrom: 59,
+        venue: 'Mestská športová hala, Nová Baňa', lat: 48.4260, lng: 18.6350, dist: 0.4,
+        url: null, real: false }
+    ];
 
     const map = root.querySelector('[data-map]');
     const filterBox = root.querySelector('[data-filters]');
@@ -802,6 +838,7 @@
     const calTabCommunity = root.querySelector('[data-cal-community]');
     const layerTabPlaces = root.querySelector('[data-layer-places]');
     const layerTabMatches = root.querySelector('[data-layer-matches]');
+    const layerTabCamps = root.querySelector('[data-layer-camps]');
 
     function matches(p) {
       if (active.size === 0) return true;
@@ -905,6 +942,56 @@
       mapObj.fitBounds(b, { padding: 52, maxZoom: 12, duration: 400 });
     }
 
+    // ── Vrstva táborov: markery + popup + zoznam ──
+    function campPinEl(c) {
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'su-camp-pin';
+      el.style.setProperty('--pin', c.sportColor);
+      el.setAttribute('aria-label', c.name + ' — ' + c.org);
+      el.innerHTML = '<span class="su-camp-ico">⛺</span>';
+      return el;
+    }
+    function campPopupHTML(c) {
+      const host = c.url ? c.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, '') : '';
+      return '<div class="su-mpop">' +
+        '<div class="su-mpop-comp" style="color:' + c.sportColor + '">' + esc(c.sport) + ' · tábor</div>' +
+        '<div class="su-mpop-teams">' + esc(c.name) + '</div>' +
+        '<div class="su-camp-org">' + esc(c.org) + '</div>' +
+        '<div class="su-mpop-meta">' + esc(c.when) + ' · ' + esc(c.audience) +
+          (c.minors ? ' <span class="su-camp-safe">safeguarding</span>' : '') + '</div>' +
+        '<div class="su-mpop-actions">' +
+          '<a class="su-mpop-nav" href="' + navUrlCamp(c) + '">➤ Naviguj ma</a>' +
+          (c.url ? '<a class="su-mpop-detail" href="' + esc(c.url) + '" target="_blank" rel="noopener">Info / prihlásiť ↗</a>' : '') +
+        '</div>' +
+      '</div>';
+    }
+    function navUrlCamp(c) {
+      return 'geo:' + c.lat + ',' + c.lng + '?q=' + encodeURIComponent(c.venue);
+    }
+    function placeCampMarkers() {
+      markerObjs.forEach((mk) => mk.remove());
+      markerObjs = [];
+      if (hoverPopup) { hoverPopup.remove(); hoverPopup = null; }
+      if (clickPopup) { clickPopup.remove(); clickPopup = null; }
+      CAMPS.forEach((c) => {
+        const el = campPinEl(c);
+        el.addEventListener('click', () => {
+          if (clickPopup) clickPopup.remove();
+          clickPopup = new maplibregl.Popup({ closeButton: true, closeOnClick: false, offset: 16, className: 'su-pop-wrap' })
+            .setLngLat([c.lng, c.lat])
+            .setHTML(campPopupHTML(c))
+            .addTo(mapObj);
+          showCamp(c);
+        });
+        markerObjs.push(new maplibregl.Marker({ element: el }).setLngLat([c.lng, c.lat]).addTo(mapObj));
+      });
+      if (!CAMPS.length) return;
+      const coords = CAMPS.map((c) => [c.lng, c.lat]);
+      const b = coords.reduce((acc, cc) => acc.extend(cc), new maplibregl.LngLatBounds(coords[0], coords[0]));
+      mapObj.fitBounds(b, { padding: 52, maxZoom: 12, duration: 400 });
+    }
+
     function initRealMap() {
       mapTried = true;
       if (typeof maplibregl === 'undefined') { buildSchematic(); return; }
@@ -937,7 +1024,9 @@
           clearTimeout(loadGuard);
           const note = map.querySelector('.su-map-note');
           if (note) note.remove();
-          if (layerMode === 'matches') { placeMatchMarkers(); } else { placeMarkers(); }
+          if (layerMode === 'matches') { placeMatchMarkers(); }
+          else if (layerMode === 'camps') { placeCampMarkers(); }
+          else { placeMarkers(); }
         });
       } catch (e) {
         buildSchematic();
@@ -1030,6 +1119,7 @@
       if (!mapTried) { initRealMap(); return; }
       if (mapReady) {
         if (layerMode === 'matches') { placeMatchMarkers(); }
+        else if (layerMode === 'camps') { placeCampMarkers(); }
         else { placeMarkers(); }
       } else if (map.classList.contains('su-map--schematic')) {
         buildSchematic();
@@ -1045,6 +1135,7 @@
 
     function buildList() {
       if (layerMode === 'matches') { buildMatchList(); return; }
+      if (layerMode === 'camps') { buildCampList(); return; }
       const shown = POINTS.filter(matches);
       listBox.innerHTML = '';
       if (shown.length === 0) {
@@ -1100,6 +1191,59 @@
         });
         listBox.appendChild(row);
       });
+    }
+
+    function buildCampList() {
+      listBox.innerHTML = '';
+      CAMPS.slice().sort((a, b) => a.dist - b.dist).forEach((c) => {
+        const row = document.createElement('div');
+        row.className = 'su-match-item';
+        row.style.borderLeftColor = c.sportColor;
+        row.innerHTML =
+          '<div class="su-match-head">' +
+            '<span class="su-match-sport" style="color:' + c.sportColor + '">' + esc(c.sport) + ' · tábor</span>' +
+            (c.real ? '<span class="su-match-real">reálny</span>' : '') +
+            '<span class="su-match-dist">' + c.dist.toFixed(1) + ' km</span>' +
+          '</div>' +
+          '<div class="su-match-teams">' + esc(c.name) + '</div>' +
+          '<div class="su-match-sub">' + esc(c.org) + ' · ' + esc(c.venue) + '</div>' +
+          '<div class="su-camp-tags">' +
+            '<span class="su-camp-when">' + esc(c.when) + '</span>' +
+            '<span class="su-camp-aud">' + esc(c.audience) + '</span>' +
+            (c.minors ? '<span class="su-camp-safe">pre deti · safeguarding</span>' : '') +
+            (c.priceFrom ? '<span class="su-camp-price">od ' + c.priceFrom + ' €</span>' : '') +
+          '</div>' +
+          '<div class="su-match-foot">' +
+            '<a class="su-match-nav" href="' + navUrlCamp(c) + '" title="Otvoriť navigáciu">➤ Naviguj ma</a>' +
+            (c.url ? '<a class="su-camp-info" href="' + esc(c.url) + '" target="_blank" rel="noopener">Info / prihlásiť ↗</a>' : '') +
+          '</div>';
+        row.addEventListener('click', (e) => {
+          if (e.target.classList.contains('su-match-nav') || e.target.classList.contains('su-camp-info')) return;
+          showCamp(c);
+        });
+        listBox.appendChild(row);
+      });
+    }
+
+    function showCamp(c) {
+      apiBox.innerHTML =
+        '<div class="su-api-head">GET /v1/public/activities/' + esc(c.id) + '</div>' +
+        '<div class="su-api-body">' +
+          '<div class="su-api-line"><span class="su-api-k">activity_type</span><span class="su-api-v">"camp"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">name</span><span class="su-api-v">"' + esc(c.name) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">organizer</span><span class="su-api-v">"' + esc(c.org) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">sport</span><span class="su-api-v">"' + esc(c.sport) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">target_audience</span><span class="su-api-v">"' + esc(c.audience) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">involves_minors</span><span class="su-api-v">' + (c.minors ? 'true' : 'false') + '</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">venue</span><span class="su-api-v">{ "lat": ' + c.lat + ', "lng": ' + c.lng + ' }</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">navigate_url</span><span class="su-api-v">"' + navUrlCamp(c) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">data_form</span><span class="su-api-v">"public_no_pii"</span></div>' +
+        '</div>' +
+        '<div class="su-api-note">' +
+        (c.minors
+          ? 'Tábor pre <b>maloletých</b> → policy engine vyžaduje certifikovaných trénerov (safeguarding) a súhlas zákonného zástupcu. Von idú len miesto, termín a cieľová skupina — nikdy zoznam prihlásených detí.'
+          : 'Tábor pre dospelých. Von idú len verejné údaje — miesto, termín, cieľová skupina.') +
+        (c.real ? ' · <b>reálny tábor</b>' : ' · ukážkový tábor') + '</div>';
     }
 
     function showPoint(p) {
@@ -1238,26 +1382,34 @@
     if (calTabAll) calTabAll.addEventListener('click', () => setCalMode('all'));
     if (calTabCommunity) calTabCommunity.addEventListener('click', () => setCalMode('community'));
 
-    // ── Prepínač vrstiev mapy: Miesta / Zápasy ──
+    // ── Prepínač vrstiev mapy: Miesta / Zápasy / Tábory ──
     function setLayer(mode) {
       layerMode = mode;
       const onPlaces = mode === 'places';
-      if (layerTabPlaces) layerTabPlaces.classList.toggle('is-active', onPlaces);
-      if (layerTabMatches) layerTabMatches.classList.toggle('is-active', !onPlaces);
-      // Filtre vybavenia dávajú zmysel len pre Miesta — pri Zápasoch ich skryjeme
+      if (layerTabPlaces) layerTabPlaces.classList.toggle('is-active', mode === 'places');
+      if (layerTabMatches) layerTabMatches.classList.toggle('is-active', mode === 'matches');
+      if (layerTabCamps) layerTabCamps.classList.toggle('is-active', mode === 'camps');
+      // Filtre vybavenia dávajú zmysel len pre Miesta — inak ich skryjeme
       if (filterBox && filterBox.parentElement) {
         filterBox.parentElement.style.display = onPlaces ? '' : 'none';
       }
-      // Balíček a kalendár sa viažu na miesta/podujatia — pri zápasoch schováme balíček
+      // Balíček sa viaže na miesta — pri zápasoch/táboroch ho schováme
       if (pkgBox) pkgBox.style.display = onPlaces ? '' : 'none';
       buildMap();
       buildList();
-      apiBox.innerHTML = onPlaces
-        ? '<div class="su-api-idle">Klikni na bod na mape alebo v zozname — uvidíš, aké verejné dáta portál o mieste dostane cez API. Žiadne osobné údaje.</div>'
-        : '<div class="su-api-idle">Klikni na zápas — uvidíš verejnú projekciu zápasu cez API (tímy, súťaž, miesto, výsledok), bez osobných údajov hráčov.</div>';
+      let idle;
+      if (mode === 'matches') {
+        idle = 'Klikni na zápas — uvidíš verejnú projekciu zápasu cez API (tímy, súťaž, miesto, výsledok), bez osobných údajov hráčov.';
+      } else if (mode === 'camps') {
+        idle = 'Klikni na tábor — uvidíš verejnú projekciu cez API. Tábory pre deti vyžadujú certifikovaných trénerov (safeguarding) — von nikdy nejde zoznam prihlásených detí.';
+      } else {
+        idle = 'Klikni na bod na mape alebo v zozname — uvidíš, aké verejné dáta portál o mieste dostane cez API. Žiadne osobné údaje.';
+      }
+      apiBox.innerHTML = '<div class="su-api-idle">' + idle + '</div>';
     }
     if (layerTabPlaces) layerTabPlaces.addEventListener('click', () => setLayer('places'));
     if (layerTabMatches) layerTabMatches.addEventListener('click', () => setLayer('matches'));
+    if (layerTabCamps) layerTabCamps.addEventListener('click', () => setLayer('camps'));
 
     function rerender() { buildMap(); buildList(); buildPackage(); }
 
