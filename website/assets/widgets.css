@@ -949,3 +949,27 @@
   .su-cal-item { grid-template-columns: 1fr; gap: 4px; }
   .su-cal-when { padding-top: 0; }
 }
+
+/* ── Responzívne: dvojstĺpcové layouty scenárov sa na mobile zlomia ──
+   Tieto gridy majú inline grid-template-columns, preto !important. */
+@media (max-width: 640px) {
+  .su-2col {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+  /* Pevné šírky bočných panelov/brán na mobile rozšírime na plnú šírku */
+  .su-2col > .su-gate,
+  .su-2col > .su-panel,
+  .su-2col > div[style*="width:130px"],
+  .su-2col > div[style*="width:150px"] {
+    width: 100% !important;
+  }
+  /* Stĺpec s bránou + šípkou: zo stĺpca spravíme riadok, nech nezaberá výšku */
+  .su-2col > div[style*="flex-direction:column"][style*="align-items:center"] {
+    flex-direction: row !important;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  /* Šípka ↓ medzi bránou a eventom: otočíme do strany */
+  .su-2col [data-arrow] { transform: rotate(-90deg); }
+}
