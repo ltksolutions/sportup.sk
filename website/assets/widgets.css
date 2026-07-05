@@ -734,6 +734,103 @@
   padding: 0.1rem 0.45rem;
   border-radius: 99px;
 }
+
+/* ── Prepínač vrstiev mapy: Miesta / Zápasy ── */
+.su-layer-switch {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 0.85rem;
+}
+.su-layer-switch button {
+  flex: 1;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--white);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.su-layer-switch button:hover { border-color: var(--blue); color: var(--navy); }
+.su-layer-switch button.is-active {
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+}
+
+/* ── Vrstva zápasov: markery na mape ── */
+.su-match-pin {
+  min-width: 34px;
+  height: 24px;
+  padding: 0 7px;
+  border-radius: 12px;
+  background: var(--pin, var(--blue));
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.28);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+}
+.su-match-pin:hover { transform: scale(1.12); }
+
+/* ── Zápasový popup na mape ── */
+.su-mpop { padding: 0.65rem 0.8rem; min-width: 180px; max-width: 250px; }
+.su-mpop-comp { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.3rem; }
+.su-mpop-teams { font-size: 0.86rem; font-weight: 700; color: var(--navy); line-height: 1.3; margin-bottom: 0.25rem; }
+.su-mpop-teams b { color: var(--text-soft); font-weight: 600; font-size: 0.78rem; }
+.su-mpop-meta { font-size: 0.74rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.su-mpop-score { font-family: var(--font-mono); font-weight: 700; color: var(--navy); }
+.su-mpop-when { font-family: var(--font-mono); color: var(--blue-dark); }
+.su-mpop-actions { display: flex; gap: 8px; align-items: center; }
+.su-mpop-nav {
+  font-size: 0.74rem; font-weight: 600; color: #fff; background: var(--blue);
+  padding: 0.28rem 0.6rem; border-radius: 7px; text-decoration: none; white-space: nowrap;
+}
+.su-mpop-nav:hover { background: var(--blue-dark); }
+.su-mpop-detail { font-size: 0.74rem; font-weight: 600; color: var(--blue-dark); text-decoration: none; }
+.su-mpop-detail:hover { text-decoration: underline; }
+
+/* ── Zoznam zápasov (pod mapou) ── */
+.su-match-item {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: 9px;
+  padding: 0.7rem 0.85rem;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.su-match-item:hover { box-shadow: 0 3px 10px rgba(26,45,71,0.09); transform: translateY(-1px); }
+.su-match-head { display: flex; align-items: center; gap: 8px; margin-bottom: 0.3rem; }
+.su-match-sport { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
+.su-match-real {
+  font-size: 0.6rem; font-weight: 700; color: #2E7D5B; background: #EAF5EE;
+  padding: 0.08rem 0.4rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.su-match-dist { margin-left: auto; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-soft); }
+.su-match-teams { font-weight: 700; font-size: 0.9rem; color: var(--navy); line-height: 1.3; margin-bottom: 0.15rem; }
+.su-match-teams b { color: var(--text-soft); font-weight: 600; font-size: 0.8rem; }
+.su-match-sub { font-size: 0.74rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.su-match-foot { display: flex; align-items: center; gap: 10px; }
+.su-match-score {
+  font-family: var(--font-mono); font-weight: 700; font-size: 0.9rem; color: var(--navy);
+  background: var(--bg-alt); padding: 0.15rem 0.55rem; border-radius: 6px;
+}
+.su-match-upcoming { font-family: var(--font-mono); font-size: 0.74rem; color: var(--blue-dark); font-weight: 500; }
+.su-match-nav {
+  margin-left: auto; font-size: 0.74rem; font-weight: 600; color: #fff; background: var(--blue);
+  padding: 0.3rem 0.65rem; border-radius: 7px; text-decoration: none; white-space: nowrap;
+}
+.su-match-nav:hover { background: var(--blue-dark); }
 .su-chip {
   font-size: 0.66rem;
   padding: 0.1rem 0.45rem;

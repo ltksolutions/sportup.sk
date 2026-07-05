@@ -758,6 +758,40 @@
     };
     let calMode = 'all'; // 'all' | 'community'
 
+    // ── Vrstva zápasov (športové dáta zo súťaží a klubov) ──
+    // 1 reálny (MFK Nová Baňa, V. liga SsFZ) + ukážkové iné športy,
+    // nech to nie je len o futbale. Každý zápas má GPS štadióna → mapa + Naviguj ma.
+    const MATCHES = [
+      { id: 'mch_hlinik_mfknb', sport: 'Futbal', sportColor: '#2E7D5B',
+        competition: 'V. liga SsFZ — Juh', home: 'OFK Hliník n/Hronom', away: 'MFK Nová Baňa',
+        when: 'so 16. 5. · 17:00', status: 'finished', score: '2 : 1',
+        venue: 'Ihrisko Hliník nad Hronom', lat: 48.4390, lng: 18.5970, dist: 8.2,
+        club_url: 'https://sportnet.sme.sk/futbalnet/k/mfk-nova-bana/', real: true },
+      { id: 'mch_mfknb_krtis', sport: 'Futbal', sportColor: '#2E7D5B',
+        competition: 'V. liga SsFZ — Juh', home: 'MFK Nová Baňa', away: 'MFK Baník Veľký Krtíš',
+        when: 'so 1. 11. · 14:00', status: 'finished', score: '5 : 0',
+        venue: 'Mestský futbalový štadión, Nová Baňa', lat: 48.4210, lng: 18.6470, dist: 0.6,
+        club_url: 'https://sportnet.sme.sk/futbalnet/k/mfk-nova-bana/', real: true },
+      { id: 'mch_hokej', sport: 'Hokej', sportColor: '#388FC3',
+        competition: '2. hokejová liga — Stred', home: 'HK Nová Baňa', away: 'HK Baník B. Štiavnica',
+        when: 'ne 12. 7. · 18:00', status: 'scheduled', score: null,
+        venue: 'Zimný štadión žiar nad Hronom', lat: 48.5900, lng: 18.8490, dist: 22.0, real: false },
+      { id: 'mch_basket', sport: 'Basketbal', sportColor: '#B8860B',
+        competition: 'Oblastná basketbalová súťaž', home: 'BK Nová Baňa', away: 'MBK Žiar nad Hronom',
+        when: 'so 11. 7. · 16:00', status: 'scheduled', score: null,
+        venue: 'Mestská športová hala, Nová Baňa', lat: 48.4260, lng: 18.6350, dist: 0.4, real: false },
+      { id: 'mch_tenis', sport: 'Tenis', sportColor: '#8250C4',
+        competition: 'Regiónna tenisová liga družstiev', home: 'TK Tajch Nová Baňa', away: 'TK Zvolen',
+        when: 'ne 12. 7. · 10:00', status: 'scheduled', score: null,
+        venue: 'TK Tajch — tenisové kurty', lat: 48.4560, lng: 18.6372, dist: 2.5,
+        club_url: 'https://www.tktajchnovabana.sk/', real: false },
+      { id: 'mch_atletika', sport: 'Atletika', sportColor: '#C8453C',
+        competition: 'Stredoslovenský atletický míting', home: 'AŠK Nová Baňa', away: '— (otvorené preteky)',
+        when: 'so 11. 7. · 10:00', status: 'scheduled', score: null,
+        venue: 'Atletický štadión Ban. Bystrica', lat: 48.7350, lng: 19.1460, dist: 42.0, real: false }
+    ];
+    let layerMode = 'places'; // 'places' | 'matches'
+
     const map = root.querySelector('[data-map]');
     const filterBox = root.querySelector('[data-filters]');
     const listBox = root.querySelector('[data-list]');
@@ -766,6 +800,8 @@
     const calBox = root.querySelector('[data-calendar]');
     const calTabAll = root.querySelector('[data-cal-all]');
     const calTabCommunity = root.querySelector('[data-cal-community]');
+    const layerTabPlaces = root.querySelector('[data-layer-places]');
+    const layerTabMatches = root.querySelector('[data-layer-matches]');
 
     function matches(p) {
       if (active.size === 0) return true;
@@ -815,6 +851,60 @@
     let hoverPopup = null;
     let clickPopup = null;
 
+    // ── Vrstva zápasov: navigácia + popup + markery ──
+    function navUrl(m) {
+      // geo: schéma — mobil otvorí nav v predvolenej mapovej apke.
+      return 'geo:' + m.lat + ',' + m.lng + '?q=' + encodeURIComponent(m.venue);
+    }
+    function matchPinEl(m) {
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'su-match-pin';
+      el.style.setProperty('--pin', m.sportColor);
+      el.setAttribute('aria-label', m.home + ' – ' + m.away);
+      el.textContent = m.status === 'finished' ? (m.score || '✓') : '▶';
+      return el;
+    }
+    function matchPopupHTML(m) {
+      const result = m.status === 'finished'
+        ? '<span class="su-mpop-score">' + esc(m.score) + '</span>'
+        : '<span class="su-mpop-when">' + esc(m.when) + '</span>';
+      return '<div class="su-mpop">' +
+        '<div class="su-mpop-comp" style="color:' + m.sportColor + '">' + esc(m.sport) + ' · ' + esc(m.competition) + '</div>' +
+        '<div class="su-mpop-teams">' + esc(m.home) + ' <b>vs</b> ' + esc(m.away) + '</div>' +
+        '<div class="su-mpop-meta">' + result + ' · ' + esc(m.venue) + '</div>' +
+        '<div class="su-mpop-actions">' +
+          '<a class="su-mpop-nav" href="' + navUrl(m) + '">➤ Naviguj ma</a>' +
+          (m.club_url ? '<a class="su-mpop-detail" href="' + esc(m.club_url) + '" target="_blank" rel="noopener">Detail ↗</a>' : '') +
+        '</div>' +
+      '</div>';
+    }
+    function placeMatchMarkers() {
+      markerObjs.forEach((mk) => mk.remove());
+      markerObjs = [];
+      if (hoverPopup) { hoverPopup.remove(); hoverPopup = null; }
+      if (clickPopup) { clickPopup.remove(); clickPopup = null; }
+      MATCHES.forEach((m) => {
+        const el = matchPinEl(m);
+        el.addEventListener('click', () => {
+          if (clickPopup) clickPopup.remove();
+          clickPopup = new maplibregl.Popup({ closeButton: true, closeOnClick: false, offset: 16, className: 'su-pop-wrap' })
+            .setLngLat([m.lng, m.lat])
+            .setHTML(matchPopupHTML(m))
+            .addTo(mapObj);
+          showMatch(m);
+        });
+        markerObjs.push(new maplibregl.Marker({ element: el }).setLngLat([m.lng, m.lat]).addTo(mapObj));
+      });
+      fitToMatches();
+    }
+    function fitToMatches() {
+      if (!mapObj || typeof maplibregl === 'undefined' || !MATCHES.length) return;
+      const coords = MATCHES.map((m) => [m.lng, m.lat]);
+      const b = coords.reduce((acc, c) => acc.extend(c), new maplibregl.LngLatBounds(coords[0], coords[0]));
+      mapObj.fitBounds(b, { padding: 52, maxZoom: 12, duration: 400 });
+    }
+
     function initRealMap() {
       mapTried = true;
       if (typeof maplibregl === 'undefined') { buildSchematic(); return; }
@@ -847,7 +937,7 @@
           clearTimeout(loadGuard);
           const note = map.querySelector('.su-map-note');
           if (note) note.remove();
-          placeMarkers();
+          if (layerMode === 'matches') { placeMatchMarkers(); } else { placeMarkers(); }
         });
       } catch (e) {
         buildSchematic();
@@ -938,8 +1028,12 @@
 
     function buildMap() {
       if (!mapTried) { initRealMap(); return; }
-      if (mapReady) { placeMarkers(); }
-      else if (map.classList.contains('su-map--schematic')) { buildSchematic(); }
+      if (mapReady) {
+        if (layerMode === 'matches') { placeMatchMarkers(); }
+        else { placeMarkers(); }
+      } else if (map.classList.contains('su-map--schematic')) {
+        buildSchematic();
+      }
     }
 
     function amenChips(p) {
@@ -950,6 +1044,7 @@
     }
 
     function buildList() {
+      if (layerMode === 'matches') { buildMatchList(); return; }
       const shown = POINTS.filter(matches);
       listBox.innerHTML = '';
       if (shown.length === 0) {
@@ -979,6 +1074,34 @@
       });
     }
 
+    function buildMatchList() {
+      listBox.innerHTML = '';
+      MATCHES.slice().sort((a, b) => a.dist - b.dist).forEach((m) => {
+        const row = document.createElement('div');
+        row.className = 'su-match-item';
+        row.style.borderLeftColor = m.sportColor;
+        const resultBadge = m.status === 'finished'
+          ? '<span class="su-match-score">' + esc(m.score) + '</span>'
+          : '<span class="su-match-upcoming">' + esc(m.when) + '</span>';
+        row.innerHTML =
+          '<div class="su-match-head">' +
+            '<span class="su-match-sport" style="color:' + m.sportColor + '">' + esc(m.sport) + '</span>' +
+            (m.real ? '<span class="su-match-real">reálny</span>' : '') +
+            '<span class="su-match-dist">' + m.dist.toFixed(1) + ' km</span>' +
+          '</div>' +
+          '<div class="su-match-teams">' + esc(m.home) + ' <b>vs</b> ' + esc(m.away) + '</div>' +
+          '<div class="su-match-sub">' + esc(m.competition) + ' · ' + esc(m.venue) + '</div>' +
+          '<div class="su-match-foot">' + resultBadge +
+            '<a class="su-match-nav" href="' + navUrl(m) + '" title="Otvoriť navigáciu">➤ Naviguj ma</a>' +
+          '</div>';
+        row.addEventListener('click', (e) => {
+          if (e.target.classList.contains('su-match-nav')) return;
+          showMatch(m);
+        });
+        listBox.appendChild(row);
+      });
+    }
+
     function showPoint(p) {
       const src = p.url
         ? '<div class="su-api-note"><a href="' + esc(p.url) + '" target="_blank" rel="noopener">Zdroj: ' + esc(p.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')) + ' ↗</a> · reálne miesto v Novej Bani</div>'
@@ -994,6 +1117,26 @@
         '</div>' +
         '<div class="su-api-note">' + esc(p.note) + '</div>' +
         src;
+    }
+
+    function showMatch(m) {
+      const scoreLine = m.status === 'finished'
+        ? '<div class="su-api-line"><span class="su-api-k">score</span><span class="su-api-v">{ "home": ' + m.score.split(':')[0].trim() + ', "away": ' + m.score.split(':')[1].trim() + ' }</span></div>'
+        : '<div class="su-api-line"><span class="su-api-k">status</span><span class="su-api-v">"scheduled"</span></div>';
+      apiBox.innerHTML =
+        '<div class="su-api-head">GET /v1/public/matches/' + esc(m.id) + '</div>' +
+        '<div class="su-api-body">' +
+          '<div class="su-api-line"><span class="su-api-k">sport</span><span class="su-api-v">"' + esc(m.sport) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">competition</span><span class="su-api-v">"' + esc(m.competition) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">home</span><span class="su-api-v">"' + esc(m.home) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">away</span><span class="su-api-v">"' + esc(m.away) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">venue</span><span class="su-api-v">{ "lat": ' + m.lat + ', "lng": ' + m.lng + ' }</span></div>' +
+          scoreLine +
+          '<div class="su-api-line"><span class="su-api-k">navigate_url</span><span class="su-api-v">"' + navUrl(m) + '"</span></div>' +
+          '<div class="su-api-line"><span class="su-api-k">data_form</span><span class="su-api-v">"public_no_pii"</span></div>' +
+        '</div>' +
+        '<div class="su-api-note">Von idú tímy, súťaž, miesto, čas a výsledok — nikdy zoznamy hráčov s osobnými údajmi. Rozhodcovia a delegáti sú evidovaní interné.' +
+        (m.real ? ' · <b>reálny zápas MFK Nová Baňa</b>' : ' · ukážkový zápas') + '</div>';
     }
 
     function buildPackage() {
@@ -1094,6 +1237,27 @@
     }
     if (calTabAll) calTabAll.addEventListener('click', () => setCalMode('all'));
     if (calTabCommunity) calTabCommunity.addEventListener('click', () => setCalMode('community'));
+
+    // ── Prepínač vrstiev mapy: Miesta / Zápasy ──
+    function setLayer(mode) {
+      layerMode = mode;
+      const onPlaces = mode === 'places';
+      if (layerTabPlaces) layerTabPlaces.classList.toggle('is-active', onPlaces);
+      if (layerTabMatches) layerTabMatches.classList.toggle('is-active', !onPlaces);
+      // Filtre vybavenia dávajú zmysel len pre Miesta — pri Zápasoch ich skryjeme
+      if (filterBox && filterBox.parentElement) {
+        filterBox.parentElement.style.display = onPlaces ? '' : 'none';
+      }
+      // Balíček a kalendár sa viažu na miesta/podujatia — pri zápasoch schováme balíček
+      if (pkgBox) pkgBox.style.display = onPlaces ? '' : 'none';
+      buildMap();
+      buildList();
+      apiBox.innerHTML = onPlaces
+        ? '<div class="su-api-idle">Klikni na bod na mape alebo v zozname — uvidíš, aké verejné dáta portál o mieste dostane cez API. Žiadne osobné údaje.</div>'
+        : '<div class="su-api-idle">Klikni na zápas — uvidíš verejnú projekciu zápasu cez API (tímy, súťaž, miesto, výsledok), bez osobných údajov hráčov.</div>';
+    }
+    if (layerTabPlaces) layerTabPlaces.addEventListener('click', () => setLayer('places'));
+    if (layerTabMatches) layerTabMatches.addEventListener('click', () => setLayer('matches'));
 
     function rerender() { buildMap(); buildList(); buildPackage(); }
 
