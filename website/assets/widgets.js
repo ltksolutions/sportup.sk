@@ -895,6 +895,22 @@
       cEl.className = 'su-map-center';
       cEl.innerHTML = '<span class="su-map-center-dot"></span><span class="su-map-center-label">' + esc(CENTER.name) + '</span>';
       markerObjs.push(new maplibregl.Marker({ element: cEl }).setLngLat([CENTER.lng, CENTER.lat]).addTo(mapObj));
+
+      // Nastav výrez tak, aby boli vidno VŠETKY body naraz (vrátane centra).
+      // Funguje aj keď pribudnú ďalšie body — netreba ručne ladiť zoom.
+      fitToPoints();
+    }
+
+    function fitToPoints() {
+      if (!mapObj || typeof maplibregl === 'undefined') return;
+      const coords = POINTS.map((p) => [p.lng, p.lat]);
+      coords.push([CENTER.lng, CENTER.lat]);
+      if (!coords.length) return;
+      const b = coords.reduce(
+        (acc, c) => acc.extend(c),
+        new maplibregl.LngLatBounds(coords[0], coords[0])
+      );
+      mapObj.fitBounds(b, { padding: 48, maxZoom: 14, duration: 0 });
     }
 
     // Fallback: pôvodné schematické pozadie (ak MapLibre nie je dostupné / offline)
