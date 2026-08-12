@@ -10,10 +10,15 @@ Tento dokument popisuje fázy implementácie. Každá fáza je samostatne uvoľn
 
 - ✓ Architektúra a rozhodnutia (ADR-0001, ADR-0002, ADR-0003)
 - ✓ Doménový model (Person, Affiliation, Organization, Activity, Facility, Qualification, Consent)
+- ✓ **Športová vrstva doménového modelu** (Competition, Team, Match) + Activity typu `camp` (tábory)
 - ✓ Číselníky (31 druhov činnosti, ~35 typov organizácií, 90+ športov, kvalifikácie)
 - ✓ Purpose Catalogue (vrstvený, 11 kategórií)
-- ✓ Statická prezentačná stránka sportup.sk
+- ✓ Statická prezentačná stránka sportup.sk (marketing, brand, Design Manual)
+- ✓ Interaktívne vizualizácie scenárov a katalógu (widgety na Príklady a Účely)
+- ✓ **Verejný portál** (`portal.html`) — prezentačná Discovery vrstva: reálna MapLibre mapa, tri vrstvy (Miesta / Zápasy / Tábory), reálne miesta Nová Baňa, „Naviguj ma", URL schéma a GDPR hranica verejnej vrstvy
 - ✓ Tento repozitár s úplnou dokumentáciou
+
+> **Kde sme skončili (2026-07-05):** hotová je celá **prezentačná a analýza vrstva** vrátane športovej domény (súťaže, zápasy, tábory) a verejného portálu s reálnou mapou. Čo nás čaká: prechod z prezentácie na **reálnu implementáciu** (Fáza 1+), kde vývojový tím postaví produkčné API, služby a produkčný portál. Detail ďalších krokov nižšie po fázach.
 
 ## Fáza 1 — Foundation (3 mesiace)
 
@@ -85,25 +90,32 @@ Tento dokument popisuje fázy implementácie. Každá fáza je samostatne uvoľn
 - Audit reports pre ÚOOÚ
 - DPIA dokument finalizovaný
 
-## Fáza 4 — Facility register (2 mesiace)
+## Fáza 4 — Facility register + verejný portál (2–3 mesiace)
 
-**Cieľ:** Verejný katalóg športovísk slúžiaci aj cestovnému ruchu.
+**Cieľ:** Verejný katalóg športovísk slúžiaci aj cestovnému ruchu + produkčný verejný portál (Discovery) so športovou vrstvou.
 
 | Úloha | Výstup |
 |---|---|
 | Facility entity + API | `/v1/facilities`, `/v1/public/facilities` |
 | Geoprostorové indexy | MongoDB 2dsphere |
-| OpenStreetMap integrácia | Mapový rendering |
+| OpenStreetMap integrácia | Mapový rendering (MapLibre GL + OSM) |
 | Tourism API | Pre OOCR, TIC, cestovné kancelárie |
 | Open data export | JSON, CSV, GeoJSON, RDF |
 | Bulk seed dát | Import z existujúcich evidencií |
+| **Competition / Team / Match API** | `/v1/competitions`, `/v1/public/matches`, súpisky, tabuľky ako projekcie |
+| **Activity `camp` (tábory)** | Verejný katalóg táborov + safeguarding pri maloletých |
+| **Produkčný verejný portál** | Podľa `docs/discovery/` — URL schéma (`/portal/klub/`, `/portal/sutaz/`, `/portal/zapas/`), „Naviguj ma", tri vrstvy |
+| **Import zo súčasných zdrojov** | Dočasný import súťaží/zápasov (`data_provenance: imported`), kým zväzy nezapíšu priamo |
 
 **DoD Fáza 4:**
 
 - 1000+ športovísk v katalógu
-- Verejný API bez auth funkčný
-- Mapová vrstva v prezentačnej stránke
+- Verejný API bez auth funkčný (miesta, zápasy, tábory — bez PII)
+- Mapová vrstva a verejný portál v produkcii
 - Rezervačné API pre kluby
+- Verejná vrstva rešpektuje GDPR hranicu (prísnejší režim maloletých, `403` na PII)
+
+> **Náväznosť na prezentačnú vrstvu:** prototyp tejto fázy už existuje ako `website/portal.html` (Fáza 0) — produkčná verzia z neho preberie UX, URL schému a GDPR pravidlá.
 
 ## Fáza 5 — Producer integrations (4 mesiace)
 

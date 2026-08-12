@@ -54,7 +54,22 @@ path = "data/**"
 SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
 SPDX-License-Identifier = "EUPL-1.2"
 
-# ─── 6. Tretie strany — Helvetica Neue Black Italic font ───
+# ─── 6. Marketingové materiály (marketing/) ───
+# Texty príspevkov a vygenerované vizuály pre sociálne siete — CC-BY-4.0
+# ako ostatný obsah. Generátorové skripty (tools/) sú zdrojový kód
+# pod EUPL-1.2 a majú vlastné SPDX hlavičky v súbore.
+[[annotations]]
+path = "marketing/**"
+SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
+SPDX-License-Identifier = "CC-BY-4.0"
+
+[[annotations]]
+path = "marketing/social/tools/**"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Ján Letko / LTK Solutions"
+SPDX-License-Identifier = "EUPL-1.2"
+
+# ─── 7. Tretie strany — Helvetica Neue Black Italic font ───
 # Komerčný font od Linotype/Monotype. Nie je súčasťou repa
 # (používa sa len lokálne pre OG image rendering), takže táto
 # anotácia je preventívna — pre prípad budúceho rozšírenia.

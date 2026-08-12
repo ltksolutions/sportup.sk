@@ -32,18 +32,24 @@ GDPR v jadre" nie sú len dokumentácia — produkujú konkrétnu verejnú hodno
 ktorú vidí aj netechnický človek. Je to zároveň najlepší marketingový nástroj
 projektu: mapa, ktorú si každý vie otvoriť a pochopiť za 10 sekúnd.
 
-## Postavené na existujúcich entitách
+## Postavené na existujúcich a športových entitách
 
-Discovery **nezavádza nové doménové entity** — agreguje existujúce:
+Discovery agreguje existujúce doménové entity a od verzie 0.3 aj **športovú
+vrstvu** (súťaže, zápasy, tábory):
 
 | Zdrojová entita | Súbor | Čo Discovery z nej berie |
 |---|---|---|
 | `Facility` (športovisko) | [`../domain/entities/facility.md`](../domain/entities/facility.md) | poloha, typ, vybavenie (`amenities`), `tourism_features`, `is_public_catalog` |
-| `Activity` (aktivita/podujatie) | [`../domain/entities/activity.md`](../domain/entities/activity.md) | verejné podujatia, `tourism_relevance`, čas a miesto |
+| `Activity` (aktivita/podujatie) | [`../domain/entities/activity.md`](../domain/entities/activity.md) | verejné podujatia, `tourism_relevance`, čas a miesto; typ `camp` (tábory) |
 | `Organization` (subjekt) | [`../domain/entities/organization.md`](../domain/entities/organization.md) | prevádzkovateľ, komerčné subjekty (hotely, penzióny) |
+| `Competition` (súťaž) | [`../domain/entities/competition.md`](../domain/entities/competition.md) | verejné súťaže, tabuľky, program |
+| `Team` (družstvo) | [`../domain/entities/team.md`](../domain/entities/team.md) | domáci štadión (GPS), verejná súpiska |
+| `Match` (zápas) | [`../domain/entities/match.md`](../domain/entities/match.md) | zápasy na mape, „Naviguj ma", výsledky bez PII |
 
 Discovery pridáva len **odvodené, kompozitné pohľady** nad nimi (napr. „balíček",
-„čo je do X km") — počítané za behu z verejného API, neukladané ako nové PII.
+„čo je do X km", „zápasy tento víkend") — počítané za behu z verejného API,
+neukladané ako nové PII. URL schému a verejnú vrstvu popisuje
+[`url-schema.md`](url-schema.md).
 
 ## Cieľové skupiny
 
@@ -79,6 +85,15 @@ Discovery pridáva len **odvodené, kompozitné pohľady** nad nimi (napr. „ba
    Discovery to zobrazuje cez atribút `community_dimension` — nie ako samostatnú
    doménu, ale ako príznak športového podujatia. Drží fokus na šport a zároveň
    odpovedá na otázku *„čo sa deje tento víkend v okolí"* naprieč športom aj komunitou.
+9. **Športová vrstva — zápasy a súťaže** (Futbalnet-štýl) — verejné zápasy zo súťaží
+   a klubov na mape (marker na štadióne), s výsledkom/termínom a tlačidlom
+   **„Naviguj ma"** (`geo:` schéma). Každý zápas, klub aj súťaž má vlastnú URL
+   (pozri [`url-schema.md`](url-schema.md)). Von idú tímy, súťaž, miesto, výsledok —
+   nikdy zoznamy hráčov s PII.
+10. **Tábory a kempy** — letné kempy pre deti aj dospelých (`Activity` typu `camp`)
+    s cieľovou skupinou, termínom a odkazom na prihlásenie. Pri **maloletých** je
+    povinný safeguarding režim (certifikovaní tréneri + súhlas zákonného zástupcu);
+    von nikdy nejde zoznam prihlásených detí.
 
 ## Tok dát (data flow)
 
@@ -143,13 +158,16 @@ tile servera a produkčného portálu si preberie senior developer v neskoršej 
 
 - [x] Koncept a funkcionality
 - [x] Ukážkové vzory dát ([`data-samples.md`](data-samples.md))
-- [x] Webová prezentácia + funkčný widget (`portal.html`)
+- [x] Športová vrstva — model (Competition/Team/Match) a URL schéma ([`url-schema.md`](url-schema.md))
+- [x] Webová prezentácia + funkčný widget (`portal.html`) — tri vrstvy Miesta / Zápasy / Tábory
 - [ ] Discovery API kontrakt (OpenAPI) — neskoršia fáza
 - [ ] Produkčný portál — neskoršia fáza
 
 ## Referencie
 
+- [`url-schema.md`](url-schema.md) — URL schéma portálu a GDPR hranica verejnej vrstvy
 - [`data-samples.md`](data-samples.md) — konkrétne vzory dát pre vývojárov aj laikov
 - [`../domain/entities/facility.md`](../domain/entities/facility.md) — zdrojová entita miesta
-- [`../domain/entities/activity.md`](../domain/entities/activity.md) — zdrojová entita podujatia
+- [`../domain/entities/activity.md`](../domain/entities/activity.md) — zdrojová entita podujatia (vrátane táborov)
+- [`../domain/entities/competition.md`](../domain/entities/competition.md) · [`team.md`](../domain/entities/team.md) · [`match.md`](../domain/entities/match.md) — športová vrstva
 - [`../gdpr/`](../gdpr/) — GDPR governance a Purpose Catalogue
