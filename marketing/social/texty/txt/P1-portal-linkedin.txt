@@ -1,0 +1,13 @@
+Keď sa hovorí o informačnom systéme v športe, väčšina si predstaví evidenciu registrovaných hráčov. To je ale len malá časť toho, čo dobre navrhnutý systém dokáže priniesť.
+
+Predstavte si bežnú situáciu: prídete na víkend do Novej Bane. Dnes hľadáte športoviská na jednom webe, ubytovanie na druhom, trasy na treťom a podujatia na štvrtom — pričom polovica informácií je zastaraná, lebo ich nikto neaktualizuje.
+
+Hodnota centrálneho registra nie je v tom, že dáta zbiera. Je v tom, že ich zapisujú priamo tí, ktorí ich vlastnia: národné zväzy ligy a majstrovstvá, kluby turnaje a nábory, mestá a obce behy a športoviská, VÚC krajské hry, komerčné subjekty svoje haly, hotely a kempy. Každý cez svoju certifikovanú aplikáciu.
+
+A z tých istých dát potom čerpajú všetci — turista hľadajúci program na víkend, rodič hľadajúci bazén, organizátor hľadajúci dejisko, hotel napájajúci ponuku na podujatia v okolí aj samospráva pripravujúca investíciu do infraštruktúry.
+
+Podstatné je, že verejná vrstva neobsahuje žiadne osobné údaje. Von idú len miesta, podujatia a agregáty — a je to vynútené serverom, nie sľubom v podmienkach.
+
+Funkčná ukážka s reálnymi miestami: sportup.sk/portal.html
+
+#šport #cestovnýruch #digitalizácia #openData #samospráva

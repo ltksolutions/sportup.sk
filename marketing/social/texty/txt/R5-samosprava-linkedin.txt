@@ -1,0 +1,13 @@
+Slovensko nemá jednotný národný katalóg športovísk. Bez neho sa nedá systematicky plánovať investície do infraštruktúry ani prepájať šport s cestovným ruchom.
+
+Ukážkový scenár: mesto dokončí multifunkčnú halu a zapíše ju do centrálneho katalógu — vrátane povrchov, kapacity, bezbariérovosti, dostupnosti MHD a údajov relevantných pre turizmus. Jediným zápisom vzniká hodnota pre päť rôznych použití: verejná mapa pre občana a turistu, prideľovanie ligových zápasov zväzmi, rezervačné systémy, turistické platformy a podklad pre výročné hlásenie i obstarávanie na údržbu.
+
+Hala je však len začiatok. Väčšina ľudí v obci nešportuje v hale — beží po cyklotrase, chodí do parku, pláva na obecnej plavárni. A práve o tejto skupine, ktorá je najpočetnejšia, nemá samospráva dáta.
+
+Dôsledok: investície do športovej infraštruktúry sa dnes plánujú z odhadu a skúsenosti. Čísla existujú len o registrovaných členoch klubov.
+
+Register, ktorý pokrýva aj voľnočasový šport, umožní samospráve pracovať s agregovanými, anonymnými dátami o využití územia — nikdy nie s menami či konkrétnymi osobami. Rozdiel je v tom, že predĺženie cyklotrasy sa dá obhájiť číslom, nie len presvedčením.
+
+sportup.sk/portal.html
+
+#samospráva #regionálnyrozvoj #infraštruktúra #openData #cestovnýruch

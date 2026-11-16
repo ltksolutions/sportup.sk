@@ -1,0 +1,13 @@
+Registrácia 12-ročného hráča do klubu je najbežnejšia operácia v slovenskom športe. A zároveň jedna z najviac administratívne zaťažených.
+
+Papierová prihláška, kópia dokladu, prepis do klubovej evidencie, prepis do zväzového systému. Každý prepis je príležitosť na chybu — a každá chyba sa neskôr rieši telefonátmi pred súťažou.
+
+V navrhovanom modeli je to štyri kroky: overenie osoby voči štátnemu registru fyzických osôb, prepojenie so zákonným zástupcom, udelenie súhlasov a vznik časovo ohraničenej afiliácie.
+
+Podstatné je, že súhlasy sú samostatná entita, nie jedno zaškrtávacie políčko. Rodič presne vie, na čo súhlas dal — a marketingový súhlas na fotografie vie kedykoľvek odvolať bez toho, aby ohrozil registráciu dieťaťa. Tá stojí na inom právnom základe.
+
+Zmyslom nie je digitalizovať papier. Zmyslom je presunúť administratívu, ktorú dnes robia tréneri a kluboví dobrovoľníci vo voľnom čase, na infraštruktúru.
+
+Kompletný scenár aj s dátovými príkladmi: sportup.sk/priklady.html
+
+#šport #mládež #GDPR #digitalizácia #kluby

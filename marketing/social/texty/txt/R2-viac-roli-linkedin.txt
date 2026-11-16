@@ -1,0 +1,15 @@
+Jeden z najpodceňovanejších problémov v evidenciách športu: ten istý človek existuje v systémoch viackrát.
+
+Martina je profesionálna bežkyňa, trénerka mládeže, dobrovoľníčka na horskom ultramaratóne a šachová rozhodkyňa. Štyri role, tri športy, štyri organizácie — a v dnešných systémoch štyri neprepojené záznamy. Keď si zmení meno, musí to nahlásiť štyrikrát.
+
+Dôsledky nie sú len administratívne. Bez prepojenia sa nedá odpovedať na otázku „koľko osôb má v športe viac než jednu aktívnu rolu?" — hoci práve títo ľudia často držia lokálny šport pri živote.
+
+Preto je v návrhu identita oddelená od role. Osoba je stabilná entita. Rola je časovo ohraničená afiliácia. Jeden človek = jeden záznam, bez ohľadu na to, koľkými rolami naraz prechádza.
+
+A pripomínam, že register nie je len o športovcoch. Sú v ňom tréneri, rozhodcovia, delegáti, lekári, technickí vedúci, dobrovoľníci a podporovatelia — všetci, bez ktorých by sa nekonalo ani jedno podujatie.
+
+Vedľajší efekt architektúry: systém vie automaticky upozorniť na konflikt záujmov, keď má rozhodca delegovaný zápas klubu, ku ktorému má súbežnú afiliáciu.
+
+sportup.sk/priklady.html
+
+#šport #dataArchitecture #digitalizácia #dobrovoľníctvo

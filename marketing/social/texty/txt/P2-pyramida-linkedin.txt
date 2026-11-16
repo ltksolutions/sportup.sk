@@ -1,0 +1,15 @@
+Keď sa hovorí o športe, väčšinou ho vidíme zhora — ako sústredné kruhy s elitným športom v strede. Tento pohľad je prehľadný, ale zavádzajúci: ukazuje plochy, nie počty ľudí.
+
+Otočte pohľad o 90 stupňov a dostanete pyramídu. Elitný šport je špička s najmenším počtom ľudí. Organizovaný šport v kluboch a zväzoch je stred — a netvorí ani polovicu reálne športujúcich. Základňu tvoria ľudia, o ktorých dnešné evidencie nevedia nič: bežci, cyklisti na e-bike, ľudia na rýchlej chôdzi, príležitostní hráči.
+
+Podstatné je, kde títo ľudia športujú. Nie na štátnych zariadeniach, ale na infraštruktúre miest a obcí — mestských cyklotrasách, obecných ihriskách, v telocvičniach a na plavárňach.
+
+Vzniká tak paradox: samospráva infraštruktúru financuje a udržiava, no nemá dáta o tom, kto ju a ako využíva. Bez nich sa ťažko obhajuje ďalšia investícia.
+
+A ešte jedna vec — čím nižšie v pyramíde, tým mladší športovci. Základňu tvoria deti v škôlkach a na prvom stupni. Práve tam sa rozhoduje, či pri pohybe zostanú.
+
+Preto navrhujeme register, ktorý pokrýva celú pyramídu, nie len jej evidovanú časť.
+
+sportup.sk
+
+#šport #samospráva #regionálnyrozvoj #infraštruktúra #dataDriven

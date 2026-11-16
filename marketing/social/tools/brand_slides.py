@@ -238,6 +238,56 @@ def slide_vs(path, headline, before, after, hsize=52):
     img.save(path)
 
 
+ASSETS = Path(__file__).resolve().parent / "assets"
+
+
+def slide_image(path, headline, image, body=None, caption=None, accent=False,
+                hsize=52):
+    """Slide so snímkou obrazovky. Obrázok sa vloží pod nadpis, orámovaný.
+
+    image — názov súboru v tools/assets/ alebo absolútna cesta.
+    caption — krátky popisok pod obrázkom (napr. zdroj alebo vysvetlenie).
+    """
+    img, d = canvas(accent)
+    src = Path(image)
+    if not src.is_absolute():
+        src = ASSETS / image
+    shot = Image.open(src).convert("RGB")
+
+    y = TOP - 30
+    fh = f(hsize, "Bold")
+    for ln in wrap(d, headline, fh, W - 2 * M):
+        d.text((M, y), ln, font=fh, fill=WHITE)
+        y += int(hsize * 1.28)
+    if body:
+        y += 18
+        for ln in wrap(d, body, f(30, "Regular"), W - 2 * M):
+            d.text((M, y), ln, font=f(30, "Regular"), fill=MUTED)
+            y += 45
+    y += 30
+
+    max_w = W - 2 * M
+    cap_lines = wrap(d, caption, f(25, "Regular"), max_w) if caption else []
+    cap_h = (len(cap_lines) * 34 + 20) if cap_lines else 0
+    max_h = BOTTOM - y - cap_h
+    if max_h < 120:
+        raise ValueError("Pre obrázok neostal priestor — skráť nadpis alebo body.")
+    shot.thumbnail((max_w, max_h), Image.LANCZOS)
+
+    sx = M + (max_w - shot.width) // 2
+    # jemný rám okolo snímky
+    d.rounded_rectangle([sx - 6, y - 6, sx + shot.width + 6, y + shot.height + 6],
+                        radius=14, fill=BLUE)
+    img.paste(shot, (sx, y))
+    y += shot.height + 20
+
+    for ln in cap_lines:
+        d.text((M, y), ln, font=f(25, "Regular"), fill=MUTED)
+        y += 34
+    foot(d)
+    img.save(path)
+
+
 def build_pdf(png_dir, out_pdf):
     """Zlúči square slidy do PDF — formát dokumentového carouselu na LinkedIn."""
     files = sorted(Path(png_dir).glob("*.png"))

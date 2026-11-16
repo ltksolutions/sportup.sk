@@ -1,0 +1,23 @@
+Keď sa na Slovensku povie „informačný systém športu", väčšina si predstaví evidenciu registrovaných hráčov a klubov. To je presné — a práve v tom je problém.
+
+Zákon o športe pracuje s pojmom „športová organizácia". Tým je daný celý rozsah systému. Národné zväzy sú v ňom plnohodnotným aktérom. Kluby len sprostredkovane — ich údaje spravidla zapisuje materská organizácia. A všetci ostatní doň nespadajú vôbec.
+
+Kto sú tí ostatní? Mestá a obce, ktoré vlastnia ihriská, telocvične a cyklotrasy. VÚC s krajskými programami. Školy a škôlky, kde má dieťa prvý kontakt s pohybom. Komerčné haly, hotely, požičovne a kempy. Dobrovoľníci, bez ktorých by sa nekonalo ani jedno lokálne podujatie.
+
+⚠️ Podstatné je, že títo nie sú opomenutí. Sú mimo definície. To nie je chyba implementácie, ktorú opraví nová verzia systému — je to dôsledok toho, ako je vymedzený.
+
+🚴 A tu vzniká reálny problém. Najväčšia skupina športujúcich ľudí — bežci, cyklisti na ebike, ľudia na rýchlej chôdzi, príležitostní hráči — sa pohybuje na infraštruktúre, ktorú platí samospráva. A tá istá infraštruktúra je zároveň produktom cestovného ruchu: cyklotrasa slúži cez týždeň miestnym, cez víkend návštevníkom, ktorí sa ubytujú, najedia a požičiajú si bicykel.
+
+🏨 Neplatí to len o voľnočasovom športe. Organizovaný šport ťahá turizmus ešte priamočiarejšie: mládežnícky turnaj znamená dvadsať tímov, rodičov a dva nocľahy, sústredenia a letné kempy zaplnia región na celý týždeň — často mimo sezóny. A na rozdiel od počasia či trendov sa tento dopyt dá plánovať: súťažný kalendár je známy rok dopredu.
+
+Obec si pritom takúto investíciu zaúčtuje ako výdavok na šport, hoci časť jej návratnosti sa prejaví v turizme. A dáta nemá ani o jednom — dátová diera ju tak stojí dvakrát.
+
+📊 Nie je to len môj pohľad. NKÚ opakovane konštatuje, že chýba národný informačný systém s dátami o prostriedkoch, ktoré získali športovci, športové organizácie aj prevádzkovatelia športovej infraštruktúry — a že k transparentnosti by prispel centrálny register športovej infraštruktúry.
+
+Preto SportUp nechápem ako náhradu existujúceho systému. Ide o dve rôzne otázky. Informačný systém športu odpovedá na otázku, kto je registrovaný a kto má nárok na dotáciu. SportUp odpovedá na otázku, kto v tejto krajine športuje, kde a na akej infraštruktúre.
+
+👉 A nie je to len koncept na papieri — verejný portál už beží ako funkčná ukážka nad reálnymi miestami. Celý návrh vrátane architektúry, doménového modelu aj zdrojového kódu je verejný od prvého dňa: sportup.sk
+
+Píšem to ako človek, ktorý bol pri príprave zákona a viac než pätnásť rokov pracoval so športom na všetkých úrovniach — od zväzu až po dedinské kluby.
+
+#šport #samospráva #digitalizácia #openData #cestovnýruch

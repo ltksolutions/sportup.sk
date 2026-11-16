@@ -1,0 +1,13 @@
+Pri diskusiách o národnom registri športu sa najčastejšie hovorí o zväzoch a kluboch. Skupina, ktorá sa pritom opomína, sú prevádzkovatelia športovísk — súkromné haly, ihriská, športové centrá a rezorty.
+
+Pritom práve oni majú z otvoreného katalógu športovísk najpriamejší úžitok. Jeden zápis znamená viditeľnosť voči občanovi, turistovi, klubu aj zväzu naraz — vrátane údajov, ktoré dnes nikto centrálne nezbiera: povrchy, rozmery, kapacita, bezbariérovosť, dostupnosť MHD, parkovanie, nabíjačky.
+
+Kľúčové je, že rovnaký záznam slúži dvom svetom. Zväzu pri hľadaní dejiska súťaže a turistickej platforme pri odporúčaní v destinácii.
+
+A druhá vec: podujatia. Keď prevádzkovateľ pravidelne aktualizuje kalendár, vzniká dáto o reálnom dopyte v regióne — z ktorého ťažia aj ubytovacie zariadenia a samospráva pri plánovaní.
+
+Zápis je bezplatný, register je otvorený a dáta zostávajú prevádzkovateľovi. Žiadny vendor lock-in — to je podmienka, bez ktorej by sa takáto infraštruktúra ani nemala stavať.
+
+sportup.sk/portal.html
+
+#cestovnýruch #šport #infraštruktúra #openData #podnikanie

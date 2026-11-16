@@ -1,0 +1,13 @@
+Komerčné subjekty by radi ponúkali benefity športovcom. Problém je, že si ich status nevedia overiť — a tak benefit buď neponúknu, alebo ho poskytujú naslepo.
+
+Riešením je overenie postavené na minimalizácii dát. Športovec si vygeneruje krátkodobý token, hotel sa cez certifikovanú aplikáciu opýta jedinú uzavretú otázku a dostane odpoveď áno/nie.
+
+Hotel nevidí meno, dátum narodenia, klub, šport ani úroveň. Vidí iba to, že ide o registrovaného športovca. Každé takéto overenie sa navyše zapisuje do auditu, takže osoba si vie spätne pozrieť, ktoré subjekty a kedy sa na jej status pýtali.
+
+Toto je podľa mňa najpraktickejší most medzi športom a cestovným ruchom. Ubytovacie zariadenia, doprava, požičovne či športové centrá môžu stavať benefitné programy bez toho, aby sa vôbec dotkli osobných údajov — a bez rizika, ktoré by z toho pre nich vyplývalo.
+
+Architektonicky ide o rovnaký princíp ako pri verejnom portáli: von ide len minimum potrebné na daný účel, vynútené serverom.
+
+sportup.sk/priklady.html
+
+#cestovnýruch #GDPR #šport #dataMinimization #hotelierstvo

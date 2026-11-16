@@ -1,0 +1,11 @@
+Prídete na víkend do Novej Bane. Čo tu môžete robiť? 🗺️
+
+Dnes: jeden web na športoviská, druhý na ubytovanie, tretí na trasy, štvrtý na podujatia. A polovica informácií je stará.
+
+So SportUp: jedna mapa, ktorá ich spojí — a dáta do nej zapisujú priamo tí, ktorí ich majú. Zväzy svoje súťaže, kluby turnaje, mestá a obce behy a športoviská, hotely a haly svoju ponuku.
+
+Výsledok? Namiesto desiatich okien dostanete jednu ponuku pre daný región a víkend: kde spať, čo robiť, čo sa práve deje.
+
+A žiadne osobné údaje — verejná mapa pozná len miesta a podujatia.
+
+Vyskúšajte si funkčnú ukážku 👉 sportup.sk/portal.html
