@@ -9,6 +9,10 @@ Posledná revízia: 16. 11. 2026
 - [ ] **Web podľa design systému v2** – zosúladiť `website/styles.css` a `website/brand/BRAND.md` s `website/brand/design-system/` (Inter namiesto Poppins, bez pozadia Paper, nové farby `muted` a stavové farby, mozaika v tvare kruhu). Väčšia zmena: najprv plán na schválenie.
 - [ ] **Marketingové carousely podľa DS v2** – `marketing/social/` používa Poppins a staré názvy vrstiev (voľnočasový / organizovaný / elitný). Rozhodnúť, či nové a pregenerované carousely prejdú na Inter a kategórie vrcholový a reprezentačný · súťažný · šport pre všetkých.
 
+### Plán (pripravený 16. 11., odložený)
+- **Web na DS v2:** A1 tokeny DS v2 do `styles.css` a `assets/widgets.css` (Inter, `muted`, stavové farby) · A2 odkaz na písmo v 14 HTML · A3 mozaika (kruh) v hlavnom bloku úvodnej strany a na `aktivita.html` · A4 `brand.html` a `BRAND.md` podľa DS v2 · A5 kontrola 375/768/1100/1440 px. Odhad pol dňa.
+- **Karusely:** B1 generátor (`brand_slides.py`, `diagrams.py`, `render.py`) na Inter (TTF do `tools/fonts/`, OFL do REUSE), farby DS v2 a nové kategórie · B2 texty P2, G1, R5 · B3 pregenerovanie (cca 14 MB). Odhad 2–3 h. Pred začatím: ktoré karusely sú už zverejnené.
+
 ## Rozpracované
 
 - [ ] **ČR – nadstavba Národního registru sportu** – podklady pre stretnutie (rozdielová analýza, prezentácia) sú mimo verejného repozitára v `interne/cesko/`. Pred stretnutím: vizuálna kontrola prezentácie vrátane exportu do PDF (jemná mozaika na slide 3, rámček na slide s aktivitami, titulný a záverečný slide).
