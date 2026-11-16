@@ -57,6 +57,8 @@ Tento dokument popisuje fázy implementácie. Každá fáza je samostatne uvoľn
 | Saga pre prestupy | Transfer Coordinator |
 | Organization service + RPO integrácia | API pre `/v1/organizations` |
 | Activity service | API pre `/v1/activities` (oficiálne, neoficiálne, hobby) |
+| Športový pas osoby | Projekcia časovej osi aktivít a rolí jednej osoby – od školského krúžku cez klub po trénera či funkcionára; pravidelnosť aktivít, export pre osobu (so súhlasom) |
+| Digitálna športová žiacka knižka | Školská časť športového pasu pre žiakov MŠ–VŠ: školské krúžky, súťaže, telesná výchova; prístup pre školu a zákonného zástupcu |
 | Webhooks infrastructure | Subscriber registrácia, doručovanie, retry |
 | Bulk import nástroj | Pre migráciu zo starého ISŠ |
 

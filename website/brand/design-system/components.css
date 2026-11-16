@@ -1,0 +1,69 @@
+/* SportUp.sk – komponenty (CSS). Načítava sa po tokens.css; používa len premenné z tokenov. Mobile first. */
+.su-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);min-height:var(--touch-target);padding:0 var(--space-4);border-radius:var(--radius-sm);font:600 15px/1 var(--font-sans);border:1px solid transparent;cursor:pointer;text-decoration:none}
+.su-btn--primary{background:var(--navy);color:var(--on-navy)}
+.su-btn--primary:hover{background:var(--navy-light)}
+.su-btn--primary:active{background:var(--navy-dark)}
+.su-btn--secondary{background:var(--surface);color:var(--navy);border-color:var(--navy)}
+.su-btn--secondary:hover{background:var(--surface-2)}
+.su-btn--accent{background:var(--blue-ink);color:var(--on-navy)}
+.su-btn--ghost{background:transparent;color:var(--blue-ink);padding:0 var(--space-2)}
+.su-btn--ghost:hover{text-decoration:underline}
+.su-btn[disabled]{background:var(--surface-2);color:var(--muted);border-color:var(--line);cursor:not-allowed}
+.su-btn--sm{min-height:36px;padding:0 var(--space-3);font-size:14px}
+.su-btn:focus-visible,.su-input:focus-visible,.su-check input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+
+.su-field{display:flex;flex-direction:column;gap:6px;max-width:420px}
+.su-field label{font:600 14px/20px var(--font-sans);color:var(--navy)}
+.su-input{min-height:var(--touch-target);padding:0 var(--space-3);border:1px solid var(--line-strong);border-radius:var(--radius-sm);font:400 16px/24px var(--font-sans);color:var(--navy);background:var(--surface)}
+.su-hint{font:400 14px/20px var(--font-sans);color:var(--muted)}
+.su-field--error .su-input{border-color:var(--danger)}
+.su-field--error .su-hint{color:var(--danger)}
+.su-check{display:flex;align-items:flex-start;gap:var(--space-3);font:400 16px/24px var(--font-sans);min-height:var(--touch-target)}
+.su-check input{width:20px;height:20px;margin-top:2px;accent-color:var(--navy)}
+
+.su-badge{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:var(--radius-pill);font:600 13px/1 var(--font-sans);background:var(--surface-2);color:var(--navy)}
+.su-badge--role{background:var(--blue-tint);color:var(--navy)}
+.su-badge--ok{background:var(--success-soft);color:var(--success)}
+.su-badge--wait{background:var(--warning-soft);color:var(--warning)}
+.su-badge--err{background:var(--danger-soft);color:var(--danger)}
+.su-badge--new{background:var(--navy);color:var(--on-navy)}
+
+.su-stat{border-top:2px solid var(--navy);padding-top:var(--space-4);display:flex;flex-direction:column;gap:6px}
+.su-stat__num{font:700 40px/44px var(--font-sans);letter-spacing:-1px}
+.su-stat__lbl{font:400 16px/24px var(--font-sans);color:var(--muted)}
+.su-stat__src{font:400 13px/18px var(--font-sans);color:var(--muted)}
+@media (min-width:768px){.su-stat__num{font-size:60px;line-height:64px;letter-spacing:-1.5px}}
+
+.su-table{width:100%;border-collapse:collapse;font:400 15px/22px var(--font-sans)}
+.su-table th{background:var(--surface-2);text-align:left;font-weight:600;padding:10px 12px}
+.su-table td{padding:12px;border-top:1px solid var(--line)}
+.su-table td.num,.su-table th.num{text-align:right;font-variant-numeric:tabular-nums}
+.su-table-wrap{overflow-x:auto}
+
+.su-alert{display:flex;gap:var(--space-3);padding:var(--space-4);border-radius:var(--radius-sm);font:400 15px/22px var(--font-sans);background:var(--blue-tint);color:var(--navy)}
+.su-alert strong{font-weight:600}
+.su-alert--ok{background:var(--success-soft)}
+.su-alert--wait{background:var(--warning-soft)}
+.su-alert--err{background:var(--danger-soft)}
+.su-alert svg{flex:none;width:20px;height:20px;margin-top:1px}
+
+.su-header{background:var(--navy);color:var(--on-navy)}
+.su-header__in{max-width:var(--container);margin:0 auto;height:56px;padding:0 var(--space-4);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+.su-header__logo{height:30px;display:block}
+.su-header__nav{display:none;gap:var(--space-6)}
+.su-header__nav a{color:var(--on-navy);text-decoration:none;font:500 15px/1 var(--font-sans)}
+.su-header__nav a[aria-current]{color:var(--blue-on-navy)}
+.su-header__menu{width:44px;height:44px;border:0;background:transparent;color:var(--on-navy);display:grid;place-items:center}
+@media (min-width:900px){.su-header__in{height:var(--nav-height)}.su-header__nav{display:flex}.su-header__menu{display:none}}
+
+.su-tabbar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.su-tabbar a{display:flex;flex-direction:column;align-items:center;gap:4px;min-height:56px;justify-content:center;font:600 12px/1 var(--font-sans);color:var(--muted);text-decoration:none}
+.su-tabbar a[aria-current]{color:var(--navy)}
+.su-tabbar a[aria-current] svg{color:var(--blue)}
+.su-tabbar svg{width:24px;height:24px}
+
+.su-mosaic{display:grid;gap:var(--space-1)}
+.su-mosaic i{display:block;aspect-ratio:1;border-radius:var(--radius-xs)}
+.su-mosaic .m-top{background:var(--navy)}.su-mosaic .m-org{background:var(--mosaic-grey)}.su-mosaic .m-rec{background:var(--blue)}
+.su-mosaic--circle i{border-radius:50%}
+.su-mosaic--round i{border-radius:30%}
