@@ -29,7 +29,7 @@ Affiliation je **plne eventovaná** podľa ADR-0001. Aktuálny stav sa odvodzuje
 | `affiliation_id` | UUID | Primárny kľúč |
 | `person_id` | UUID FK | → Person |
 | `organization_id` | UUID FK | → Organization |
-| `role_code` | String FK | Z číselníka rolí (activity-types) |
+| `role_code` | String FK | Z číselníka rolí (sport-roles) |
 | `sport_code` | String FK | Z číselníka športov |
 | `discipline_code` | String FK \| null | Z číselníka disciplín (ak je relevantné) |
 | `category_code` | String FK \| null | Z číselníka kategórií (vekové/výkonnostné) |
@@ -163,4 +163,4 @@ Detail v [`../../api/endpoints/affiliations.md`](../../api/endpoints/affiliation
 - [`person.md`](person.md) — vzťah z osoby
 - [`organization.md`](organization.md) — vzťah z organizácie
 - [`../events/affiliation-events.md`](../events/affiliation-events.md) — kompletný katalóg eventov
-- [`../../catalogs/activity-types.md`](../../catalogs/activity-types.md) — číselník rolí
+- [`../../catalogs/sport-roles.md`](../../catalogs/sport-roles.md) — číselník rolí

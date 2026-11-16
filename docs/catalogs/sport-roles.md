@@ -6,7 +6,7 @@
 
 ## YAML zdroj
 
-Master zdroj je v `data/catalogs/activity-types.yaml`:
+Master zdroj je v `data/catalogs/sport-roles.yaml`:
 
 ```yaml
 version: "1.0"
@@ -98,7 +98,7 @@ Pridanie novej role:
 
 1. Issue s motiváciou
 2. Konzultácia s národnými zväzmi (cez slovak-sport komunita)
-3. Pull Request meniaci `data/catalogs/activity-types.yaml`
+3. Pull Request meniaci `data/catalogs/sport-roles.yaml`
 4. Review (minimálne 2 maintaineri)
 5. Merge → release v1.x
 

@@ -114,7 +114,7 @@
 
 **RPO** — Register právnických osôb. Prevádzkuje ŠÚ SR. Master pre identitu právnickej osoby v SR.
 
-**Role (rola)** — Typ zapojenia osoby v športe. Napr. amatérsky športovec, tréner, rozhodca, dobrovoľník. Pozri [`catalogs/activity-types.md`](catalogs/activity-types.md).
+**Role (rola)** — Typ zapojenia osoby v športe. Napr. amatérsky športovec, tréner, rozhodca, dobrovoľník. Pozri [`catalogs/sport-roles.md`](catalogs/sport-roles.md).
 
 ## S
 

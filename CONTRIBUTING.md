@@ -80,7 +80,7 @@ docs(architecture): doplniť stratégiu disaster recovery
 
 model(person): pridať pole national_id_hash pre deduplikáciu
 
-catalog(activity-types): pridať volnocasovy_sportovec
+catalog(sport-roles): pridať volnocasovy_sportovec
 
 purpose(tur): nový účel TUR-SLUZBA-001 pre cestovné kancelárie
 

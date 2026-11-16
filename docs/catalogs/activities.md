@@ -2,9 +2,9 @@
 
 > Aktivita je **merná jednotka** SportUp.sk. Nemeriame len, kto je registrovaný, ale ako často sa ľudia skutočne hýbu a ako sa využívajú športoviská. Použité v `Activity.activity_type`.
 
-**12 typov v 8 skupinách.** Zoznam je zhodný s [activity.sportup.sk](https://activity.sportup.sk/aktivity) (rozhodnutie: ADR-015 v repozitári `ltksolutions/activity`, 16. 11. 2026).
+**15 typov v 8 skupinách.** Zoznam je zhodný s [activity.sportup.sk](https://activity.sportup.sk/aktivity) (rozhodnutia: ADR-015 a ADR-016 v repozitári `ltksolutions/activity`, 16. 11. 2026).
 
-Nezamieňať s číselníkom [`activity-types.md`](activity-types.md), ktorý napriek názvu obsahuje **druhy športovej činnosti osôb** (roly: tréner, rozhodca, dobrovoľník…), nie typy aktivít.
+Nezamieňať s číselníkom [`sport-roles.md`](sport-roles.md): ten obsahuje **druhy športovej činnosti osôb** (roly: tréner, rozhodca, dobrovoľník…), nie typy aktivít.
 
 ## Čo je aktivita
 
@@ -16,7 +16,7 @@ Udalosť v čase, ktorú zapisuje ten, kto šport organizuje: zväz, klub, škol
 | `occurred_at`, `duration_minutes` | kedy a ako dlho |
 | `facility_id` | kde: športovisko z katalógu SportUp.sk (základ pre vyťaženosť športovísk) |
 | `sport_code` | šport z [`sports.md`](sports.md) |
-| `participants` | kto, a v akej roli z [`activity-types.md`](activity-types.md) |
+| `participants` | kto, a v akej roli z [`sport-roles.md`](sport-roles.md) |
 | `organizer_id` | kto aktivitu organizuje a zapísal |
 
 ## Typy aktivít
@@ -24,11 +24,14 @@ Udalosť v čase, ktorú zapisuje ten, kto šport organizuje: zväz, klub, škol
 | Kód | Typ | Skupina | Pohybová | Popis |
 |---|---|---|---|---|
 | `training` | Tréning | Tréning | áno | kondičný, technický, taktický, regeneračný |
+| `camp` | Tábor a sústredenie | Tréning | áno | viacdňový program s ubytovaním a dozorom; pri deťoch safeguarding |
 | `match` | Zápas a pretek | Zápas a pretek | áno | účasť hráča, pretekára alebo člena družstva; zápas či pretek určuje šport |
 | `exercise` | Cvičenie a pohyb | Cvičenie a pohyb | áno | pravidelné aj príležitostné cvičenie mimo súťaží: joga, fitness, beh, turistika; šport pre všetkých |
-| `referee` | Rozhodca | Rozhodcovia a delegáti | áno | rozhodovanie zápasu alebo preteku |
-| `delegate` | Delegát | Rozhodcovia a delegáti | nie | práca delegáta zápasu vrátane hodnotenia rozhodcu |
-| `volunteering` | Dobrovoľníctvo | Dobrovoľníctvo | nie | pomoc pri podujatí, v klube, usporiadateľská služba bez odmeny |
+| `referee` | Rozhodca | Rozhodovanie a kontrola | áno | rozhodovanie zápasu alebo preteku |
+| `delegate` | Delegát | Rozhodovanie a kontrola | nie | práca delegáta zápasu vrátane hodnotenia rozhodcu |
+| `doping_control` | Antidopingová kontrola | Rozhodovanie a kontrola | nie | priebeh a výsledok kontroly; **citlivé**, bez zdravotných údajov |
+| `organizer` | Organizácia podujatia | Organizácia a dobrovoľníctvo | nie | riaditeľ pretekov, usporiadateľ, technický delegát podujatia; aj za odmenu |
+| `volunteering` | Dobrovoľníctvo | Organizácia a dobrovoľníctvo | nie | pomoc pri podujatí, v klube, usporiadateľská služba bez odmeny |
 | `education` | Vzdelávanie | Vzdelávanie a rozvoj | nie | kurzy, semináre, antidopingové školenia |
 | `mentoring` | Mentoring | Vzdelávanie a rozvoj | nie | štruktúrované stretnutie mentora a mentee |
 | `medical` | Starostlivosť o zdravie | Starostlivosť o zdravie | nie | prehliadky, ošetrenia, fyzioterapia; **citlivé údaje** |
@@ -42,10 +45,10 @@ Udalosť v čase, ktorú zapisuje ten, kto šport organizuje: zväz, klub, škol
 
 Zákon č. 440/2015 Z. z. o športe považuje za aktívneho športovca toho, kto sa za posledný rok zúčastnil najmenej na troch súťažiach. O tom, či sa človek hýbe pravidelne, to nehovorí takmer nič, a šport pre všetkých nezachytí vôbec.
 
-SportUp.sk preto počíta pravidelnosť z pohybových aktivít jednej osoby v čase. Návrh ukazovateľa (na rozhodnutie, Q-028 v repozitári `ltksolutions/activity`):
+SportUp.sk preto počíta pravidelnosť z pohybových aktivít jednej osoby v čase. **Príklad** ukazovateľa (presná definícia je otvorená, Q-028 v repozitári `ltksolutions/activity`):
 
-- **hlavný:** aspoň jedna pohybová aktivita týždenne v 4 zo 6 posledných týždňov,
-- **doplnkový:** minúty pohybovej aktivity týždenne v porovnaní s odporúčaním WHO (150 minút).
+- aspoň jedna pohybová aktivita týždenne v 4 zo 6 posledných týždňov,
+- doplnkovo minúty pohybovej aktivity týždenne v porovnaní s odporúčaním WHO.
 
 Štát a samospráva dostávajú len súhrnné údaje (podľa veku, obce, športu a typu športoviska), nie údaje o jednotlivcoch.
 
@@ -54,7 +57,3 @@ SportUp.sk preto počíta pravidelnosť z pohybových aktivít jednej osoby v č
 - **Pravidelnosť pohybu** populácie podľa veku, obce a športu.
 - **Vyťaženosť športovísk** z `facility_id`, času a trvania.
 - **Športový pas osoby** a **digitálna športová žiacka knižka** (ROADMAP, Fáza 2).
-
-## Na rozhodnutie
-
-Navrhnuté ďalšie typy: tábor alebo sústredenie (`camp`), antidopingová kontrola (`doping_control`, citlivá), organizácia podujatia (`organizer`).

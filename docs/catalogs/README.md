@@ -17,7 +17,7 @@ Tento adresár obsahuje verzionované číselníky používané naprieč celým 
 ```
 data/
 └── catalogs/
-    ├── activity-types.yaml
+    ├── sport-roles.yaml
     ├── organization-types.yaml
     ├── sports.yaml
     ├── disciplines.yaml
@@ -41,7 +41,7 @@ Z YAML sa pri release generuje:
 
 | Číselník | Popis | Dokument |
 |---|---|---|
-| Druhy športovej činnosti | 31 druhov v 6 kategóriách | [`activity-types.md`](activity-types.md) |
+| Druhy športovej činnosti | 31 druhov v 6 kategóriách | [`sport-roles.md`](sport-roles.md) |
 | Typy aktivít | 12 typov v 8 skupinách, merná jednotka | [`activities.md`](activities.md) |
 | Druhy organizácií | ~35 typov v 5 kategóriách | [`organization-types.md`](organization-types.md) |
 | Športy | 90+ uznaných + neuznané | [`sports.md`](sports.md) |

@@ -185,4 +185,4 @@ Bez ohľadu na zdroj sa každé **verejné** podujatie (`is_public = true`) obja
 
 - [`facility.md`](facility.md) — miesto konania
 - [`event-participation.md`](event-participation.md) — účasť osôb
-- [`../../catalogs/activity-types.md`](../../catalogs/activity-types.md) — typy aktivít
+- [`../../catalogs/activities.md`](../../catalogs/activities.md) — typy aktivít

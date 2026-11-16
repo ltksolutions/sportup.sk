@@ -185,7 +185,7 @@ events.json      ← HobbyActivityRegistered + AggregateCountReported
 ## Referencie
 
 - [`../domain/entities/activity.md`](../domain/entities/activity.md) — oficiálna / neoficiálna / hobby
-- [`../catalogs/activity-types.md`](../catalogs/activity-types.md)
+- [`../catalogs/activities.md`](../catalogs/activities.md)
 - [`../gdpr/data-classification.md`](../gdpr/data-classification.md) — čo je a nie je osobný údaj
 - [`../gdpr/purposes/VYS-research.md`](../gdpr/purposes/VYS-research.md) — demografia a štatistika
 - [`../mcp/README.md`](../mcp/README.md) — analytics-mcp nad agregátmi
