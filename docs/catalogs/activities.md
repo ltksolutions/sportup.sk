@@ -36,7 +36,7 @@ Udalosť v čase, ktorú zapisuje ten, kto šport organizuje: zväz, klub, škol
 | `sponsorship` | Sponzoring | Podpora a fanúšikovia | nie | sponzorská aktivácia, kampane |
 | `fans` | Fanúšikovia | Podpora a fanúšikovia | nie | návšteva podujatia, hlasovanie, kvíz |
 
-**Skupina** slúži na štatistiky a výstupy pre štát a samosprávu. **Pohybová** aktivita sa započítava do ukazovateľov pohybu populácie a pravidelnosti; ostatné typy sa evidujú, ale meradlom pohybu nie sú.
+**Skupina** slúži na štatistiky a výstupy pre štát a samosprávu. Meriame **všetky** aktivity v športe. **Pohybové** aktivity sú v dátach oddeliteľné, aby sa z nich dali počítať štatistiky pohybu populácie a pravidelnosti.
 
 ## Pravidelnosť
 
