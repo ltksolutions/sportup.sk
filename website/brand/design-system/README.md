@@ -38,12 +38,12 @@ Mozaika je grafický jazyk SportUp.sk: plocha z malých rovnakých jednotiek, kd
 Tri farby jednotiek majú vždy rovnaký význam: `navy` vrcholový a reprezentačný šport, `mosaic-grey` súťažný šport (amatéri aj profesionáli v pravidelných súťažiach zväzov), `blue` šport pre všetkých (cz. „Sport pro všechny“; zákonný pojem v SR aj ČR: pravidelne cvičiaci – joga, fitness, kalanetika – aj príležitostne športujúci, vrátane akcií mimo súťaží zväzov). Deliaca čiara je účasť v pravidelných súťažiach, nie to, či je šport organizovaný.
 
 Tvar jednotky sa volí podľa výstupu (podrobne v komponente Mosaic):
-- **štvorec s jemným zaoblením** (`radius-xs`, najviac 20 % strany) – základný, prezentácie, analýzy, štátne výstupy,
+- **štvorec s jemným zaoblením** (`radius-xs`, najviac 25 % strany) – základný, prezentácie, analýzy, štátne výstupy,
 - **výrazne zaoblený štvorec** (30 % strany) – aplikácia, dashboardy klubov a obcí,
 - **kruh** – web, sociálne siete, komunita,
 - **šesťuholník** – len ilustrácie o prepojení a ekosystéme.
 
-V jednom výstupe sa tvary nemiešajú. Štvorec nemá ostré rohy: titulná mozaika 32 px má zaoblenie 3 px, jemný raster 10 px má 2 px, aby bolo zaoblenie vidieť aj v malej jednotke. Do 20 % strany ide o štvorec pre manažérske výstupy, okolo 30 % o zaoblený štvorec aplikácie. Mozaika nikdy neleží pod textom.
+V jednom výstupe sa tvary nemiešajú. Štvorec nemá ostré rohy: titulná mozaika 32 px má zaoblenie 3 px, jemný raster 10 px má 2,5 px, aby bolo zaoblenie vidieť aj v malej jednotke. Do 25 % strany ide o štvorec pre manažérske výstupy, okolo 30 % o zaoblený štvorec aplikácie. Mozaika nikdy neleží pod textom.
 
 Na titulnom a záverečnom slajde (a na úvodnej ploche webu) stojí vpravo od textu: raster 12 × 16 jednotiek vo vodorovných pásoch v pomere druhov športu, zhora 1 rad `navy` (zväčšený, aby bol vidieť), 4 rady `mosaic-grey`, 11 radov `blue`. V grafoch (napr. pohľad na šport z boku) sa používa jemnejší raster: jednotka 10 px, medzera 2 px.
 
