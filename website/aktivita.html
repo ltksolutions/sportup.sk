@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aktivita ako merná jednotka — SportUp.sk</title>
+<meta name="description" content="SportUp meria aktivitu: ako často sa ľudia skutočne hýbu a ako sa využívajú športoviská. Nie len počet registrácií.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="assets/widgets.css">
+<!-- Favicon & PWA — SportUp Brand v2.0 -->
+<link rel="icon" href="favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="favicon/su-icon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#1A2D47">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://sportup.sk/aktivita.html">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Aktivita ako merná jednotka — SportUp.sk">
+<meta property="og:description" content="SportUp meria aktivitu: ako často sa ľudia skutočne hýbu a ako sa využívajú športoviská. Nie len počet registrácií.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="sk_SK">
+<meta property="og:site_name" content="SportUp.sk">
+<meta property="og:url" content="https://sportup.sk/aktivita.html">
+<meta property="og:image" content="https://sportup.sk/og-index.png">
+<meta property="og:image:secure_url" content="https://sportup.sk/og-index.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SportUp.sk — Aktivita ako merná jednotka">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Aktivita ako merná jednotka — SportUp.sk">
+<meta name="twitter:description" content="SportUp meria aktivitu: ako často sa ľudia skutočne hýbu a ako sa využívajú športoviská. Nie len počet registrácií.">
+<meta name="twitter:image" content="https://sportup.sk/og-index.png">
+<meta name="twitter:image:alt" content="SportUp.sk — Aktivita ako merná jednotka">
+
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "SportUp.sk",
+  "alternateName": "Good Idea Sport Slovakia",
+  "url": "https://sportup.sk/",
+  "logo": "https://sportup.sk/sportup-logo.svg",
+  "description": "Otvorené riešenie pre slovenský šport a podporu cestovného ruchu — jednotný národný register osôb, organizácií, aktivít a športovísk.",
+  "sameAs": [
+    "https://github.com/ltksolutions/sportup.sk"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "sportup@ltk.solutions",
+    "contactType": "customer support",
+    "availableLanguage": ["sk", "en"]
+  }
+}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="SportUp — Good Idea Sport Slovakia">
+      <img src="sportup-logo.svg" alt="SportUp" width="140" height="58">
+    </a>
+    <button class="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Úvod</a></li>
+      <li><a href="aktivita.html">Aktivita</a></li>
+      <li><a href="portal.html">Verejný portál</a></li>
+      <li><a href="priklady.html">Príklady</a></li>
+      <li><a href="ucely.html">Účely</a></li>
+      <li class="nav-dropdown"><button class="nav-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown="docs">Dokumentácia <svg class="dd-chevron" width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1,3 5.5,8 10,3"/></svg></button><ul class="nav-dropdown-menu" role="menu"><li role="none"><a href="architektura.html" class="dd-item" role="menuitem"><span class="dd-name">Architektúra</span><span class="dd-desc">Vrstvy, event sourcing, zero-trust model</span></a></li><li role="none"><a href="domenovy-model.html" class="dd-item" role="menuitem"><span class="dd-name">Doménový model</span><span class="dd-desc">Entity, vzťahy a časová dimenzia</span></a></li><li role="none"><a href="ciselniky.html" class="dd-item" role="menuitem"><span class="dd-name">Číselníky</span><span class="dd-desc">90 športov, typy organizácií a aktivít</span></a></li><li role="none"><a href="integracie.html" class="dd-item" role="menuitem"><span class="dd-name">Integrácie</span><span class="dd-desc">API, MCP servery, štátne registre</span></a></li><li role="none"><a href="technologie.html" class="dd-item" role="menuitem"><span class="dd-name">Technológie</span><span class="dd-desc">Stack: Next.js, MongoDB, Node.js, OPA</span></a></li><li role="none"><a href="brand.html" class="dd-item" role="menuitem"><span class="dd-name">Brand</span><span class="dd-desc">Logo, farby, typografia a vizuálna identita</span></a></li><li role="none"><a href="brand/SportUp_Design_Manual.pdf" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">Design Manual ↗</span><span class="dd-desc">PDF — pravidlá používania značky v2.1</span></a></li></ul></li>
+      <li class="nav-dropdown"><button class="nav-dropdown-btn" type="button" aria-expanded="false" aria-haspopup="true" data-dropdown="ecosystem">Ekosystém <svg class="dd-chevron" width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="1,3 5.5,8 10,3"/></svg></button><ul class="nav-dropdown-menu" role="menu"><li role="none"><a href="ekosystem.html" class="dd-item" role="menuitem"><span class="dd-name">SportUp.sk</span><span class="dd-desc">Centrálny register osôb a organizácií</span></a></li><li role="none"><a href="https://activity.sportup.sk" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">Activity.SportUp.sk ↗</span><span class="dd-desc">Podujatia, aktivity a pohybové programy</span></a></li><li role="none"><a href="https://clubup.sk" class="dd-item" role="menuitem" target="_blank" rel="noopener"><span class="dd-name">ClubUp.sk ↗</span><span class="dd-desc">Správa klubov a oddielov</span></a></li></ul></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+      <li><a href="https://github.com/ltksolutions/sportup.sk" class="nav-github" aria-label="GitHub repozitár" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Hlavná zmena · Aktivita</div>
+    <h1>Aktivita je <em>merná jednotka športu</em></h1>
+    <p class="lead"><strong>Tri štarty za rok nepovedia nič. Pravidelný tréning každý týždeň áno.</strong> SportUp nemeria len, kto je zaregistrovaný, ale ako často sa ľudia skutočne hýbu, kde a s kým, a ako sa využívajú športoviská.</p>
+    <div class="hero-meta">
+      <div>Meria<span>pravidelnosť pohybu</span></div>
+      <div>Zachytí<span>všetky tri druhy športu</span></div>
+      <div>Ukáže<span>skutočnú vyťaženosť športovísk</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="container narrow">
+
+<section>
+<span class="section-number">01 · Prečo</span>
+<h2>Prečo nestačí register</h2>
+<p>Dnešné evidencie počítajú členov, licencie a štarty. Za aktívneho športovca považuje zákon o športe toho, kto sa za posledný rok zúčastnil najmenej na troch súťažiach. O tom, či sa človek hýbe pravidelne, to nehovorí takmer nič.</p>
+<p>Väčšina ľudí, ktorí sa hýbu, pritom nesúťaží vôbec. Cvičia jogu, chodia do fitness, behajú, plávajú, hrajú s kamarátmi. Tento <strong>šport pre všetkých</strong> je dnes mimo akejkoľvek evidencie, hoci práve on rozhoduje o zdraví populácie a o tom, ktoré športoviská obec potrebuje.</p>
+
+<div class="callout">
+<h4>Hlavná zmena</h4>
+<p>Od otázky „koľko je registrovaných“ k otázke „ako často sa ľudia skutočne hýbu a kde“. Štát a samospráva tak prvý raz dostanú údaje o pohybe celej populácie, nie len o súťažnom športe.</p>
+</div>
+</section>
+
+<section>
+<span class="section-number">02 · Definícia</span>
+<h2>Čo je aktivita</h2>
+<p>Aktivita je udalosť v čase: tréning, zápas, hodina cvičenia, rozhodovanie, dobrovoľnícka služba. Každý záznam hovorí:</p>
+<div class="grid cols-3">
+<div class="card"><h4>Kto</h4><p>Osoby a ich rola: športovec, tréner, rozhodca, dobrovoľník.</p></div>
+<div class="card"><h4>Čo a kedy</h4><p>Typ aktivity, šport, dátum a trvanie.</p></div>
+<div class="card"><h4>Kde</h4><p>Športovisko z národného katalógu, alebo trasa či verejný priestor.</p></div>
+</div>
+</section>
+
+<section>
+<span class="section-number">03 · Ukazovateľ</span>
+<h2>Pravidelnosť namiesto počtu štartov</h2>
+<p>Z aktivít jednej osoby v čase vzniká <strong>pravidelnosť</strong>. Navrhujeme jednoduchý hlavný ukazovateľ: osoba je pravidelne aktívna, ak má aspoň jednu pohybovú aktivitu týždenne v 4 zo 6 posledných týždňov. Doplnkovo sa sledujú minúty pohybu týždenne v porovnaní s odporúčaním WHO.</p>
+<p class="text-muted">Presná definícia ukazovateľa je návrh na rozhodnutie spolu so štátom a zväzmi.</p>
+</section>
+
+<section>
+<span class="section-number">04 · Typy</span>
+<h2>Typy aktivít</h2>
+<p>Dvanásť typov v ôsmich skupinách. Zoznam je zhodný s <a href="https://activity.sportup.sk/aktivity" target="_blank" rel="noopener">activity.sportup.sk</a> a s <a href="ciselniky.html">číselníkmi</a>. Do ukazovateľov pohybu sa započítavajú len <strong>pohybové aktivity</strong>; ostatné sa evidujú, lebo bez nich šport nefunguje.</p>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Skupina</th><th>Typy aktivít</th><th>Pohyb</th></tr></thead>
+<tbody>
+<tr><td>Tréning</td><td>tréning</td><td>áno</td></tr>
+<tr><td>Zápas a pretek</td><td>účasť hráča, pretekára alebo člena družstva</td><td>áno</td></tr>
+<tr><td>Cvičenie a pohyb</td><td>pravidelné aj príležitostné cvičenie: joga, fitness, beh, turistika</td><td>áno</td></tr>
+<tr><td>Rozhodcovia a delegáti</td><td>rozhodca · delegát</td><td>áno (rozhodca)</td></tr>
+<tr><td>Dobrovoľníctvo</td><td>pomoc pri podujatí, v klube, usporiadateľská služba</td><td>nie</td></tr>
+<tr><td>Vzdelávanie a rozvoj</td><td>vzdelávanie · mentoring</td><td>nie</td></tr>
+<tr><td>Starostlivosť o zdravie</td><td>prehliadky, ošetrenia, fyzioterapia (citlivé údaje)</td><td>nie</td></tr>
+<tr><td>Podpora a fanúšikovia</td><td>dar · sponzoring · fanúšikovia</td><td>nie</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section>
+<span class="section-number">05 · Zdroje dát</span>
+<h2>Kto aktivity zapisuje</h2>
+<p>Ten, kto šport organizuje, a to jedným zápisom cez svoju certifikovanú aplikáciu. Nič sa neopisuje dvakrát.</p>
+<div class="grid cols-3">
+<div class="card"><h4>Zväzy a kluby</h4><p>Tréningy, zápasy, rozhodcovia, delegáti, vzdelávanie.</p></div>
+<div class="card"><h4>Školy</h4><p>Krúžky, školské súťaže, telesná výchova.</p></div>
+<div class="card"><h4>Obce a VÚC</h4><p>Krúžky a kluby pod ich hlavičkou, verejné športoviská, podujatia.</p></div>
+<div class="card"><h4>Fitness a prevádzkovatelia</h4><p>Hodiny cvičenia, rezervácie športovísk.</p></div>
+<div class="card"><h4>Organizátori podujatí</h4><p>Behy, turnaje, dobrovoľníci.</p></div>
+<div class="card"><h4>Človek sám</h4><p>Cez aplikáciu, ktorej to dovolí, napríklad záznam z behu.</p></div>
+</div>
+</section>
+
+<section>
+<span class="section-number">06 · Prínos</span>
+<h2>Čo z aktivít vznikne</h2>
+<div class="grid cols-2">
+<div class="card"><h4>Pre štát</h4><p>Pravidelnosť pohybu populácie podľa veku, kraja a športu. Podklad pre prevenciu, zdravie a dotácie tam, kde sa športuje pravidelne.</p></div>
+<div class="card"><h4>Pre obec a VÚC</h4><p>Skutočná vyťaženosť športovísk po hodinách. Investície tam, kde chýba kapacita, nie podľa odhadu.</p></div>
+<div class="card"><h4>Pre prevádzkovateľa športoviska</h4><p>Prehľad o využití a voľných termínoch, podklad pre plánovanie.</p></div>
+<div class="card"><h4>Pre človeka</h4><p><strong>Športový pas</strong> od školského krúžku po funkcionára. Pre školy <strong>digitálna športová žiacka knižka</strong>.</p></div>
+</div>
+</section>
+
+<section>
+<span class="section-number">07 · Ochrana údajov</span>
+<h2>Čo štát uvidí a čo nie</h2>
+<ul>
+<li>Štát a samospráva dostávajú len <strong>súhrnné údaje</strong> (podľa veku, obce, športu, typu športoviska), nie údaje o jednotlivcoch.</li>
+<li>Záznamy o zdraví sú <strong>citlivé</strong>: prísnejší prístup, šifrovanie a audit každého čítania.</li>
+<li>Aktivity detí sa evidujú so súhlasom zákonného zástupcu.</li>
+<li>Verejne sa nezobrazujú mená, kontakty ani zoznamy účastníkov. Podrobnosti v <a href="ucely.html">účeloch spracovania</a>.</li>
+</ul>
+</section>
+
+<section>
+<span class="section-number">Zdroje</span>
+<h2>Zdroje</h2>
+<ul>
+<li>Zákon č. 440/2015 Z. z. o športe, v znení zákona č. 354/2016 Z. z. (definícia aktívneho športovca) — <a href="https://www.slov-lex.sk/pravne-predpisy/SK/ZZ/2015/440/" target="_blank" rel="noopener">Slov-Lex</a></li>
+<li>Typy aktivít — <a href="https://activity.sportup.sk/aktivity" target="_blank" rel="noopener">activity.sportup.sk</a></li>
+<li>Odporúčania WHO k pohybovej aktivite — <a href="https://www.who.int/news-room/fact-sheets/detail/physical-activity" target="_blank" rel="noopener">who.int</a></li>
+</ul>
+</section>
+
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div>
+<div class="footer-brand"><em>Sport</em>UP<span class="footer-tld">.sk</span></div>
+<div class="footer-slogan">Good Idea Sport Slovakia</div>
+<div>Otvorené riešenie pre šport a cestovný ruch · verzia 0.1</div>
+</div>
+<div>
+<div style="margin-bottom: 0.3rem;"><a href="index.html">Úvod</a> · <a href="architektura.html">Architektúra</a> · <a href="kontakt.html">Kontakt</a></div>
+<div>Ján Letko · <a href="mailto:sportup@ltk.solutions">sportup@ltk.solutions</a></div>
+</div>
+</div>
+</footer>
+
+<script src="script.js"></script>
+<script src="assets/widgets.js"></script>
+</body>
+</html>

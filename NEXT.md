@@ -13,7 +13,8 @@ Posledná revízia: 16. 11. 2026
 
 - [ ] **ČR – nadstavba Národního registru sportu** – podklady pre stretnutie (rozdielová analýza, prezentácia) sú mimo verejného repozitára v `interne/cesko/`. Pred stretnutím: vizuálna kontrola prezentácie vrátane exportu do PDF (jemná mozaika na slide 3, rámček na slide s aktivitami, titulný a záverečný slide).
 - [ ] **Športový pas osoby a digitálna športová žiacka knižka** – zaradené do ROADMAP, Fáza 2. Ďalší krok: doménový popis (časová os aktivít a rolí, pravidelnosť, súhlasy a prístup školy a zákonného zástupcu) v `docs/domain/` a návrh obrazovky „Môj športový pas“ v aplikácii.
-- [ ] **Aktivita ako merná jednotka** – typy aktivít (tréning, súťaž, cvičenie a pohyb, dobrovoľníctvo, vzdelávanie, starostlivosť o zdravie, podpora) a pravidelnosť premietnuť do katalógov (`docs/catalogs/`) a do API pre `/v1/activities`.
+- [ ] **Aktivita – otvorené rozhodnutia** – definícia pravidelnosti (návrh: aspoň 1 pohybová aktivita týždenne v 4 zo 6 týždňov + minúty podľa WHO; Q-028 v `ltksolutions/activity`) a ďalšie navrhnuté typy `camp`, `doping_control`, `organizer`. Číselník a web sú hotové (16. 11.).
+- [ ] **Premenovať `docs/catalogs/activity-types.md`** – obsahuje druhy športovej činnosti osôb (roly), nie typy aktivít; názov mätie. Premenovanie súboru len so súhlasom.
 
 ## Fáza 1 – prázdne miesta v dokumentácii
 
