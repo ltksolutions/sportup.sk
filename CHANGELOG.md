@@ -27,6 +27,7 @@ Tento súbor sleduje významné zmeny v projekte. Formát je založený na [Keep
 
 ### Changed
 
+- **Open Graph obrázky** — všetkých 8 (`website/og-*.png`, nový `og-aktivita.png`) má správne logo s horami (`SportUp-dark-mountain.svg`, ako v hlavičke webu) namiesto samotného nápisu; hory v pozadí odstránené (podľa DS v2 len v logu). Úvodná strana má v OG nový popis o meraní aktivity. Generuje ich skript `marketing/social/tools/og_images.py` zo šablóny `website/brand/og-source.html`; URL obrázkov majú `?v=20261117`, aby siete načítali nové verzie.
 - **Číselník rolí premenovaný** — `docs/catalogs/activity-types.md` → `docs/catalogs/sport-roles.md` (obsahuje druhy športovej činnosti osôb, nie typy aktivít); odkazy upravené.
 - **Odhad nákladov v2.0** (`interne/odhad-nakladov/`, mimo verejného repozitára) — kompletne prepracovaný podľa aktuálnej 6-fázovej štruktúry z `ROADMAP.md` (F1–F6) namiesto pôvodného modelu F1–F7. Explicitne zahŕňa produkčnú realizáciu Verejného portálu vo fáze F4 (prototyp `portal.html` ostáva sunk cost v rámci Fázy 0). Nová prácnosť 2 289 MD / 20 mesiacov, CAPEX a TCO prepočítané pre varianty A/B/C. Vytvorené vo formátoch xlsx (plne prepočítateľný model), docx a pptx (prezentácia pre MCRŠ).
 - **REUSE.toml** — doplnené anotácie pre `marketing/**` (CC-BY-4.0) a `marketing/social/tools/**` (EUPL-1.2, override). Lint validovaný.
